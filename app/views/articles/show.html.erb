@@ -1,4 +1,7 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_article_path(@article) %> |
-<%= link_to 'Back', articles_path %>
+<H1><%= @article.title %></H1>
+<p  style="font-size:0.8rem"><%= @article.published_at %></p>
+<img src=<%= @article.img_url %> height="220" width="340">
+<p><%= @article.body %></p>
+<%= link_to 'Indietro', articles_path %>

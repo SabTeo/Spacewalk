@@ -12,7 +12,16 @@
   <tbody>
     <% @articles.each do |article| %>
       <tr>
-        <td><%= link_to article.title, article.url %></td>
+        <td>
+          <div>
+            <%= if article.local==true
+        	  link_to article.title, article
+        	  else
+        	  link_to article.title, article.url 
+        	  end %> |
+            <%= link_to "commenti", comments_url(article) %>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>
