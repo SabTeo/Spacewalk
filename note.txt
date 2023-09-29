@@ -1,0 +1,7 @@
+>Action_mailbox/Active_storage
+per ribilitarli rimettere a posto le righe commentate all'inizio di config/application.rb
+e decommentare le righe contenenti active_storage nei file dentro  config/environments/ e 
+nel file application.js in app/javascript/packs
+
+>Conferma via mail
+Viene gestito da Devise, bisogna aggiornare il modello user come "confirmable" vedi doc.
