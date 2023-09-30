@@ -3,7 +3,30 @@ class ArticlesController < ApplicationController
 
   # GET /articles or /articles.json
   def index
-    @articles = Article.all
+    @articles = Article.all.order(published_at: :desc)
+
+    session[:find] = params[:find]
+    if params.key?(:find)
+      if !params[:find].nil? and params[:find] != ''
+        @articles = @articles.where("title LIKE ?", '%' + params[:find] + '%')
+      end
+    end
+
+    session[:local] = false
+    session[:ext] = false
+    if params.key?(:local) and  params.key?(:ext)
+      @local = true
+      @ext = true
+      session[:local] = true
+      session[:ext] = true
+    elsif params.key?(:local)
+      @articles = @articles.where(local: true)
+      session[:local] = true
+    elsif params.key?(:ext)
+      @articles = @articles.where(local: false)
+      session[:ext] = true
+    end
+
   end
 
   # GET /articles/1 or /articles/1.json

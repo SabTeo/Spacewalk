@@ -2,6 +2,24 @@
 
 <h1>Articles</h1>
 
+<%= link_to "Lanci", launches_path, action: :get %>
+<br><br>
+
+<div>
+  <%= form_with url: articles_path, method: :get do |form| %>
+    <%= form.label :find, "Cerca:" %>
+    <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
+    <%= form.submit "cerca", name:nil %>
+    Mostra solo:
+    <%= form.check_box :local, {checked: (session[:local].nil? or session[:local]==false ? false:true), onchange: 'this.form.submit()'}, true, nil %>
+    <%= form.label :local, 'interni' %>
+    <%= form.check_box :ext, {checked: (session[:ext].nil? or session[:ext]==false ? false:true), onchange: 'this.form.submit()'}, true, nil %>
+    <%= form.label :ext, 'esterni' %>
+    <%#= form.submit "aggiorna", name:nil %>
+  <% end %>
+
+</div>
+
 <table>
   <thead>
     <tr>

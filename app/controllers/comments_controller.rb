@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   # GET /comments or /comments.json
   def index
     @comments = Comment.where(article: params[:id])
+    @art_id = params[:id]
   end
 
   # GET /comments/1 or /comments/1.json
@@ -21,6 +22,12 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
+    if ! user_signed_in? then redirect_to articles_path, notice: 'devi essere loggato'; return end
+    Comment.create!({:user => @current_user, :text => params[:text], :published_at => DateTime.new(),
+      :article => Article.find_by(id: params[:art_id])})
+  redirect_to comments_path(params[:art_id]), notice: "Comment was successfully created."
+
+=begin
     @comment = Comment.new(comment_params)
 
     respond_to do |format|
@@ -32,6 +39,8 @@ class CommentsController < ApplicationController
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
+=end
+
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json

@@ -1,14 +1,21 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Comments</h1>
-<%#= link_to 'New Comment', new_comment_path %>
 <table>
   <thead>
     <tr>
       <th colspan="3"></th>
     </tr>
   </thead>
-
+  <div>
+    <%= form_with url: new_comment_path(@art_id), method: :post do |form| %>
+      <%= form.hidden_field :art_id, :value => @art_id  %>
+      <%= form.label :text, "Scrivi un commento:" %>
+      <%= form.text_field :text %>
+      <%= form.submit "pubblica" %>
+    <% end %>
+  </div>
+  <hr>
   <tbody>
     <% @comments.each do |comment| %>
       <tr>
