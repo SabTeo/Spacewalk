@@ -1,3 +1,22 @@
 <!DOCTYPE html>
-<h1>Lanci</h1>
-<p><%= @message %></p>
+
+<%= javascript_pack_tag 'launch' %>
+
+<body>
+    <h1>Lanci</h1>
+    <% id = 0 %>
+        <% @display.each do |item| %>
+        <%# t = item[:time_left] %>
+        <% date = item[:date] %>
+        <div>
+            <%= item[:name].to_s + ' | ' %>
+            <%= date.to_s + ' | ' %>
+            <div id= <%= 't'+id.to_s %>></div>
+            <div id= <%= id.to_s %> hidden> <%= item[:t0].to_i.to_s%> </div>
+        <div>
+        
+        <% id+=1 %>
+    <% end %>
+</body>
+    
+<%= javascript_tag 'timer()' %>
