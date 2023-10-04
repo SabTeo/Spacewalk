@@ -60,3 +60,5 @@ gem "cancancan"
 gem 'whenever'
 
 gem "net-http"
+
+gem "pagy"

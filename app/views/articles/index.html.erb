@@ -10,12 +10,12 @@
     <%= form.label :find, "Cerca:" %>
     <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
     <%= form.submit "cerca", name:nil %>
-    Mostra solo:
-    <%= form.check_box :local, {checked: (session[:local].nil? or session[:local]==false ? false:true), onchange: 'this.form.submit()'}, true, nil %>
+    Mostra:
+    <%= form.check_box :local, {checked: (session[:local]=='1' ? true:false), onchange: 'this.form.submit()'},1 ,nil %>
     <%= form.label :local, 'interni' %>
-    <%= form.check_box :ext, {checked: (session[:ext].nil? or session[:ext]==false ? false:true), onchange: 'this.form.submit()'}, true, nil %>
+    <%= form.check_box :ext, {checked: (session[:ext]=='1' ? true:false), onchange: 'this.form.submit()'}, 1, nil %>
     <%= form.label :ext, 'esterni' %>
-    <%#= form.submit "aggiorna", name:nil %>
+     <%= form.hidden_field :commit, :value => 'update' %>
   <% end %>
 
 </div>
@@ -46,7 +46,5 @@
 </table>
 
 <br>
-
-<%= javascript_tag 'alertmsg()'%>
-
+<%== pagy_nav(@pagy) %>
 <!== %= link_to 'New Article', new_article_path %>

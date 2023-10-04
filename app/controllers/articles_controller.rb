@@ -1,31 +1,39 @@
 class ArticlesController < ApplicationController
+  include Pagy::Backend
   before_action :set_article, only: %i[ show edit update destroy ]
 
   # GET /articles or /articles.json
   def index
     @articles = Article.all.order(published_at: :desc)
 
-    session[:find] = params[:find]
-    if params.key?(:find)
-      if !params[:find].nil? and params[:find] != ''
-        @articles = @articles.where("title LIKE ?", '%' + params[:find] + '%')
+    #update session if submitting form
+    if params.key?(:commit)
+      if params.key?(:find)
+        session[:find]=params['find']
+      end
+      if params.key?(:local)
+        session[:local]=params[:local]
+      else
+        session[:local]='0'
+      end
+      if params.key?(:ext)
+        session[:ext]=params[:ext]
+      else
+        session[:ext]='0'
       end
     end
 
-    session[:local] = false
-    session[:ext] = false
-    if params.key?(:local) and  params.key?(:ext)
-      @local = true
-      @ext = true
-      session[:local] = true
-      session[:ext] = true
-    elsif params.key?(:local)
-      @articles = @articles.where(local: true)
-      session[:local] = true
-    elsif params.key?(:ext)
-      @articles = @articles.where(local: false)
-      session[:ext] = true
+    #update results based on session
+    if !session[:find].nil?
+      @articles = @articles.where("title LIKE ?", '%' + session[:find] + '%')
     end
+    if(session[:local]=='1' and session[:ext]!='1')
+      @articles = @articles.where(local: true)
+    elsif(session[:local]!='1' and session[:ext]=='1')
+      @articles = @articles.where(local: false)
+    end
+
+    @pagy, @articles = pagy(@articles)
 
   end
 
