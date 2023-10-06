@@ -7,7 +7,11 @@ class PagesController < ApplicationController
         @display = []
         @response['result'].each do |launch|
             t = Time.at(launch['sort_date'].to_i) - Time.now
-            @display.append({name: launch['name'], t0: Time.at(launch['sort_date'].to_i) , date: Time.at(launch['sort_date'].to_i).to_datetime }) 
+            display_name = launch.dig('vehicle', 'name') + ' | ' + launch['name']
+            @display.append({name: display_name,
+                            location: launch.dig('pad', 'location', 'name') + ' ('+ launch.dig('pad', 'location', 'country')+')',
+                            t0: Time.at(launch['sort_date'].to_i),
+                            date: Time.at(launch['sort_date'].to_i).to_datetime }) 
         end
     end
 end

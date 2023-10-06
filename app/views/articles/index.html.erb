@@ -1,12 +1,14 @@
+<head>
+    <%= javascript_pack_tag 'articles.js' %>
+    <%= stylesheet_link_tag 'main.css'%>
+</head>
+
+<%= render '/menubar' %>
+
 <p id="notice"><%= notice %></p>
 
-<h1>Articles</h1>
-
-<%= link_to "Lanci", launches_path, action: :get %>
-<br><br>
-
-<div>
-  <%= form_with url: articles_path, method: :get do |form| %>
+<div class="filters_container">
+  <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
     <%= form.label :find, "Cerca:" %>
     <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
     <%= form.submit "cerca", name:nil %>
@@ -15,35 +17,29 @@
     <%= form.label :local, 'interni' %>
     <%= form.check_box :ext, {checked: (session[:ext]=='1' ? true:false), onchange: 'this.form.submit()'}, 1, nil %>
     <%= form.label :ext, 'esterni' %>
-     <%= form.hidden_field :commit, :value => 'update' %>
+    <%= form.hidden_field :commit, :value => 'update' %>
   <% end %>
-
+  <button type="button" onclick="clear_form();"> &nbsp X &nbsp </button>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<hr class="row">
 
-  <tbody>
-    <% @articles.each do |article| %>
-      <tr>
-        <td>
-          <div>
-            <%= if article.local==true
-        	  link_to article.title, article
-        	  else
-        	  link_to article.title, article.url 
-        	  end %> |
-            <%= link_to "commenti", comments_url(article) %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="artcontainer">
+  <% @articles.each do |article| %>
+    <div class="art_prev">
+      <div class="art_content">
+        <%= if article.local ==true
+          link_to article.title, article, {class: 'link art_title'}
+        end %>
+        <%= if article.local !=true
+          link_to article.title, article.url, {class: 'link art_title'}
+        end %>
+        <%= link_to "commenti", comments_url(article), {class: 'link linkto_comments'} %>
+      </div>
+      <img src=<%= article.img_url%>>
+    </div>
+  <% end %>
+</div>
 
 <br>
 <%== pagy_nav(@pagy) %>

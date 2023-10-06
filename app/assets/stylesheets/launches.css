@@ -1,0 +1,16 @@
+.launches_list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.launch_item{
+    width: 30%;
+    margin: 2rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 255, 0.145);
+}
