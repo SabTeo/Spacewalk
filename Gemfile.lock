@@ -82,6 +82,7 @@ GEM
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
+    deepl-rb (2.5.3)
     devise (4.9.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -243,6 +244,7 @@ DEPENDENCIES
   byebug
   cancancan
   capybara (>= 3.26)
+  deepl-rb
   devise
   jbuilder (~> 2.7)
   listen (~> 3.3)

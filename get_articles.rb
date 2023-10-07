@@ -12,8 +12,8 @@ response = JSON.parse response_string
 articles = response['results']
 articles.each do |article|
     #per vedere se funziona senza db commentare tutto il seguito e decommentare questa
-    #puts(article['id'].to_s + ' | ' + article['title'])
-    if Article.exists?(ext_id: article['id'])
+    puts(article['id'].to_s + ' | ' + article['title'])
+=begin    if Article.exists?(ext_id: article['id'])
         break
     else     
         art = Article.create({
@@ -28,4 +28,5 @@ articles.each do |article|
             :published_at => article['published_at']
         })
     end
+=end
 end

@@ -35,11 +35,47 @@ class ArticlesController < ApplicationController
 
     @pagy, @articles = pagy(@articles)
 
+    uri = URI('https://api.nasa.gov/planetary/apod?api_key=jIV8fNZEkWtb2OXx8TkN9pVpnljdIpLZMpgbcqOn')
+    response_string = '{}'#Net::HTTP.get(uri)
+    response = JSON.parse response_string
+    @apod_url = response['url']
+
   end
 
   # GET /articles/1 or /articles/1.json
   def show
     @article = Article.find(params[:id])
+  #  available_langs = config.host = DeepL.languages(type: :target)
+  #  languages, @options = {}, []
+  #  available_langs.each do |lang|
+  #    languages[lang.name] = lang.code
+  #  end
+    languages = Article.get_supported_languages()
+    @options = languages.keys
+    @notice = "avvertenza: gli articoli sono tradotti automaticamente dall'italiano, potrebbero esserci errori"
+
+    if params.key?(:lang)
+      session[:lang] = params[:lang]
+      @lang = params[:lang]
+    else
+      if session[:lang].nil? 
+        @lang = 'Italiano'
+      else
+        @lang = session[:lang]
+      end
+    end
+
+    if @lang!='Italiano'
+      I18n.locale = :en
+      translations = DeepL.translate [@notice, @article.title, @article.body], 'IT', languages[@lang]
+      @notice, @title, @body = translations
+      @title = translations[1]
+    else
+      I18n.locale = :it
+      @title = @article.title
+      @body = @article.body
+    end
+    
   end
 
   # GET /articles/new
