@@ -4,6 +4,9 @@ class ArticlesController < ApplicationController
 
   # GET /articles or /articles.json
   def index
+
+    Article.update_articles()
+
     @articles = Article.all.order(published_at: :desc)
 
     #update session if submitting form
@@ -135,4 +138,5 @@ class ArticlesController < ApplicationController
     def article_params
       params.fetch(:article, {})
     end
+
 end
