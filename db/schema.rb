@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2023_10_09_153356) do
     t.integer "author_id"
     t.string "url"
     t.string "news_site"
-    t.datetime "published_at", null: false
+    t.datetime "published_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "ext_id"

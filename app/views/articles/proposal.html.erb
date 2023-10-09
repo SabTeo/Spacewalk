@@ -1,0 +1,31 @@
+<head>
+    <%= javascript_pack_tag 'articles.js' %>
+    <%= stylesheet_link_tag 'main.css'%>
+</head>
+<%= render '/menubar' %>
+<p id="notice"><%= notice %></p>
+<h1>Proposte</h1>
+
+<hr class="row">
+
+<div class="artcontainer">
+  <% @articles.each do |article| %>
+    <div class="art_prev">
+      <div class="art_content">
+        
+        <%= link_to article.title, article, {class: 'link art_title'}%>
+        Article by: <%= article.author_id %>
+        <%= if params[:user]=="normal"
+         link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
+        end %>
+      </div>
+      <img src=<%= article.img_url%>>
+    </div>
+  <% end %>
+</div>
+
+<%= if params[:user]=="normal"
+  link_to "Nuovo articolo", new_article_path
+ end %>
+
+

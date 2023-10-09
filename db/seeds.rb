@@ -13,6 +13,14 @@ local_articles = [{:ext_id => nil,:title => "Apertura Sito",
             :url => nil,
             :news_site => nil,
             :published_at => DateTime.new(2023,9,29,12,24,0)},
+            {:ext_id => nil,:title => "Yeet", 
+            :img_url => 'https://m.media-amazon.com/images/I/51WaOZKYbbL.__AC_SX300_SY300_QL70_FMwebp_.jpg',
+            :body => "Yeet",
+            :local => true,
+            :author_id => 1,
+            :url => nil,
+            :news_site => nil,
+            :published_at => nil}
         ]
 
 local_articles.each do |art|

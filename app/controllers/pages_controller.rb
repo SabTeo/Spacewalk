@@ -18,4 +18,6 @@ class PagesController < ApplicationController
             flash[:notice] = 'Servizio non disponibile'
         end
     end
+
+    
 end
