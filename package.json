@@ -3,10 +3,7 @@
   "private": true,
   "dependencies": {
     "@babel/plugin-transform-private-methods": "^7.22.5",
-<<<<<<< HEAD
     "@popperjs/core": "^2.11.8",
-=======
->>>>>>> 5dbb4384559fc1800fb9abf97881b3b2e7d3685d
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
