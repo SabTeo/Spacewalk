@@ -2,6 +2,7 @@
   "name": "spacewalk",
   "private": true,
   "dependencies": {
+    "@babel/plugin-transform-private-methods": "^7.22.5",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
