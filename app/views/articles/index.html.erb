@@ -7,8 +7,14 @@
 
 <p id="notice"><%= notice %></p>
 
+<%= link_to 'Login', new_user_session_path%>
+<% if user_signed_in? %>
+<%= link_to 'Logout', destroy_user_session_path, :method => :delete%>
+<% end %>
+
 <div class="filters_container">
-  <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
+
+  <%= form_with url: articles_path, method: :get do |form| %>
     <%= form.label :find, "Cerca:" %>
     <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
     <%= form.submit "cerca", name:nil %>
