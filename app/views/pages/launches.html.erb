@@ -3,10 +3,10 @@
 <%= javascript_pack_tag 'launch' %>
 <%= stylesheet_link_tag 'launches' %>
 </head>
-
 <body>
     <%= render '/menubar' %>
     <h1>Prossimi lanci</h1>
+    <p id="notice"><%= notice %></p>
     <div class="launches_list">
     <% id = 0 %>
         <% @display.each do |item| %>

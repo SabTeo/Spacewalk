@@ -5,7 +5,10 @@ class ArticlesController < ApplicationController
   # GET /articles or /articles.json
   def index
 
-    Article.update_articles()
+    begin
+      #Article.update_articles()
+    rescue
+    end
 
     @articles = Article.all.order(published_at: :desc)
 
@@ -38,10 +41,13 @@ class ArticlesController < ApplicationController
 
     @pagy, @articles = pagy(@articles)
 
-    uri = URI('https://api.nasa.gov/planetary/apod?api_key=jIV8fNZEkWtb2OXx8TkN9pVpnljdIpLZMpgbcqOn')
-    response_string = '{}'#Net::HTTP.get(uri)
-    response = JSON.parse response_string
-    @apod_url = response['url']
+    begin
+      uri = URI('https://api.nasa.gov/planetary/apod?api_key=jIV8fNZEkWtb2OXx8TkN9pVpnljdIpLZMpgbcqOn')
+      response_string = Net::HTTP.get(uri)
+      response = JSON.parse response_string
+      @apod_url = response['url']
+    rescue
+    end
 
   end
 
@@ -70,9 +76,12 @@ class ArticlesController < ApplicationController
 
     if @lang!='Italiano'
       I18n.locale = :en
-      translations = DeepL.translate [@notice, @article.title, @article.body], 'IT', languages[@lang]
-      @notice, @title, @body = translations
-      @title = translations[1]
+      begin
+        translations = DeepL.translate [@notice, @article.title, @article.body], 'IT', languages[@lang]
+        @notice, @title, @body = translations
+      rescue
+        flash[:notice] = 'Service not available'
+      end
     else
       I18n.locale = :it
       @title = @article.title
