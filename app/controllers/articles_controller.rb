@@ -2,6 +2,18 @@ class ArticlesController < ApplicationController
   include Pagy::Backend
   before_action :set_article, only: %i[ show edit update destroy ]
 
+  def proposal
+   @articles = Article.all
+   if(params[:user]== "admin" )
+    @articles = @articles.where(published_at: nil, local: true)
+   elsif (params[:user]== "normal" )
+    @articles = @articles.where(author_id: current_user.id)
+
+   end
+
+  end
+
+
   # GET /articles or /articles.json
   def index
 
@@ -10,7 +22,7 @@ class ArticlesController < ApplicationController
     rescue
     end
 
-    @articles = Article.all.order(published_at: :desc)
+    @articles = Article.all.where.not(published_at: :nil).order(published_at: :desc)
 
     #update session if submitting form
     if params.key?(:commit)
@@ -98,11 +110,22 @@ class ArticlesController < ApplicationController
   # GET /articles/1/edit
   def edit
   end
-
+  
   # POST /articles or /articles.json
   def create
-    @article = Article.new(article_params)
-
+    #@article = Article.new(params[:post])
+    @article = Article.new(params.require(:article).permit(:title, :img_url, :body))
+    @article.updated_at = DateTime.new
+    @article.created_at = DateTime.new
+    @article.local = true
+    @article.author_id = current_user.id
+    if @article.save
+      redirect_to proposal_path(user: :normal), notice: "Article was successfully created."
+    else
+      flash.now[:error] = "Article creation failed"
+      redirect_to new_article_path
+    end
+=begin
     respond_to do |format|
       if @article.save
         format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
@@ -112,6 +135,7 @@ class ArticlesController < ApplicationController
         format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # PATCH/PUT /articles/1 or /articles/1.json
@@ -132,7 +156,7 @@ class ArticlesController < ApplicationController
     @article.destroy
 
     respond_to do |format|
-      format.html { redirect_to articles_url, notice: "Article was successfully destroyed." }
+      format.html { redirect_to proposal_path(user: :normal), notice: "Article was successfully destroyed." }
       format.json { head :no_content }
     end
   end

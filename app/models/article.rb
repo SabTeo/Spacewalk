@@ -1,6 +1,7 @@
 class Article < ActiveRecord::Base
     has_many :comments
     validates :title, uniqueness: true
+    
 
     def self.get_supported_languages()
         {   'Italiano' => 'IT',

@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   root 'articles#index'
   get '/launches', to: 'pages#launches', as: 'launches'
   get '/articles', to: 'articles#index'
+  get 'articles/new', to: 'articles#new', as: "new_article"
+  post 'articles', to: 'articles#create'
   get '/articles/:id', to: 'articles#show', as: 'article'
+  get '/proposal', to: 'articles#proposal'
+  delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/article/:id/comments', to: 'comments#create', as: 'new_comment'
 

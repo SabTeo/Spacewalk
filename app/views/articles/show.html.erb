@@ -17,10 +17,15 @@
   
   <H1><%= @title %></H1>
   <p  style="font-size:0.8rem">
-    <%= @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y") %>
+  <%= if @article.published_at.nil?
+    "Articolo non ancora pubblicato"
+  else
+    @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y")
+  end%>
+    <%=  %>
   </p>
   <img src=<%= @article.img_url %> height="220" width="340">
   <p><%= @body %></p>
-  <%= link_to 'Indietro', articles_path, class: :link %>
+  <%= link_to 'Indietro', :back, class: :link %>
   <%= link_to 'Commenti', comments_url(@article), class: :link %>
 </div>
