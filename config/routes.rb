@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 #  resources :articles
 #  resources :article do
-#    resources :comments
+#     resources :comments
 #  end
+
   root 'articles#index'
   get '/launches', to: 'pages#launches', as: 'launches'
   get '/articles', to: 'articles#index'
@@ -12,7 +13,8 @@ Rails.application.routes.draw do
   get '/proposal', to: 'articles#proposal'
   delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
-  post '/article/:id/comments', to: 'comments#create', as: 'new_comment'
+  post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
+  delete '/comments/:id', to: 'comments#destroy', as: 'delete_comment'
 
   devise_for :users, :controllers => { registrations: 'users/registrations' }
 
