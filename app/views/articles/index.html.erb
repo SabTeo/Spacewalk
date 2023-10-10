@@ -3,7 +3,13 @@
 <h1>Articles</h1>
 
 <% if user_signed_in? %>
+<%= link_to 'Edit Profile',edit_user_registration_path, method: :get%>
 <%= link_to 'Logout',destroy_user_session_path, :method => :delete%>
+<% end %>
+
+<% if !(user_signed_in?) %>
+<%= link_to 'Log in', new_user_session_path, method: :get%>
+<%= link_to 'Sign up',new_user_registration_path, method: :get%>
 <% end %>
 
 <%= link_to "Lanci", launches_path, action: :get %>

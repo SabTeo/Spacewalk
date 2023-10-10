@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Spacewalk</title>
+
+    <% if flash[:alert] %>
+      <%= flash[:alert] %>
+    <% end %>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +16,7 @@
   </head>
 
   <body>
+
     <%= yield %>
   </body>
 </html>

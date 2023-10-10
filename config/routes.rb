@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/article/:id/comments', to: 'comments#create', as: 'new_comment'
 
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'users/registrations' }
+
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
