@@ -1,3 +1,10 @@
+<head>
+  <%= javascript_pack_tag 'launch' %>
+  <%= stylesheet_link_tag 'launches' %>
+</head>
+
+<%= render '/menubar' %>
+
 <p id="notice"><%= notice %></p>
 
 <h1>Comments</h1>
@@ -29,9 +36,7 @@
       </tr>
     <% end %>
     <p> <%= if (@comments.empty?)==true then 'Ancora nessun commento' end %> </p>
-  </tbody>
-</table>
 
 <br>
-<%= link_to 'Indietro', articles_path %>
+<%= link_to 'Indietro', articles_path, class: :link %>
 

@@ -1,10 +1,15 @@
-<p id="notice"><%= notice %></p>
+<head>
+    <%= javascript_pack_tag 'articles.js' %>
+    <%= stylesheet_link_tag 'main.css'%>
+</head>
 
-<h1>Articles</h1>
+<%= render '/menubar' %>
+
+<p id="notice"><%= notice %></p>
 
 <% if user_signed_in? %>
 <%= link_to 'Edit Profile',edit_user_registration_path, method: :get%>
-<%= link_to 'Logout',destroy_user_session_path, :method => :delete%>
+<%= button_to 'Logout',destroy_user_session_path, :method => :delete%>
 <% end %>
 
 <% if !(user_signed_in?) %>
@@ -12,49 +17,50 @@
 <%= link_to 'Sign up',new_user_registration_path, method: :get%>
 <% end %>
 
-<%= link_to "Lanci", launches_path, action: :get %>
 <br><br>
+<% if user_signed_in? %>
+<%= link_to 'Proposte da utenti', proposal_path(user: :admin)%>
+<%= link_to 'Proponi', proposal_path(user: :normal)%>
+<% end %>
 
-<div>
+
+<div class="filters_container">
+
   <%= form_with url: articles_path, method: :get do |form| %>
     <%= form.label :find, "Cerca:" %>
     <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
     <%= form.submit "cerca", name:nil %>
-    Mostra solo:
-    <%= form.check_box :local, {checked: (session[:local].nil? or session[:local]==false ? false:true), onchange: 'this.form.submit()'}, true, nil %>
+    Mostra:
+    <%= form.check_box :local, {checked: (session[:local]=='1' ? true:false), onchange: 'this.form.submit()'},1 ,nil %>
     <%= form.label :local, 'interni' %>
-    <%= form.check_box :ext, {checked: (session[:ext].nil? or session[:ext]==false ? false:true), onchange: 'this.form.submit()'}, true, nil %>
+    <%= form.check_box :ext, {checked: (session[:ext]=='1' ? true:false), onchange: 'this.form.submit()'}, 1, nil %>
     <%= form.label :ext, 'esterni' %>
-    <%#= form.submit "aggiorna", name:nil %>
+    <%= form.hidden_field :commit, :value => 'update' %>
   <% end %>
-
+  <button type="button" onclick="clear_form();"> &nbsp X &nbsp </button>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%#= image_tag @apod_url %>
 
-  <tbody>
-    <% @articles.each do |article| %>
-      <tr>
-        <td>
-          <div>
-            <%= if article.local==true
-        	  link_to article.title, article
-        	  else
-        	  link_to article.title, article.url 
-        	  end %> |
-            <%= link_to "commenti", comments_url(article) %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<hr class="row">
+
+<div class="artcontainer">
+  <% @articles.each do |article| %>
+    <div class="art_prev">
+      <div class="art_content">
+        <%= if article.local ==true
+          link_to article.title, article, {class: 'link art_title'}
+        end %>
+        <%= if article.local !=true
+          link_to article.title, article.url, {class: 'link art_title'}
+        end %>
+        <%= link_to "commenti", comments_url(article), {class: 'link linkto_comments'} %>
+      </div>
+      <img src=<%= article.img_url%>>
+    </div>
+  <% end %>
+</div>
 
 <br>
-
+<%== pagy_nav(@pagy) %>
 <!== %= link_to 'New Article', new_article_path %>

@@ -1,5 +1,32 @@
-<h1>New Article</h1>
+<head>
+    <%= javascript_pack_tag 'articles.js' %>
+    <%= stylesheet_link_tag 'main.css'%>
+</head>
+<%= render '/menubar' %>
 
-<%= render 'form', article: @article %>
+<h1>Create New Article</h1>
 
-<%= link_to 'Back', articles_path %>
+<%= form_with model: @article, url: articles_path, method: :post, local: true do |f| %>
+
+<div>
+  <%= f.label :Title %><br>
+  <%= f.text_field :title %>
+</div>
+
+<div>
+  <%= f.label :Body %><br>
+  <%= f.text_area:body %>
+</div>
+
+<div>
+  <%= f.label :Image %><br>
+  <%= f.text_field :img_url %>
+</div>
+
+
+
+<%= f.submit %>
+
+<% end %>
+
+<%= link_to 'Back', :back %>

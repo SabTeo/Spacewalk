@@ -1,0 +1,112 @@
+body{
+	margin: 0px;
+	margin-bottom: 3rem;
+	padding: 0px;
+}
+
+.top_bar{
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: rgb(11, 127, 190);
+}
+
+.top_bar > * {
+	flex:1;
+	text-align: center;
+}
+
+.top_item {
+	position: relative;
+	padding-left: 1rem;
+	height: 100%;
+	display: flex;
+	justify-content: left;
+}
+
+.top_item > *{
+	margin-left: 2rem;
+}
+
+.logo:hover{
+	cursor: pointer;
+}
+
+.link{
+	text-decoration: none; 
+}
+
+.link:hover{
+	text-decoration: underline;
+}
+
+/* ARTICOLI */
+
+.filters_container{
+	margin-top: 2rem;
+	margin-bottom: 1.5rem;
+	margin-left: 3rem;
+	display: flex;
+	flex-direction: row;
+}
+
+.filters_container > * {
+	margin-left: 0.4rem;
+}
+
+.art_container{
+	margin-top: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.row{
+	text-align: center;
+	margin: 1rem 6rem 1.5rem 6rem;
+	opacity: 20%;
+}
+
+.art_prev{
+	margin: 1rem;
+	padding: 0rem;
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	justify-content: center;
+}
+
+.art_prev img{
+	width: 250px;
+	height: 180px;
+	object-fit: cover;
+}
+
+.art_content{
+	position: relative;
+	margin-top: 0%;
+	padding: 0.2rem;
+	width: 40%;
+	background-color: rgba(148, 126, 126, 0.285);
+}
+
+.linkto_comments{
+	position: absolute;
+	bottom: 0.6rem;
+	left: 0.8rem;
+}
+
+.art_title{
+	position: absolute;
+	margin: 1.2rem;
+	margin-top: 1rem;
+	font-size: 1.2rem;
+}
+
+.art_body{
+	margin-left: 8rem;
+	margin-right: 8rem;
+}

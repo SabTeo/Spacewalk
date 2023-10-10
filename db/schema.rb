@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_09_100232) do
+ActiveRecord::Schema.define(version: 2023_10_09_153356) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title", null: false
@@ -20,10 +20,11 @@ ActiveRecord::Schema.define(version: 2023_10_09_100232) do
     t.integer "author_id"
     t.string "url"
     t.string "news_site"
-    t.datetime "published_at", null: false
+    t.datetime "published_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "ext_id"
+    t.index ["title"], name: "index_articles_on_title", unique: true
   end
 
   create_table "comments", force: :cascade do |t|
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 2023_10_09_100232) do
     t.string "propic"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
 end

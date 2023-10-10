@@ -60,3 +60,7 @@ gem "cancancan"
 gem 'whenever'
 
 gem "net-http"
+
+gem "pagy"
+
+gem 'deepl-rb', require: 'deepl'
