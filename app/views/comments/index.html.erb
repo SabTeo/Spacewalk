@@ -1,6 +1,5 @@
 <head>
-  <%= javascript_pack_tag 'launch' %>
-  <%= stylesheet_link_tag 'launches' %>
+  <%= javascript_pack_tag 'comments' %>
 </head>
 
 <%= render '/menubar' %>
@@ -8,35 +7,39 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Comments</h1>
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <div>
-    <%= form_with url: new_comment_path(@art_id), method: :post do |form| %>
-      <%= form.hidden_field :art_id, :value => @art_id  %>
-      <%= form.label :text, "Scrivi un commento:" %>
-      <%= form.text_field :text %>
-      <%= form.submit "pubblica" %>
-    <% end %>
+
+<div class="input_bar">
+  <%= form_with url: new_comment_path(@art_id), method: :post, :id => 'input_form' do |form| %>
+    <%= form.hidden_field :art_id, :value => @art_id  %>
+    <%= form.label :text, 'Aggiungi un commento' %>
+    <%= form.text_area :text %>
+    <%= form.submit "pubblica", id: "submit_btn" %>
+  <% end %>
+</div>
+<hr class="row">
+<% @comments.each do |comment| %>
+  <div class="comment">
+    <div class="comment_top">
+      <%= User.find(comment.user.id).username %>
+      <% if can? :edit, comment %>
+        <%= button_to 'edit' %>
+      <% end %>
+      <% if can? :delete, comment %>
+        <%= button_to 'Destroy', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)' } %>
+      <% end %>
+    </div>
+    <br>
+    <p id="<%= comment.id %>"><%==h(comment.text).gsub(/\n/, '<br/>')%></p> 
   </div>
-  <hr>
-  <tbody>
-    <% @comments.each do |comment| %>
-      <tr>
-      <div>
-      <%= comment.user.id %>
-      <%= comment.text %>
-      </div>
-       <td><%#= link_to 'Show', comment %></td>
-       <td><%#= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%#= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-    <p> <%= if (@comments.empty?)==true then 'Ancora nessun commento' end %> </p>
+<% end %>
+<p> <%= if (@comments.empty?)==true then 'Ancora nessun commento' end %> </p>
 
 <br>
 <%= link_to 'Indietro', articles_path, class: :link %>
 
+<%= javascript_tag '$("textarea").each(function () {
+    this.setAttribute("style", "resize: none; height:0.9rem;overflow-y:hidden;");
+  }).on("input", function () {
+    this.style.height = 0;
+    this.style.height = (this.scrollHeight) + "px";
+  });'%>

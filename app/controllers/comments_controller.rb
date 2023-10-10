@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   # GET /comments or /comments.json
   def index
     @comments = Comment.where(article: params[:id])
+    @comments = @comments.order(published_at: :desc)
     @art_id = params[:id]
   end
 
@@ -26,24 +27,11 @@ class CommentsController < ApplicationController
       redirect_to(new_user_session_path, notice: 'devi essere loggato') 
       return 
     end
-    Comment.create!({:user => @current_user, :text => params[:text], :published_at => DateTime.new(),
+    if params[:text] != ''
+    Comment.create!({:user => @current_user, :text => params[:text].strip, :published_at => DateTime.now,
       :article => Article.find_by(id: params[:art_id])})
-    redirect_to comments_path(params[:art_id]), notice: ""
-
-=begin
-    @comment = Comment.new(comment_params)
-
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
     end
-=end
-
+    redirect_to comments_path(params[:art_id]), notice: ""
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
@@ -61,11 +49,14 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
-    @comment.destroy
-
-    respond_to do |format|
-      format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
+    comment = Comment.find(params[:id])
+    if can? :delete, comment
+      comment.destroy
+      redirect_to comments_path(params[:art_id]), notice: ""
+    #respond_to do |format|
+    #  format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
+    #  format.json { head :no_content }
+    #end
     end
   end
 
