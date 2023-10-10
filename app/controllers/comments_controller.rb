@@ -22,10 +22,13 @@ class CommentsController < ApplicationController
 
   # POST /comments or /comments.json
   def create
-    if ! user_signed_in? then redirect_to articles_path, notice: 'devi essere loggato'; return end
+    if !user_signed_in?
+      redirect_to(new_user_session_path, notice: 'devi essere loggato') 
+      return 
+    end
     Comment.create!({:user => @current_user, :text => params[:text], :published_at => DateTime.new(),
       :article => Article.find_by(id: params[:art_id])})
-  redirect_to comments_path(params[:art_id]), notice: "Comment was successfully created."
+    redirect_to comments_path(params[:art_id]), notice: ""
 
 =begin
     @comment = Comment.new(comment_params)

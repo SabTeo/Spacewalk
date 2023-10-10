@@ -7,9 +7,10 @@
 
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Login', new_user_session_path%>
 <% if user_signed_in? %>
 <%= link_to 'Logout', destroy_user_session_path, :method => :delete%>
+<% else %>
+<%= link_to 'Login', new_user_session_path %>
 <% end %>
 
 <div class="filters_container">
@@ -36,12 +37,14 @@
   <% @articles.each do |article| %>
     <div class="art_prev">
       <div class="art_content">
-        <%= if article.local ==true
-          link_to article.title, article, {class: 'link art_title'}
-        end %>
-        <%= if article.local !=true
-          link_to article.title, article.url, {class: 'link art_title'}
-        end %>
+        <% if article.local ==true %>
+        <%=  link_to article.title, article, {class: 'link art_title'} %>
+        <%=  content_tag :p, article.author_id.to_s, {class: 'art_src'} %>
+        <% end %>
+        <% if article.local !=true %>
+        <%= link_to article.title, article.url, {class: 'link art_title'} %>
+        <%= content_tag :p, article.news_site, {class: 'art_src'} %>
+        <% end %>
         <%= link_to "commenti", comments_url(article), {class: 'link linkto_comments'} %>
       </div>
       <img src=<%= article.img_url%>>

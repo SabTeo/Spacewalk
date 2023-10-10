@@ -16,12 +16,15 @@ local_articles = [{:ext_id => nil,:title => "Apertura Sito",
         ]
 
 local_articles.each do |art|
-    Article.create!(art)
+    Article.create(art)
 end
 
 #mock user
-User.create!({:email => 'fake@mail.com', :encrypted_password => '#$taawtljaskt', :password => 'validpass',
+User.create({:email => 'fake@mail.com', :encrypted_password => '#$taawtljaskt', :password => 'validpass',
             :password_confirmation => 'validpass'})
 
-Comment.create!({:user => User.find(1), :text => 'Bello!', :published_at => DateTime.new(2023,9,29,12,25,0),
+Comment.create({:user => User.find(1), :text => 'Bello!', :published_at => DateTime.new(2023,9,29,12,25,0),
                 :article => Article.find_by(title: "Apertura Sito")})
+
+Role.create(name: 'user')
+Role.create(name: 'admin')

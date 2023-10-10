@@ -17,7 +17,6 @@ class Article < ActiveRecord::Base
 
     #inserisce TUTTI gli articoli piu recenti nel database, eseguita non piu di una volta ogni 3 ore 
     def self.update_articles 
-        Rails.cache.clear
         if Rails.cache.read('up_to_date').nil?
             done = false
             i = 0 #indice di sicurezza per non scaricare tutto il db remoto
