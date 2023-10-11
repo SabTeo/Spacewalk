@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
   delete '/comments/:id', to: 'comments#destroy', as: 'delete_comment'
 
-  devise_for :users, :controllers => { registrations: 'users/registrations' }
+  devise_for :users, :controllers => { registrations: 'users/registrations', 
+                                      omniauth_callbacks: "users/omniauth_callbacks" }
 
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

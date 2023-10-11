@@ -64,3 +64,8 @@ gem "net-http"
 gem "pagy"
 
 gem 'deepl-rb', require: 'deepl'
+
+#Oauth
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+gem 'certified'
