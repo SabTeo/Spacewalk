@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'articles/new', to: 'articles#new', as: "new_article"
   post 'articles', to: 'articles#create'
   get '/articles/:id', to: 'articles#show', as: 'article'
+  put '/articles/:id', to: 'articles#update', as: 'update_article'
   get '/proposal', to: 'articles#proposal'
   delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
