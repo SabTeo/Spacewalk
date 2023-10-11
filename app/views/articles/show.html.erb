@@ -26,6 +26,6 @@
   </p>
   <img src=<%= @article.img_url %> height="220" width="340">
   <p><%= @body %></p>
-  <%= link_to 'Indietro', :back, class: :link %>
+  <%= link_to 'Indietro', articles_path, class: :link %>
   <%= link_to 'Commenti', comments_url(@article), class: :link %>
 </div>

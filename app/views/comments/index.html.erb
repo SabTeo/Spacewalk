@@ -20,9 +20,10 @@
 <% @comments.each do |comment| %>
   <div class="comment">
     <div class="comment_top">
-      <%= User.find(comment.user.id).username %>
+      <% u = User.find(comment.user.id) %>
+      <p class=<%= u==current_user ? "own":"" %>><b><%= u.username %></b></p>
       <% if can? :edit, comment %>
-        <button id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</button>
+        <button class="button_t" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</button>
         <button id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</button>
       <% end %>
       <% if can? :delete, comment %>

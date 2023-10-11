@@ -57,7 +57,7 @@ class CommentsController < ApplicationController
     end
     c = Comment.find(params[:id])
     if c!=nil and can?(:edit, c)==true
-      c.text = params[:newtext]
+      c.text = t
       if c.save
         respond_to do |format|
           format.html { redirect_to comments_path(params[:art_id]), notice: "Commento modificato" }

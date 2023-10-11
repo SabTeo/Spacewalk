@@ -9,7 +9,7 @@ window.edit = (id) => {
         window.cancel(active)
     }
     active = id
-    $('#text'+id).val( $('#'+id).html() )
+    $('#text'+id).val( $('#p'+id).text() )
     $('#p'+id).addClass('hidden')
     $('#form'+id).removeClass('hidden')
     $('#edit'+id).addClass('hidden')
@@ -24,7 +24,7 @@ window.edit = (id) => {
 }
 
 window.cancel = (id) => {
-    $('#'+id).removeClass('hidden')
+    $('#p'+id).removeClass('hidden')
     $('#form'+id).addClass('hidden')
     $('#edit'+id).removeClass('hidden')
     $('#cancel'+id).addClass('hidden')
