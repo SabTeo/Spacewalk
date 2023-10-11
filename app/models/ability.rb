@@ -28,7 +28,7 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
-
+    return unless user.present? 
     if user.has_role? :admin
       can :edit, Comment, user_id: user.id    #editare i propri commenti
       can :delete, Comment                    #cancellare tutti i commenti

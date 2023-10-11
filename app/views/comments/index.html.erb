@@ -22,14 +22,23 @@
     <div class="comment_top">
       <%= User.find(comment.user.id).username %>
       <% if can? :edit, comment %>
-        <%= button_to 'edit' %>
+        <button id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</button>
+        <button id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</button>
       <% end %>
       <% if can? :delete, comment %>
-        <%= button_to 'Destroy', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)' } %>
+        <%= button_to 'elimina', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)' } %>
       <% end %>
     </div>
     <br>
-    <p id="<%= comment.id %>"><%==h(comment.text).gsub(/\n/, '<br/>')%></p> 
+    <p id=<%= "p"+comment.id.to_s %>><%==h(comment.text).gsub(/\n/, '<br/>')%></p>
+    <!-- Embedded form for 'modifica' -->
+    <% if can? :edit, comment %>
+      <%= form_with url: edit_comment_path(comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden' do |form| %>
+        <%= form.hidden_field :art_id, :value => @art_id  %>
+        <%= form.text_area :newtext, {id: 'text'+comment.id.to_s} %>
+        <%= form.submit "salva", {id: "save_btn"} %>
+      <% end %>
+    <% end %>
   </div>
 <% end %>
 <p> <%= if (@comments.empty?)==true then 'Ancora nessun commento' end %> </p>
@@ -37,7 +46,8 @@
 <br>
 <%= link_to 'Indietro', articles_path, class: :link %>
 
-<%= javascript_tag '$("textarea").each(function () {
+<%= javascript_tag '
+  $("textarea").each(function () {
     this.setAttribute("style", "resize: none; height:0.9rem;overflow-y:hidden;");
   }).on("input", function () {
     this.style.height = 0;

@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   # GET /comments or /comments.json
   def index
     @comments = Comment.where(article: params[:id])
-    @comments = @comments.order(published_at: :desc)
+    @comments = @comments.order(published_at: :asc)
     @art_id = params[:id]
   end
 
@@ -24,26 +24,52 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     if !user_signed_in?
-      redirect_to(new_user_session_path, notice: 'devi essere loggato') 
+      redirect_to new_user_session_path, notice: 'devi essere loggato'
       return 
     end
-    if params[:text] != ''
-    Comment.create!({:user => @current_user, :text => params[:text].strip, :published_at => DateTime.now,
-      :article => Article.find_by(id: params[:art_id])})
+    if params[:text].strip == ''
+      redirect_to comments_path(params[:art_id])
+    else
+      c = Comment.new({:user => @current_user, :text => params[:text].strip, :published_at => DateTime.now,
+          :article => Article.find_by(id: params[:art_id])})
+      if c.save
+        respond_to do |format|
+          format.html { redirect_to comments_path(params[:art_id]), notice: "" }
+          format.json { redirect_to comments_path(params[:art_id]), status: :created, location: c }
+        end
+        return
+      else
+        #redirect_to comments_path(params[:art_id]), notice: ""
+        respond_to do |format|
+          format.html { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
+          format.json { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
+        end
+      end
     end
-    redirect_to comments_path(params[:art_id]), notice: ""
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to comment_url(@comment), notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
+    t = params[:newtext].strip
+    if t == ''
+      redirect_to comments_path(params[:art_id])
+      return
+    end
+    c = Comment.find(params[:id])
+    if c!=nil and can?(:edit, c)==true
+      c.text = params[:newtext]
+      if c.save
+        respond_to do |format|
+          format.html { redirect_to comments_path(params[:art_id]), notice: "Commento modificato" }
+          format.json { redirect_to comments_path(params[:art_id]), status: :ok, location: comments_path(params[:art_id]) }
+        end
+        return
       end
+    end
+    #redirect_to comments_path(params[:art_id]), notice: "" 
+    respond_to do |format|
+      format.html { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
+      format.json { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
     end
   end
 
@@ -52,11 +78,11 @@ class CommentsController < ApplicationController
     comment = Comment.find(params[:id])
     if can? :delete, comment
       comment.destroy
-      redirect_to comments_path(params[:art_id]), notice: ""
-    #respond_to do |format|
-    #  format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
-    #  format.json { head :no_content }
-    #end
+    #  redirect_to comments_path(params[:art_id]), notice: ""
+    end
+    respond_to do |format|
+      format.html { redirect_to comments_url(params[:art_id]), notice: "" }
+      format.json { head :no_content }
     end
   end
 

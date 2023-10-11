@@ -40,7 +40,7 @@
       <div class="art_content">
         <% if article.local ==true %>
         <%=  link_to article.title, article, {class: 'link art_title'} %>
-        <%=  content_tag :p, article.author_id.to_s, {class: 'art_src'} %>
+        <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
         <% end %>
         <% if article.local !=true %>
         <%= link_to article.title, article.url, {class: 'link art_title'} %>

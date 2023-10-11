@@ -43,3 +43,7 @@ textarea{
 	padding: 0px;
 	font-size: 0.8rem;
 }
+
+.hidden{
+	display: none;
+}

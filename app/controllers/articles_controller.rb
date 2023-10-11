@@ -43,7 +43,7 @@ class ArticlesController < ApplicationController
 
     #update results based on session
     if !session[:find].nil?
-      @articles = @articles.where("title LIKE ?", '%' + session[:find] + '%')
+      @articles = @articles.where("title LIKE ?", '%' + session[:find].strip + '%')
     end
     if(session[:local]=='1' and session[:ext]!='1')
       @articles = @articles.where(local: true)
@@ -52,14 +52,6 @@ class ArticlesController < ApplicationController
     end
 
     @pagy, @articles = pagy(@articles)
-
-    begin
-      uri = URI('https://api.nasa.gov/planetary/apod?api_key=jIV8fNZEkWtb2OXx8TkN9pVpnljdIpLZMpgbcqOn')
-      response_string = Net::HTTP.get(uri)
-      response = JSON.parse response_string
-      @apod_url = response['url']
-    rescue
-    end
 
   end
 
