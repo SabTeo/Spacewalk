@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
+  patch '/comments/:id', to: 'comments#update', as: 'edit_comment'
+  put '/comments/:id', to: 'comments#update'
   delete '/comments/:id', to: 'comments#destroy', as: 'delete_comment'
 
   devise_for :users, :controllers => { registrations: 'users/registrations', 

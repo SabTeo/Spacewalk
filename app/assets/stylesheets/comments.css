@@ -24,6 +24,10 @@
 	margin-left: 0.5rem;
 }
 
+.comment_top > p {
+	margin: 0rem 0.2rem 0rem 0.2rem;
+}
+
 .input_bar{
 	padding-left: 2rem;
 }
@@ -42,4 +46,12 @@ textarea{
 	width: 20rem;
 	padding: 0px;
 	font-size: 0.8rem;
+}
+
+.hidden{
+	display: none;
+}
+
+.own{
+	color: rgb(25, 146, 25);
 }
