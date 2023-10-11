@@ -3,6 +3,8 @@
 <h2>Log in</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+  <%= render "users/shared/error_messages", resource: resource %>
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
@@ -19,6 +21,8 @@
       <%= f.label :remember_me %>
     </div>
   <% end %>
+
+  <%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
 
   <div class="actions">
     <%= f.submit "Log in" %>
