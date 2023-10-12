@@ -11,13 +11,15 @@ Rails.application.routes.draw do
   post 'articles', to: 'articles#create'
   get '/articles/:id', to: 'articles#show', as: 'article'
   put '/articles/:id', to: 'articles#update', as: 'update_article'
-  get '/proposal', to: 'articles#proposal'
   delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
   patch '/comments/:id', to: 'comments#update', as: 'edit_comment'
   put '/comments/:id', to: 'comments#update'
   delete '/comments/:id', to: 'comments#destroy', as: 'delete_comment'
+
+  get '/proposals', to: 'proposals#index'
+  resources :proposals
 
   devise_for :users, :controllers => { registrations: 'users/registrations', 
                                       omniauth_callbacks: "users/omniauth_callbacks" }

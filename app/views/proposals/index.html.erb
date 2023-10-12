@@ -1,0 +1,76 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Proposals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @proposals.each do |proposal| %>
+      <tr>
+        <td><%= link_to 'Show', proposal %></td>
+        <td><%= link_to 'Edit', edit_proposal_path(proposal) %></td>
+        <td><%= link_to 'Destroy', proposal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Proposal', new_proposal_path %>
+<head>
+    <%= javascript_pack_tag 'articles.js' %>
+    <%= stylesheet_link_tag 'main.css'%>
+</head>
+<%= render '/menubar' %>
+<p id="notice"><%= notice %></p>
+<h1>Proposte</h1>
+
+<p> <%= if (@articles.empty?)==true then 'Non ci sono proposte' end %> </p>
+
+<div class="artcontainer">
+  <% @articles.each do |article| %>
+    <div class="art_prev">
+      <div class="art_content">
+        
+        <%= link_to article.title, article, {class: 'link art_title'}%>
+        Article by: <%= article.user.username %>
+        <%= if current_user.has_role? :user
+         link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
+        end %>
+      </div>
+      <img src=<%= article.img_url%>>
+    </div>
+  <% end %>
+</div>
+
+<% if current_user.has_role? :user %>
+  <%= link_to "Nuovo articolo", new_article_path %>
+  <hr class="row">
+  <h2>I tuoi articoli pubblicati</h2>
+
+  <p> <%= if (@published_articles.empty?)==true then 'Non hai articoli pubblicati' end %> </p>
+
+  <div class="artcontainer">
+  <% @published_articles.each do |article| %>
+  <div class="art_prev">
+      <div class="art_content">
+        
+        <%= link_to article.title, article, {class: 'link art_title'}%>
+          Article by: <%= article.user.id %>
+        <%= if current_user.has_role? :user
+          link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
+        end %>
+        </div>
+        <img src=<%= article.img_url%>>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= link_to "Indietro", :back %>
