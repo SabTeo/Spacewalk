@@ -13,11 +13,11 @@
 ActiveRecord::Schema.define(version: 2023_10_11_085521) do
 
   create_table "articles", force: :cascade do |t|
+    t.belongs_to :user, index:true, foreign_key: true
     t.string "title", null: false
     t.string "img_url"
     t.string "body"
     t.boolean "local", null: false
-    t.integer "author_id"
     t.string "url"
     t.string "news_site"
     t.datetime "published_at"

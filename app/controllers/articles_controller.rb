@@ -3,14 +3,14 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit update destroy ]
 
   def proposal
-   @articles = Article.all
-   if(params[:user]== "admin" )
-    @articles = @articles.where(published_at: nil, local: true)
-   elsif (params[:user]== "normal" )
-    @articles = @articles.where(author_id: current_user.id)
-
-   end
-
+    @articles = Article.all
+    if(current_user.has_role? :admin)
+      @articles = @articles.where(published_at: nil, local: true)
+    elsif (current_user.has_role? :user)
+      @articles = @articles.where(user: current_user)
+      @published_articles = @articles.where.not(published_at: nil)
+      @articles = @articles.where(published_at: nil)
+    end
   end
 
 
@@ -101,6 +101,7 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
+
   end
   
   # POST /articles or /articles.json
@@ -110,7 +111,7 @@ class ArticlesController < ApplicationController
     @article.updated_at = DateTime.new
     @article.created_at = DateTime.new
     @article.local = true
-    @article.author_id = current_user.id
+    @article.user = current_user
     if @article.save
       redirect_to proposal_path(user: :normal), notice: "Article was successfully created."
     else
@@ -132,6 +133,10 @@ class ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
+    @article = Article.find(params[:id])
+    @article.update(published_at: DateTime.now)
+    redirect_to proposal_path
+=begin
     respond_to do |format|
       if @article.update(article_params)
         format.html { redirect_to article_url(@article), notice: "Article was successfully updated." }
@@ -141,6 +146,7 @@ class ArticlesController < ApplicationController
         format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # DELETE /articles/1 or /articles/1.json

@@ -6,7 +6,7 @@
 <p id="notice"><%= notice %></p>
 <h1>Proposte</h1>
 
-<hr class="row">
+<p> <%= if (@articles.empty?)==true then 'Non ci sono proposte' end %> </p>
 
 <div class="artcontainer">
   <% @articles.each do |article| %>
@@ -14,8 +14,8 @@
       <div class="art_content">
         
         <%= link_to article.title, article, {class: 'link art_title'}%>
-        Article by: <%= article.author_id %>
-        <%= if params[:user]=="normal"
+        Article by: <%= article.user.username %>
+        <%= if current_user.has_role? :user
          link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
         end %>
       </div>
@@ -24,8 +24,29 @@
   <% end %>
 </div>
 
-<%= if params[:user]=="normal"
-  link_to "Nuovo articolo", new_article_path
- end %>
+<% if current_user.has_role? :user %>
+  <%= link_to "Nuovo articolo", new_article_path %>
+  <hr class="row">
+  <h2>I tuoi articoli pubblicati</h2>
 
+  <p> <%= if (@published_articles.empty?)==true then 'Non hai articoli pubblicati' end %> </p>
+
+  <div class="artcontainer">
+  <% @published_articles.each do |article| %>
+  <div class="art_prev">
+      <div class="art_content">
+        
+        <%= link_to article.title, article, {class: 'link art_title'}%>
+          Article by: <%= article.user.id %>
+        <%= if current_user.has_role? :user
+          link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
+        end %>
+        </div>
+        <img src=<%= article.img_url%>>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= link_to "Indietro", :back %>
 

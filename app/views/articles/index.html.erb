@@ -18,8 +18,12 @@
 
 <br><br>
 <% if user_signed_in? %>
-<%= link_to 'Proposte da utenti', proposal_path(user: :admin)%>
-<%= link_to 'Proponi', proposal_path(user: :normal)%>
+<%= if current_user.has_role? :admin 
+    link_to 'Proposte da utenti', proposal_path
+end %>
+<%= if current_user.has_role? :user
+    link_to 'Proponi', proposal_path
+end %>
 <% end %>
 
 
@@ -49,7 +53,7 @@
       <div class="art_content">
         <% if article.local ==true %>
         <%=  link_to article.title, article, {class: 'link art_title'} %>
-        <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
+        <%=  content_tag :p, 'Autore: ' + User.find(article.user.id).username, {class: 'art_src'} %>
         <% end %>
         <% if article.local !=true %>
         <%= link_to article.title, article.url, {class: 'link art_title'} %>
