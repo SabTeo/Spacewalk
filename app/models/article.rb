@@ -1,6 +1,6 @@
 class Article < ActiveRecord::Base
     has_many :comments
-    belongs_to :user
+    belongs_to :user, optional: true
     validates :title, uniqueness: true
     
 

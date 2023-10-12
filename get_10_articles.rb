@@ -14,7 +14,7 @@ articles.each do |article|
         break
     else
         #puts(article['id'].to_s + ' | ' + article['title'] + ' | ' + + article['id'].to_s)     
-        art = Article.create({
+        art = Article.create!({
           :ext_id => article['id'],
           :title => article['title'],
           :img_url => article['image_url'],
