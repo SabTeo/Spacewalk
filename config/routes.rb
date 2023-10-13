@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'articles/new', to: 'articles#new', as: "new_article"
   post 'articles', to: 'articles#create'
   get '/articles/:id', to: 'articles#show', as: 'article'
-  put '/articles/:id', to: 'articles#update', as: 'update_article'
+  
   delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
@@ -19,6 +19,10 @@ Rails.application.routes.draw do
   delete '/comments/:id', to: 'comments#destroy', as: 'delete_comment'
 
   get '/proposals', to: 'proposals#index'
+  get 'proposals/new', to: 'proposals#new', as: "new_proposal"
+  post 'proposals', to: 'proposals#create'
+  get '/proposals/:id', to: 'proposals#show', as: 'proposal'
+  patch 'proposals/:id', to: 'proposals#update'
   resources :proposals
 
   devise_for :users, :controllers => { registrations: 'users/registrations', 

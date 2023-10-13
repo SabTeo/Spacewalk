@@ -1,28 +1,3 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Proposals</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @proposals.each do |proposal| %>
-      <tr>
-        <td><%= link_to 'Show', proposal %></td>
-        <td><%= link_to 'Edit', edit_proposal_path(proposal) %></td>
-        <td><%= link_to 'Destroy', proposal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Proposal', new_proposal_path %>
 <head>
     <%= javascript_pack_tag 'articles.js' %>
     <%= stylesheet_link_tag 'main.css'%>
@@ -31,46 +6,48 @@
 <p id="notice"><%= notice %></p>
 <h1>Proposte</h1>
 
-<p> <%= if (@articles.empty?)==true then 'Non ci sono proposte' end %> </p>
+<p> <%= if (@proposals.empty?)==true then 'Non ci sono proposte' end %> </p>
 
 <div class="artcontainer">
-  <% @articles.each do |article| %>
+  <% @proposals.each do |proposal| %>
     <div class="art_prev">
       <div class="art_content">
-        
-        <%= link_to article.title, article, {class: 'link art_title'}%>
-        Article by: <%= article.user.username %>
-        <%= if current_user.has_role? :user
-         link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
-        end %>
+        <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
+        <% if current_user.has_role? :admin %>
+          <p class="art_src"> Article by: <%= proposal.user.username %></p> 
+        <%end %>
+        <% if current_user.has_role? :user %>
+          <p class="art_src"> Status: <%= proposal.status %></p> 
+          <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments %>
+        <%end %>
+
       </div>
-      <img src=<%= article.img_url%>>
+      <img src=<%= proposal.img_url%>>
     </div>
   <% end %>
 </div>
 
 <% if current_user.has_role? :user %>
-  <%= link_to "Nuovo articolo", new_article_path %>
+  <%= link_to "Nuovo articolo", new_proposal_path %>
   <hr class="row">
-  <h2>I tuoi articoli pubblicati</h2>
+  <h2>Le proposte rifiutate</h2>
 
-  <p> <%= if (@published_articles.empty?)==true then 'Non hai articoli pubblicati' end %> </p>
+  <p> <%= if (@rejected_proposals.empty?)==true then 'Non hai articoli pubblicati' end %> </p>
 
   <div class="artcontainer">
-  <% @published_articles.each do |article| %>
+  <% @rejected_proposals.each do |proposal| %>
   <div class="art_prev">
       <div class="art_content">
         
-        <%= link_to article.title, article, {class: 'link art_title'}%>
-          Article by: <%= article.user.id %>
+        <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
         <%= if current_user.has_role? :user
-          link_to 'Elimina', article, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
+          link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
         end %>
         </div>
-        <img src=<%= article.img_url%>>
+        <img src=<%= proposal.img_url%>>
       </div>
     <% end %>
   </div>
 <% end %>
 
-<%= link_to "Indietro", :back %>
+<%= link_to "Indietro", articles_path%>

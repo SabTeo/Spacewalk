@@ -93,7 +93,14 @@ class ArticlesController < ApplicationController
   
   # POST /articles or /articles.json
   def create
-    #@article = Article.new(params[:post])
+    @article = Article.new(params[:post])
+    if @article.save
+      redirect_to articles_path, notice: "Article was successfully created."
+    else
+      flash.now[:error] = "Article creation failed"
+      redirect_to new_article_path
+    end
+=begin
     respond_to do |format|
       if @article.save
         format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
@@ -103,6 +110,7 @@ class ArticlesController < ApplicationController
         format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
+=end
   end
 
   # PATCH/PUT /articles/1 or /articles/1.json
@@ -123,7 +131,7 @@ class ArticlesController < ApplicationController
     @article.destroy
 
     respond_to do |format|
-      format.html { redirect_to proposal_path(user: :normal), notice: "Article was successfully destroyed." }
+      format.html { redirect_to articles_path, notice: "Article was successfully destroyed." }
       format.json { head :no_content }
     end
   end

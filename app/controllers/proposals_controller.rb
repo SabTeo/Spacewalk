@@ -3,19 +3,19 @@ class ProposalsController < ApplicationController
 
   # GET /proposals or /proposals.json
   def index
-    @articles = Article.all
+    @proposals = Proposal.all
     if(current_user.has_role? :admin)
-      @articles = @articles.where(published_at: nil, local: true)
+      @proposals = @proposals.where(status: 0)
     elsif (current_user.has_role? :user)
-      @articles = @articles.where(user: current_user)
-      @published_articles = @articles.where.not(published_at: nil)
-      @articles = @articles.where(published_at: nil)
+      @rejected_proposals = @proposals.where(user: current_user, status: 1)
+      @proposals = @proposals.where(user: current_user, status: 0)
+      
     end
   end
 
   # GET /proposals/1 or /proposals/1.json
   def show
-    @article = Article.find(params[:id])
+    @proposal = Proposal.find(params[:id])
   end
 
   # GET /proposals/new
@@ -30,16 +30,17 @@ class ProposalsController < ApplicationController
   # POST /proposals or /proposals.json
   def create
     #@article = Article.new(params[:post])
-    @article = Article.new(params.require(:article).permit(:title, :img_url, :body))
-    @article.updated_at = DateTime.new
-    @article.created_at = DateTime.new
-    @article.local = true
-    @article.user = current_user
-    if @article.save
-      redirect_to proposal_path(user: :normal), notice: "Article was successfully created."
+    @proposal = Proposal.new(params.require(:proposal).permit(:title, :img_url, :body))
+    @proposal.updated_at = DateTime.new
+    @proposal.created_at = DateTime.new
+    @proposal.submittes_at = DateTime.new
+    @proposal.status = 0
+    @proposal.user = current_user
+    if @proposal.save
+      redirect_to proposals_path, notice: "Article was successfully created."
     else
       flash.now[:error] = "Article creation failed"
-      redirect_to new_article_path
+      redirect_to new_proposal_path
     end
 =begin
     respond_to do |format|
@@ -56,9 +57,15 @@ class ProposalsController < ApplicationController
 
   # PATCH/PUT /proposals/1 or /proposals/1.json
   def update
-    @article = Article.find(params[:id])
-    @article.update(published_at: DateTime.now)
-    redirect_to proposal_path
+    @proposal = Proposal.find(params[:id])
+    if @proposal.update(params.require(:proposal).permit(:message))
+      @proposal.update(status: 1)
+      flash[:success] = "Articolo rifiutato con successo"
+      redirect_to proposals_path
+    else
+      flash.now[:error] = "Non è stato possbile rifiutare l'articolo"
+    end
+
 =begin
     respond_to do |format|
       if @article.update(article_params)
@@ -74,12 +81,23 @@ class ProposalsController < ApplicationController
 
   # DELETE /proposals/1 or /proposals/1.json
   def destroy
-    @proposal.destroy
+    article = [{:title => @proposal.title, 
+            :img_url => @proposal.img_url,
+            :body => @proposal.body,
+            :author_id => @proposal.user_id,
+            :published_at => DateTime.now,
+            :created_at => @proposal.created_at,
+            :updated_at =>@proposal.updated_at}]
 
+    Article.create(article)
+    @proposal.destroy
+    redirect_to proposals_url, notice: "L'articolo è stato pubblicato" 
+=begin
     respond_to do |format|
       format.html { redirect_to proposals_url, notice: "Proposal was successfully destroyed." }
       format.json { head :no_content }
     end
+=end
   end
 
   private

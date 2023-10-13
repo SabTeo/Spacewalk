@@ -16,7 +16,8 @@
   <p id="trans_notice" style="font-size: 0.9rem; color: green; opacity: 75%"><%= @lang!='Italiano' ? @notice:''  %></p>
   
   <H1><%= @title %></H1>
-  <p style="font-size:0.8rem">
+  <p  style="font-size:0.8rem">
+  <%= @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y")%>
   </p>
   <img src=<%= @article.img_url %> height="220" width="340">
   <p><%= @body %></p>

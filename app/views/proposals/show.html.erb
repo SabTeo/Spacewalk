@@ -1,4 +1,44 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_proposal_path(@proposal) %> |
+<head>
+    <%= stylesheet_link_tag 'main' %>
+</head>
+
+<%= render '/menubar' %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="art_body">
+
+  <H1><%= @title %></H1>
+  <p  style="font-size:0.8rem">
+    Articolo non ancora pubblicato
+  </p>
+  <img src=<%= @proposal.img_url %> height="220" width="340">
+  <p><%= @body %></p>
+
+  <% if current_user.has_role? :admin %>
+    <div class="input_bar">
+      <%= form_with model: @proposal, url: proposal_path(@proposal), method: :patch, local: true do |form| %>
+        <%= form.label :message, 'Messaggio' %>
+        <%= form.text_area :message%>
+        <%= form.submit "Rifiuta", id: "submit_btn" %>
+      <% end %>
+    </div>
+
+    <%= link_to "Pubblica", @proposal, method: :delete, data: {confirm: "Are you sure?"}%>
+
+  <%end%>
+
+  <% if (current_user.has_role? :user) && (@proposal.status == 1)%>
+    <p>
+    Mi spice, la sua proposta è stata rifiutata.
+    L'admin che se ne è occupato ha lasciato un commento a riguardo.
+    </p>
+    <p>
+    <%= @proposal.message%>
+    </p>
+  <%end%>
+
 <%= link_to 'Back', proposals_path %>
+
