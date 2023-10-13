@@ -2,6 +2,7 @@
     <%= stylesheet_link_tag 'main' %>
 </head>
 
+<%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
 <p id="notice"><%= notice %></p>
@@ -19,7 +20,7 @@
   <p  style="font-size:0.8rem">
   <%= @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y")%>
   </p>
-  <img src=<%= @article.img_url %> height="220" width="340">
+  <img src=<%= @article.img_url=='' ? '/assets/images/def.jpg':@article.img_url %> height="220" width="340">
   <p><%= @body %></p>
 
   <%= link_to 'Indietro', articles_path(), class: :link %>

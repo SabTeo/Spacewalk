@@ -1,9 +1,15 @@
+@font-face {
+    font-family: 'Title';
+    src:url('/assets/StarJedi.woff2') format('woff2'),
+        url('/assets/StarJedi.woff') format('woff'),
+        url('/assets/Starjedi.ttf') format('truetype');
+}
+
 body{
 	margin: 0px;
 	margin-bottom: 3rem;
 	padding: 0px;
 }
-
 
 div.notice{
 	display: flex;
@@ -41,6 +47,14 @@ div.notice{
 	margin-left: 2rem;
 }
 
+.logo > h1{
+	font-family: 'Title';
+	margin: 1.2rem;
+	 color: rgb(255, 255, 255);
+	 text-decoration: underline;
+	 text-decoration-thickness: 10px ;
+}
+
 .logo:hover{
 	cursor: pointer;
 }
@@ -73,7 +87,7 @@ div.notice{
 }
 
 .menu-content{
-	margin: 40% 2rem 2rem;
+	margin: 45% 2rem 2rem;
 	display: flex;
 	flex-direction: column;
 }

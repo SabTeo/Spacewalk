@@ -42,5 +42,8 @@ module Spacewalk
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
     config.cache_store = :memory_store
+    config.assets.paths << Rails.root.join("app", "assets", "fonts") 
+    config.assets.paths << Rails.root.join("app", "assets", "images") 
+    config.assets.enabled = true
   end
 end

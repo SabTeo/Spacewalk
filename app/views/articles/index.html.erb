@@ -11,7 +11,7 @@
 
 <div class="filters_container">
 
-  <%= form_with url: articles_path, method: :get do |form| %>
+  <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
     <%= form.label :find, "Cerca:" %>
     <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
     <%= form.submit "cerca", name:nil %>
@@ -43,7 +43,7 @@
         <% end %>
         <%= link_to "commenti", comments_url(article), {class: 'link linkto_comments'} %>
       </div>
-      <img src=<%= article.img_url%>>
+      <img src=<%= article.img_url=='' ? '/assets/images/def.jpg':article.img_url %>>
     </div>
   <% end %>
 </div>
