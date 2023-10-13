@@ -8,37 +8,22 @@
 
 <div class="art_body">
 
-  <% @proposta=@article.published_at.nil? %>
   
-  <% if !(@proposta) %>
     <%= form_with url: @article, method: :get, id: 'filters' do |form| %>
       <%= form.label :lang, 'Seleziona lingua di lettura: '%>      
       <%= form.select :lang, @options, {selected: (@lang)}, {onchange: 'this.form.submit()'} %>
     <% end %>
-  <% end %>
 
   <p id="trans_notice" style="font-size: 0.9rem; color: green; opacity: 75%"><%= @lang!='Italiano' ? @notice:''  %></p>
   
   <H1><%= @title %></H1>
   <p  style="font-size:0.8rem">
-  <%= if @proposta
-    "Articolo non ancora pubblicato"
-  else
-    @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y")
-  end%>
+  <%= @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y")%>
   </p>
   <img src=<%= @article.img_url %> height="220" width="340">
   <p><%= @body %></p>
 
   <%= link_to 'Indietro', :back, class: :link %>
-
-  <% if @proposta %>
-    <% if current_user.has_role? :admin %>
-      <%= link_to 'Rifiuta', :back, class: :link %>
-      <%= link_to "Pubblica", update_article_path(id: @article.id), method: :put,class: :link%>
-    <%end%>
-  <%else%>
-    <%= link_to 'Commenti', comments_url(@article), class: :link %>
-  <%end%>
+  <%= link_to 'Commenti', comments_url(@article), class: :link %>
 
 </div>

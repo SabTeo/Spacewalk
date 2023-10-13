@@ -2,18 +2,6 @@ class ArticlesController < ApplicationController
   include Pagy::Backend
   before_action :set_article, only: %i[ show edit update destroy ]
 
-  def proposal
-    @articles = Article.all
-    if(current_user.has_role? :admin)
-      @articles = @articles.where(published_at: nil, local: true)
-    elsif (current_user.has_role? :user)
-      @articles = @articles.where(user: current_user)
-      @published_articles = @articles.where.not(published_at: nil)
-      @articles = @articles.where(published_at: nil)
-    end
-  end
-
-
   # GET /articles or /articles.json
   def index
 
@@ -22,7 +10,7 @@ class ArticlesController < ApplicationController
     rescue
     end
 
-    @articles = Article.all.where.not(published_at: :nil).order(published_at: :desc)
+    @articles = Article.all.order(published_at: :desc)
 
     #update session if submitting form
     if params.key?(:commit)
@@ -106,14 +94,9 @@ class ArticlesController < ApplicationController
   
   # POST /articles or /articles.json
   def create
-    #@article = Article.new(params[:post])
-    @article = Article.new(params.require(:article).permit(:title, :img_url, :body))
-    @article.updated_at = DateTime.new
-    @article.created_at = DateTime.new
-    @article.local = true
-    @article.user = current_user
+    @article = Article.new(params[:post])
     if @article.save
-      redirect_to proposal_path(user: :normal), notice: "Article was successfully created."
+      redirect_to articles_path, notice: "Article was successfully created."
     else
       flash.now[:error] = "Article creation failed"
       redirect_to new_article_path
@@ -133,10 +116,6 @@ class ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
-    @article = Article.find(params[:id])
-    @article.update(published_at: DateTime.now)
-    redirect_to proposal_path
-=begin
     respond_to do |format|
       if @article.update(article_params)
         format.html { redirect_to article_url(@article), notice: "Article was successfully updated." }
@@ -146,7 +125,6 @@ class ArticlesController < ApplicationController
         format.json { render json: @article.errors, status: :unprocessable_entity }
       end
     end
-=end
   end
 
   # DELETE /articles/1 or /articles/1.json
@@ -154,7 +132,7 @@ class ArticlesController < ApplicationController
     @article.destroy
 
     respond_to do |format|
-      format.html { redirect_to proposal_path(user: :normal), notice: "Article was successfully destroyed." }
+      format.html { redirect_to articles_path, notice: "Article was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -1,4 +1,26 @@
+
+
+<h1>Create New Article</h1>
+
 <%= form_with(model: proposal) do |form| %>
+
+  <div>
+    <%= form.label :Title %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :Body %><br>
+    <%= form.text_area:body %>
+  </div>
+  
+  <div>
+    <%= form.label :Image %><br>
+    <%= form.text_field :img_url %>
+  </div>
+
+
+
   <% if proposal.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(proposal.errors.count, "error") %> prohibited this proposal from being saved:</h2>
@@ -15,3 +37,4 @@
     <%= form.submit %>
   </div>
 <% end %>
+

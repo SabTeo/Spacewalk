@@ -19,10 +19,10 @@
 <br><br>
 <% if user_signed_in? %>
 <%= if current_user.has_role? :admin 
-    link_to 'Proposte da utenti', proposal_path
+    link_to 'Proposte da utenti', proposals_path
 end %>
 <%= if current_user.has_role? :user
-    link_to 'Proponi', proposal_path
+    link_to 'Proponi', proposals_path
 end %>
 <% end %>
 
