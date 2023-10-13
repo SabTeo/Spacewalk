@@ -1,0 +1,23 @@
+<div class="sidemenu">
+    <div class="menu-content">
+        <% if user_signed_in? %>
+        <%= link_to 'Edit Profile',edit_user_registration_path, method: :get%>
+        <%= button_to 'Logout',destroy_user_session_path, :method => :delete%>
+        <% end %>
+        <% if !(user_signed_in?) %>
+        <%= link_to 'Log in', new_user_session_path, method: :get%>
+        <%= link_to 'Sign up',new_user_registration_path, method: :get%>
+        <% end %>
+        <br><br>
+        <% if user_signed_in? %>
+        <%= if current_user.has_role? :admin 
+            link_to 'Proposte da utenti'
+        end %>
+        <%= if current_user.has_role? :user
+            link_to 'Proponi'
+        end %>
+        <% end %>
+    </div>
+</div>
+
+<%= javascript_tag "$(window).on('scroll', ()=>{$('.sidemenu').removeClass('visible')})" %>

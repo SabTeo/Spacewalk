@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_12_132244) do
+ActiveRecord::Schema.define(version: 2023_10_12_145126) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title", null: false
     t.string "img_url"
     t.string "body"
-    t.boolean "local", null: false
     t.string "url"
     t.string "news_site"
     t.datetime "published_at"
