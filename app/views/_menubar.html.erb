@@ -1,6 +1,6 @@
 <div class="top_bar">
     <div class="top_item">
-        <button> Menu </button>
+        <button onclick="showMenu()"> Menu </button>
         <%= link_to "Lanci", launches_path, action: :get, class: :link %>
     </div>
     <div class="logo" onclick="window.location.href = '/articles' ">
@@ -9,3 +9,5 @@
     
     <div class="top_item"></div>
 </div>
+
+<%= javascript_tag "function showMenu(){ $('.sidemenu').toggleClass('visible') }"%>

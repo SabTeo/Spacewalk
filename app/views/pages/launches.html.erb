@@ -1,13 +1,13 @@
-<!DOCTYPE html>
 <head>
 <%= javascript_pack_tag 'launch' %>
 <%= stylesheet_link_tag 'launches' %>
 </head>
-<body>
-    <%= render '/menubar' %>
-    <h1>Prossimi lanci</h1>
-    <p id="notice"><%= notice %></p>
-    <div class="launches_list">
+
+<%= render '/sidemenu' %>
+<%= render '/menubar' %>
+<h1>Prossimi lanci</h1>
+<p id="notice"><%= notice %></p>
+<div class="launches_list">
     <% id = 0 %>
         <% @display.each do |item| %>
             <div class="launch_item">
@@ -19,8 +19,7 @@
             </div>
         <% id+=1 %>
     <% end %>
-    </div>
-    <%= link_to 'Indietro', articles_path %>
-</body>
+</div>
+<%= link_to 'Indietro', articles_path %>
     
 <%= javascript_tag '$( document ).ready(timer())' %>

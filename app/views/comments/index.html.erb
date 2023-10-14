@@ -2,6 +2,7 @@
   <%= javascript_pack_tag 'comments' %>
 </head>
 
+<%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
 <p id="notice"><%= notice %></p>
@@ -45,7 +46,7 @@
 <p> <%= if (@comments.empty?)==true then 'Ancora nessun commento' end %> </p>
 
 <br>
-<%= link_to 'Indietro', articles_path, class: :link %>
+<%= link_to 'Indietro', articles_path(), class: :link %>
 
 <%= javascript_tag '
   $("textarea").each(function () {

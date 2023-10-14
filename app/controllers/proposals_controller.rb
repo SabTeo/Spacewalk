@@ -84,7 +84,6 @@ class ProposalsController < ApplicationController
     article = [{:title => @proposal.title, 
             :img_url => @proposal.img_url,
             :body => @proposal.body,
-            :local => true,
             :author_id => @proposal.user_id,
             :published_at => DateTime.now,
             :created_at => @proposal.created_at,

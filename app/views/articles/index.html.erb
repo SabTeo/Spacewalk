@@ -2,36 +2,16 @@
     <%= javascript_pack_tag 'articles.js' %>
 </head>
 
+<%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
-<p id="notice"><%= notice %></p>
-
-<% if user_signed_in? %>
-<%= link_to 'Edit Profile',edit_user_registration_path, method: :get%>
-<%= button_to 'Logout',destroy_user_session_path, :method => :delete%>
-<% end %>
-
-<% if !(user_signed_in?) %>
-<%= link_to 'Log in', new_user_session_path, method: :get%>
-<%= link_to 'Sign up',new_user_registration_path, method: :get%>
-<% end %>
-
-<br><br>
-<% if user_signed_in? %>
-  <% if can? :create, Article %>
-  <%= link_to 'Pubblica un articolo', new_article_path %> |
-  <%= link_to 'Proposte da utenti', proposals_path %>
-  (<%=Proposal.where.not(status:1).count%>) 
-<%end %>
-<%= if can? :create, Proposal
-    link_to 'Proponi', proposals_path
-end %>
-<% end %>
-
+<div class="notice">
+  <p id="notice"><%= notice %></p>
+</div>
 
 <div class="filters_container">
 
-  <%= form_with url: articles_path, method: :get do |form| %>
+  <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
     <%= form.label :find, "Cerca:" %>
     <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
     <%= form.submit "cerca", name:nil %>
@@ -53,21 +33,22 @@ end %>
   <% @articles.each do |article| %>
     <div class="art_prev">
       <div class="art_content">
-        <% if article.local ==true %>
+        <% if article.ext_id ==nil %>
         <%=  link_to article.title, article, {class: 'link art_title'} %>
         <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
         <% end %>
-        <% if article.local !=true %>
+        <% if article.ext_id !=nil %>
         <%= link_to article.title, article.url, {class: 'link art_title'} %>
         <%= content_tag :p, article.news_site, {class: 'art_src'} %>
         <% end %>
         <%= link_to "commenti", comments_url(article), {class: 'link linkto_comments'} %>
       </div>
-      <img src=<%= article.img_url%>>
+      <img src=<%= article.img_url=='' ? '/assets/images/def.jpg':article.img_url %>>
     </div>
   <% end %>
 </div>
 
 <br>
-<%== pagy_nav(@pagy) %>
-<!== %= link_to 'New Article', new_article_path %>
+<div class="index">
+  <%== pagy_nav(@pagy) %>
+</div>

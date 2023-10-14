@@ -34,9 +34,9 @@ class ArticlesController < ApplicationController
       @articles = @articles.where("title LIKE ?", '%' + session[:find].strip + '%')
     end
     if(session[:local]=='1' and session[:ext]!='1')
-      @articles = @articles.where(local: true)
+      @articles = @articles.where(ext_id: nil)
     elsif(session[:local]!='1' and session[:ext]=='1')
-      @articles = @articles.where(local: false)
+      @articles = @articles.where.not(ext_id: nil)
     end
 
     @pagy, @articles = pagy(@articles)
@@ -89,7 +89,6 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1/edit
   def edit
-
   end
   
   # POST /articles or /articles.json
