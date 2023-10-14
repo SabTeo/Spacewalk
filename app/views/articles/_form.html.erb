@@ -20,10 +20,7 @@
   <%= form.hidden_field :published_at, :value => DateTime.now  %>
 
   <%= form.hidden_field :author_id, :value => current_user.id  %>
-  <%= form.hidden_field :local, :value => true  %>
-
-
-
+  
   <% if article.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
