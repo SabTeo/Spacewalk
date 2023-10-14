@@ -18,10 +18,12 @@
 
 <br><br>
 <% if user_signed_in? %>
-<%= if current_user.has_role? :admin 
-    link_to 'Proposte da utenti', proposals_path
-end %>
-<%= if current_user.has_role? :user
+  <% if can? :create, Article %>
+  <%= link_to 'Pubblica un articolo', new_article_path %> |
+  <%= link_to 'Proposte da utenti', proposals_path %>
+  (<%=Proposal.where.not(status:1).count%>) 
+<%end %>
+<%= if can? :create, Proposal
     link_to 'Proponi', proposals_path
 end %>
 <% end %>

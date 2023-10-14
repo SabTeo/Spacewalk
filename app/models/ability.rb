@@ -30,9 +30,14 @@ class Ability
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
     return unless user.present? 
     if user.has_role? :admin
+      can :create, Article                    #pubblicare articoli
+      can :update, Proposal                   #aggiornare le proposte
       can :edit, Comment, user_id: user.id    #editare i propri commenti
       can :delete, Comment                    #cancellare tutti i commenti
     elsif user.has_role? :user
+      can :create, Proposal                   #create proposte
+      can :read, Proposal, user_id: user.id   #leggere le modifiche alle proprie proposte
+      can :delete, Proposal, user_id: user.id #eliminare le proprie proposte
       can :edit, Comment, user_id: user.id    #editare i propri commenti
       can :delete, Comment, user_id: user.id  #cancellare i propri commenti
     end
