@@ -66,18 +66,15 @@ class ArticlesController < ApplicationController
       end
     end
 
+    @title = @article.title
+    @body = @article.body
     if @lang!='Italiano'
       I18n.locale = :en
       begin
-        translations = DeepL.translate [@notice, @article.title, @article.body], 'IT', languages[@lang]
-        @notice, @title, @body = translations
+        @notice, @title, @body = translate [@notice, @article.title, @article.body], languages[@lang]
       rescue
-        flash[:notice] = 'Service not available'
+        @notice = 'We are sorry, the translation service is not available right now'
       end
-    else
-      I18n.locale = :it
-      @title = @article.title
-      @body = @article.body
     end
     
   end
@@ -147,6 +144,25 @@ class ArticlesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def article_params
       params.fetch(:article, {})
+    end
+
+    def translate(array, lang) #[@notice, @article.title, @article.body]
+      res = []
+      t_notice = Rails.cache.read('notice_'+lang)
+      if t_notice.nil?
+        res.append(DeepL.translate array[0], 'IT', lang)
+        Rails.cache.write('notice_'+lang, res[0], expires_in: 1.day)
+      else
+        res.append(t_notice)
+      end
+      t_art = Rails.cache.read(array[1]+'_'+lang)
+      if t_art.nil?
+        res[1], res[2] = DeepL.translate array[1,2], 'IT', lang
+        Rails.cache.write(array[1]+'_'+lang, JSON.dump(res[1,2]), expires_in: 1.day)
+      else
+        res[1], res[2] = JSON.load(t_art)
+      end
+      return res
     end
 
 end
