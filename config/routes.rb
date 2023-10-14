@@ -10,8 +10,8 @@ Rails.application.routes.draw do
   get 'articles/new', to: 'articles#new', as: "new_article"
   post 'articles', to: 'articles#create'
   get '/articles/:id', to: 'articles#show', as: 'article'
+  delete '/articles/:id', to: 'articles#destroy', as: 'delete_article'
   
-  delete 'articles/:id', to: 'articles#destroy'
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
   patch '/comments/:id', to: 'comments#update', as: 'edit_comment'
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   post 'proposals', to: 'proposals#create'
   get '/proposals/:id', to: 'proposals#show', as: 'proposal'
   patch 'proposals/:id', to: 'proposals#update'
-  resources :proposals
+  delete '/proposals/:id', to: 'proposals#destroy', as: 'delete_proposal'
 
   devise_for :users, :controllers => { registrations: 'users/registrations', 
                                       omniauth_callbacks: "users/omniauth_callbacks" }

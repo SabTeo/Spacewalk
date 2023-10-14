@@ -4,3 +4,7 @@ window.clear_form = function(){
     $('#ext').prop('checked', false)
     $('#filters').trigger('submit')
 }
+
+window.delete_action = (e) => {
+    return (window.confirm('Vuoi cancellare l\'articolo'))? true : e.preventDefault()
+}

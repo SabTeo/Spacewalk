@@ -144,10 +144,16 @@ div.notice{
 	background-color: rgba(148, 126, 126, 0.285);
 }
 
-.linkto_comments{
+.comments_btn{
 	position: absolute;
 	bottom: 0.6rem;
 	left: 0.8rem;
+}
+
+.delete_art_btn{
+	position: absolute;
+	top: 0.6rem;
+	right: 0.8rem;
 }
 
 .art_title{

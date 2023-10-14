@@ -32,6 +32,7 @@ class Ability
     if user.has_role? :admin
       can :edit, Comment, user_id: user.id    #editare i propri commenti
       can :delete, Comment                    #cancellare tutti i commenti
+      can :delete, Article, ext_id: nil       #cancellare gli articoli interni
     elsif user.has_role? :user
       can :edit, Comment, user_id: user.id    #editare i propri commenti
       can :delete, Comment, user_id: user.id  #cancellare i propri commenti

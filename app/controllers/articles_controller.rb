@@ -128,11 +128,13 @@ class ArticlesController < ApplicationController
 
   # DELETE /articles/1 or /articles/1.json
   def destroy
-    @article.destroy
-
-    respond_to do |format|
-      format.html { redirect_to articles_path, notice: "Article was successfully destroyed." }
-      format.json { head :no_content }
+    art = Article.find(params[:id])
+    if can? :delete, art
+      @article.destroy
+      respond_to do |format|
+        format.html { redirect_to articles_path, notice: "Articolo eliminato" }
+        format.json { head :no_content }
+      end
     end
   end
 

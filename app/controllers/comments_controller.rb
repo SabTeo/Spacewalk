@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
       redirect_to new_user_session_path, notice: 'devi essere loggato'
       return 
     end
-    if params[:text].strip == ''
+    if params[:text] == ''
       redirect_to comments_path(params[:art_id])
     else
       c = Comment.new({:user => @current_user, :text => params[:text].strip, :published_at => DateTime.now,

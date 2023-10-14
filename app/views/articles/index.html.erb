@@ -34,14 +34,17 @@
     <div class="art_prev">
       <div class="art_content">
         <% if article.ext_id ==nil %>
-        <%=  link_to article.title, article, {class: 'link art_title'} %>
-        <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
+          <%=  link_to article.title, article, {class: 'link art_title'} %>
+          <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
         <% end %>
         <% if article.ext_id !=nil %>
-        <%= link_to article.title, article.url, {class: 'link art_title'} %>
-        <%= content_tag :p, article.news_site, {class: 'art_src'} %>
+          <%= link_to article.title, article.url, {class: 'link art_title'} %>
+          <%= content_tag :p, article.news_site, {class: 'art_src'} %>
         <% end %>
-        <%= link_to "commenti", comments_url(article), {class: 'link linkto_comments'} %>
+        <% if can? :delete, article %>
+          <%= button_to 'elimina', delete_article_path(article), {method: :delete, class: 'delete_art_btn', onclick: 'delete_action(event)' } %>
+        <% end %> 
+        <%= link_to "commenti", comments_url(article), {class: 'comments_btn'} %>
       </div>
       <img src=<%= article.img_url=='' ? '/assets/images/def.jpg':article.img_url %>>
     </div>
