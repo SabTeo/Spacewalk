@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <head>
     <%= stylesheet_link_tag 'main' %>
 </head>
@@ -11,14 +9,14 @@
 
 <div class="art_body">
 
-  <H1><%= @title %></H1>
+  <H1><%= @proposal.title %></H1>
   <p  style="font-size:0.8rem">
     Articolo non ancora pubblicato
   </p>
   <img src=<%= @proposal.img_url %> height="220" width="340">
-  <p><%= @body %></p>
+  <p><%= @proposal.body %></p>
 
-  <% if current_user.has_role? :admin %>
+  <% if can? :update, Proposal %>
     <div class="input_bar">
       <%= form_with model: @proposal, url: proposal_path(@proposal), method: :patch, local: true do |form| %>
         <%= form.label :message, 'Messaggio' %>
@@ -31,7 +29,7 @@
 
   <%end%>
 
-  <% if (current_user.has_role? :user) && (@proposal.status == 1)%>
+  <% if (can? :read, @proposal) && (@proposal.status == 1)%>
     <p>
     Mi spice, la sua proposta è stata rifiutata.
     L'admin che se ne è occupato ha lasciato un commento a riguardo.

@@ -90,8 +90,8 @@ class ArticlesController < ApplicationController
   
   # POST /articles or /articles.json
   def create
-    @article = Article.new(params[:post])
-    if @article.save and can?(:create, :article)
+    @article = Article.new(params.require(:article).permit(:title, :img_url, :body, :updated_at, :created_at, :published_at, :author_id))
+    if @article.save and can?(:create, Article)
       format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
       format.json { render :show, status: :created, location: articles_path}
     else

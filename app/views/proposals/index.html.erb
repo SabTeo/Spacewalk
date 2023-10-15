@@ -14,10 +14,10 @@
     <div class="art_prev">
       <div class="art_content">
         <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
-        <% if current_user.has_role? :admin %>
+        <% if can? :update, Article %>
           <p class="art_src"> Article by: <%= proposal.user.username %></p> 
         <%end %>
-        <% if current_user.has_role? :user %>
+        <% if can? :delete, proposal %>
           <p class="art_src"> Status: <%= proposal.status %></p> 
           <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments %>
         <%end %>
@@ -28,7 +28,7 @@
   <% end %>
 </div>
 
-<% if current_user.has_role? :user %>
+<% if can? :create, Proposal %>
   <%= link_to "Nuovo articolo", new_proposal_path %>
   <hr class="row">
   <h2>Le proposte rifiutate</h2>
@@ -41,7 +41,7 @@
       <div class="art_content">
         
         <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
-        <%= if current_user.has_role? :user
+        <%= if can? :delete, proposal
           link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
         end %>
         </div>
