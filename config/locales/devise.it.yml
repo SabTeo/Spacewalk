@@ -66,3 +66,10 @@ it:
       not_saved:
         one: "Un errore ha impedito di salvare questo %{resource}:"
         other: "%{count} errori hanno impedito di salvare questo %{resource}:"
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            current_password:
+              blank: "password vuota"
