@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   get 'proposals/new', to: 'proposals#new', as: "new_proposal"
   post 'proposals', to: 'proposals#create'
   get '/proposals/:id', to: 'proposals#show', as: 'proposal'
-  patch 'proposals/:id', to: 'proposals#update'
+  patch 'proposals/:id', to: 'proposals#update', as: 'update_proposal'
   delete '/proposals/:id', to: 'proposals#destroy', as: 'delete_proposal'
 
   devise_for :users, :controllers => { registrations: 'users/registrations', 
