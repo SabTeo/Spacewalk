@@ -5,3 +5,5 @@ nel file application.js in app/javascript/packs
 
 >Conferma via mail
 Viene gestito da Devise, bisogna aggiornare il modello user come "confirmable" vedi doc.
+
+>Avvio funzioni schedulate: whenever --update-crontab

@@ -6,5 +6,5 @@ window.clear_form = function(){
 }
 
 window.delete_action = (e) => {
-    return (window.confirm('Vuoi cancellare l\'articolo'))? true : e.preventDefault()
+    return (window.confirm('Stai per cancellare questo articolo'))? true : e.preventDefault()
 }

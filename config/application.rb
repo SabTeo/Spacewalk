@@ -44,5 +44,7 @@ module Spacewalk
     config.cache_store = :memory_store
     config.assets.paths << Rails.root.join("app", "assets", "fonts") 
     config.assets.enabled = true
+
+    config.i18n.default_locale = :'it'
   end
 end

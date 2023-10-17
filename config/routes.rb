@@ -14,9 +14,9 @@ Rails.application.routes.draw do
   
   get '/articles/:id/comments', to: 'comments#index', as: 'comments'
   post '/articles/:id/comments', to: 'comments#create', as: 'new_comment'
-  patch '/comments/:id', to: 'comments#update', as: 'edit_comment'
-  put '/comments/:id', to: 'comments#update'
-  delete '/comments/:id', to: 'comments#destroy', as: 'delete_comment'
+  patch '/articles/:art_id/comments/:id', to: 'comments#update', as: 'edit_comment'
+  put '/articles/:art_id/comments/:id', to: 'comments#update'
+  delete '/articles/:art_id/comments/:id', to: 'comments#destroy', as: 'delete_comment'
 
   get '/proposals', to: 'proposals#index'
   get 'proposals/new', to: 'proposals#new', as: "new_proposal"

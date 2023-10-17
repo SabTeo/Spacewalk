@@ -35,9 +35,9 @@
     <p id=<%= "p"+comment.id.to_s %>><%==h(comment.text).gsub(/\n/, '<br/>')%></p>
     <!-- Embedded form for 'modifica' -->
     <% if can? :edit, comment %>
-      <%= form_with url: edit_comment_path(comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden' do |form| %>
+      <%= form_with url: edit_comment_path(art_id: @art_id, id: comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden edit_box' do |form| %>
         <%= form.hidden_field :art_id, :value => @art_id  %>
-        <%= form.text_area :newtext, {id: 'text'+comment.id.to_s} %>
+        <%= form.text_area :newtext, {id: 'text'+comment.id.to_s, class: ''} %>
         <%= form.submit "salva", {id: "save_btn"} %>
       <% end %>
     <% end %>
@@ -50,7 +50,7 @@
 
 <%= javascript_tag '
   $("textarea").each(function () {
-    this.setAttribute("style", "resize: none; height:0.9rem;overflow-y:hidden;");
+    this.setAttribute("style", "resize: none; height:1.1rem;overflow-y:hidden;");
   }).on("input", function () {
     this.style.height = 0;
     this.style.height = (this.scrollHeight) + "px";

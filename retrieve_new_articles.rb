@@ -10,18 +10,19 @@ while !done
             done = true
             break
         else    
-            art = Article.create({
+            art = Article.new({
                 :ext_id => article['id'],
                 :title => article['title'],
                 :img_url => article['image_url'],
                 :body => nil,
-                :local => false,
                 :author_id => nil,
                 :url => article['url'],
                 :news_site => article['news_site'],
                 :published_at => article['published_at']
             })
-            count += 1
+            if art.save
+                count += 1
+            end
         end   
     end
     uri = URI(response['next'])

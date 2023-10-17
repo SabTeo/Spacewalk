@@ -45,7 +45,17 @@
 textarea{
 	width: 20rem;
 	padding: 0px;
-	font-size: 0.8rem;
+	font-size: 0.9rem;
+}
+
+.edit_box{
+	margin: 1rem 0 1rem;
+	display: flex;
+	align-items: start;
+}
+
+#save_btn{
+	margin-left: 0.5rem;
 }
 
 .hidden{

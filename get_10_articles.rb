@@ -19,7 +19,6 @@ articles.each do |article|
           :title => article['title'],
           :img_url => article['image_url'],
           :body => nil,
-          :local => false,
           :author_id => nil,
           :url => article['url'],
           :news_site => article['news_site'],
