@@ -4,12 +4,13 @@ class User < ApplicationRecord
   has_many :articles
   has_many :proposals
   validates :username, uniqueness: true
+  validate :username_length
   validate :password_complexity
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-        :recoverable, :rememberable, :validatable,
+        :recoverable, :rememberable, :validatable, :confirmable,
         :omniauthable, :omniauth_providers => [:google_oauth2]
   after_create :add_default_role
   after_create :add_default_image
@@ -23,17 +24,7 @@ class User < ApplicationRecord
       user.username = auth.info.name
     end
   end
-    
-  def self.new_with_session(params, session)
-    super.tap do |user|
-      if data = session["devise.google_data"] && session["devise.google_data"]
-        ["extra"]["raw_info"]
-        user.email = data["email"] if user.email.blank?
-      end
-    end
-  end
 
-  
   def add_default_role
     User.connection
     self.add_role('user')
@@ -48,8 +39,16 @@ class User < ApplicationRecord
   end
 
   def password_complexity
-    if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W). /)
+    if provider.present? then return end
+    
+    if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)./)
       errors.add :password, "la password deve contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale."
+    end
+  end
+
+  def username_length
+    if username.length<4
+      errors.add :username, "l'username deve contenere almeno 4 caratteri"
     end
   end
 
