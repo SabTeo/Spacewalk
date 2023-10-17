@@ -18,6 +18,7 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: left;
+	align-items: center;
 }
 
 .comment_top > * {
@@ -25,7 +26,11 @@
 }
 
 .comment_top > p {
-	margin: 0rem 0.2rem 0rem 0.2rem;
+	margin: 0rem 0.8rem 0rem 20px;
+}
+
+.comment_body{
+	margin-left: 75px;
 }
 
 .input_bar{

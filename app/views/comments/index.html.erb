@@ -22,6 +22,14 @@
   <div class="comment">
     <div class="comment_top">
       <% u = User.find(comment.user.id) %>
+        <% if u.image.attached? %>
+        <%=  image_tag(u.image, style:" display:inline-block;
+                                        height:50px;
+                                        width:50px;
+                                        object-fit:cover;
+                                        border-radius:50%;
+                                        ") %>
+      <% end %>
       <p class=<%= u==current_user ? "own":"" %>><b><%= u.username %></b></p>
       <% if can? :edit, comment %>
         <button class="button_t" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</button>
@@ -32,7 +40,7 @@
       <% end %>
     </div>
     <br>
-    <p id=<%= "p"+comment.id.to_s %>><%==h(comment.text).gsub(/\n/, '<br/>')%></p>
+    <p id=<%= "p"+comment.id.to_s %> class="comment_body"><%==h(comment.text).gsub(/\n/, '<br/>')%></p>
     <!-- Embedded form for 'modifica' -->
     <% if can? :edit, comment %>
       <%= form_with url: edit_comment_path(art_id: @art_id, id: comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden edit_box' do |form| %>
