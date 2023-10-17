@@ -69,3 +69,5 @@ gem 'deepl-rb', require: 'deepl'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'certified'
+
+gem "letter_opener"
