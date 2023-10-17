@@ -2,7 +2,7 @@ require_relative "boot"
 
 #require "rails/all"
 
-#require "active_storage/engine"
+require "active_storage/engine"
 #require "action_mailbox/engine"
 #require "action_text/engine"
 require "rails"
