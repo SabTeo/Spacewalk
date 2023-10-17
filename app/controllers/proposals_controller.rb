@@ -15,6 +15,10 @@ class ProposalsController < ApplicationController
 
   # GET /proposals/1 or /proposals/1.json
   def show
+    notification = Notification.where(proposal_id: @proposal.id,admin_id: current_user.id).first
+    if !notification.nil? 
+      notification.destroy 
+    end
     @proposal = Proposal.find(params[:id])
   end
 
@@ -37,6 +41,11 @@ class ProposalsController < ApplicationController
     @proposal.status = 0
     @proposal.user = current_user
     if @proposal.save
+      admin_list = User.with_role :admin
+      admin_list.each do |admin|
+        note = Notification.new(admin_id: admin.id, proposal_id: @proposal.id)
+        note.save
+      end
       redirect_to proposals_path, notice: "La proposta è stata creata con successo"
     else
       flash.now[:error] = "La creazione della proposta è fallita."
@@ -69,11 +78,13 @@ class ProposalsController < ApplicationController
               :updated_at =>@proposal.updated_at}]
 
       Article.create(article)
+      delete_notifications
       @proposal.destroy
       redirect_to proposals_path, notice: "L'articolo è stato pubblicato"
     else
       if @proposal.update(message: data[:message])
         @proposal.update(status: 1)
+        delete_notifications
         redirect_to proposals_path, notice: "Articolo rifiutato con successo"
       else
         flash.now[:error] = "Non è stato possbile rifiutare l'articolo"
@@ -86,6 +97,9 @@ class ProposalsController < ApplicationController
   def destroy
     @proposal = Proposal.find(params[:id])
     if can? :delete, @proposal
+      
+      delete_notifications
+
       @proposal.destroy
       respond_to do |format|
         format.html { redirect_to proposals_path, notice: "Proposta eliminata" }
@@ -105,4 +119,13 @@ class ProposalsController < ApplicationController
     def proposal_params
       params.fetch(:proposal, {})
     end
+
+    # Delete all the notification of the proposal
+    def delete_notifications
+      notifications_list = Notification.where(proposal_id: @proposal.id)
+      notifications_list.each do |note|
+        note.destroy
+      end
+    end
+
 end
