@@ -21,12 +21,14 @@
       <%= form_with model: @proposal, url: proposal_path(@proposal), method: :patch, local: true do |form| %>
         <%= form.label :message, 'Messaggio' %>
         <%= form.text_area :message%>
+        <%= form.hidden_field :publish, :value => false  %>
         <%= form.submit "Rifiuta", id: "submit_btn" %>
       <% end %>
     </div>
-
-    <%= link_to "Pubblica", @proposal, method: :delete, data: {confirm: "Are you sure?"}%>
-
+    <%= form_with model: @proposal, url: proposal_path(@proposal), method: :patch, local: true do |form| %>
+      <%= form.hidden_field :publish, :value => true %>
+      <%= form.submit "Pubblica", id: "submit_btn" %>
+    <% end %>
   <%end%>
 
   <% if (can? :read, @proposal) && (@proposal.status == 1)%>

@@ -15,6 +15,10 @@ class ProposalsController < ApplicationController
 
   # GET /proposals/1 or /proposals/1.json
   def show
+    notification = Notification.where(proposal_id: @proposal.id,admin_id: current_user.id).first
+    if !notification.nil? 
+      notification.destroy 
+    end
     @proposal = Proposal.find(params[:id])
   end
 
@@ -37,9 +41,14 @@ class ProposalsController < ApplicationController
     @proposal.status = 0
     @proposal.user = current_user
     if @proposal.save
-      redirect_to proposals_path, notice: "Article was successfully created."
+      admin_list = User.with_role :admin
+      admin_list.each do |admin|
+        note = Notification.new(admin_id: admin.id, proposal_id: @proposal.id)
+        note.save
+      end
+      redirect_to proposals_path, notice: "La proposta è stata creata con successo"
     else
-      flash.now[:error] = "Article creation failed"
+      flash.now[:error] = "La creazione della proposta è fallita."
       redirect_to new_proposal_path
     end
 =begin
@@ -58,46 +67,46 @@ class ProposalsController < ApplicationController
   # PATCH/PUT /proposals/1 or /proposals/1.json
   def update
     @proposal = Proposal.find(params[:id])
-    if @proposal.update(params.require(:proposal).permit(:message))
-      @proposal.update(status: 1)
-      flash[:success] = "Articolo rifiutato con successo"
-      redirect_to proposals_path
-    else
-      flash.now[:error] = "Non è stato possbile rifiutare l'articolo"
-    end
+    data = params.require(:proposal).permit(:publish,:message)
+    if data[:publish]=="true"
+      article = [{:title => @proposal.title, 
+              :img_url => @proposal.img_url,
+              :body => @proposal.body,
+              :author_id => @proposal.user_id,
+              :published_at => DateTime.now,
+              :created_at => @proposal.created_at,
+              :updated_at =>@proposal.updated_at}]
 
-=begin
-    respond_to do |format|
-      if @article.update(article_params)
-        format.html { redirect_to article_url(@article), notice: "Article was successfully updated." }
-        format.json { render :show, status: :ok, location: @article }
+      Article.create(article)
+      delete_notifications
+      @proposal.destroy
+      redirect_to proposals_path, notice: "L'articolo è stato pubblicato"
+    else
+      if @proposal.update(message: data[:message])
+        @proposal.update(status: 1)
+        delete_notifications
+        redirect_to proposals_path, notice: "Articolo rifiutato con successo"
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        flash.now[:error] = "Non è stato possbile rifiutare l'articolo"
       end
     end
-=end
   end
+
 
   # DELETE /proposals/1 or /proposals/1.json
   def destroy
-    article = [{:title => @proposal.title, 
-            :img_url => @proposal.img_url,
-            :body => @proposal.body,
-            :author_id => @proposal.user_id,
-            :published_at => DateTime.now,
-            :created_at => @proposal.created_at,
-            :updated_at =>@proposal.updated_at}]
+    @proposal = Proposal.find(params[:id])
+    if can? :delete, @proposal
+      
+      delete_notifications
 
-    Article.create(article)
-    @proposal.destroy
-    redirect_to proposals_url, notice: "L'articolo è stato pubblicato" 
-=begin
-    respond_to do |format|
-      format.html { redirect_to proposals_url, notice: "Proposal was successfully destroyed." }
-      format.json { head :no_content }
+      @proposal.destroy
+      respond_to do |format|
+        format.html { redirect_to proposals_path, notice: "Proposta eliminata" }
+        format.json { head :no_content }
+      end
     end
-=end
+    
   end
 
   private
@@ -110,4 +119,13 @@ class ProposalsController < ApplicationController
     def proposal_params
       params.fetch(:proposal, {})
     end
+
+    # Delete all the notification of the proposal
+    def delete_notifications
+      notifications_list = Notification.where(proposal_id: @proposal.id)
+      notifications_list.each do |note|
+        note.destroy
+      end
+    end
+
 end

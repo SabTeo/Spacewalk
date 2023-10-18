@@ -14,7 +14,7 @@
     <div class="art_prev">
       <div class="art_content">
         <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
-        <% if can? :update, Article %>
+        <% if can? :update, Proposal %>
           <p class="art_src"> Article by: <%= proposal.user.username %></p> 
         <%end %>
         <% if can? :delete, proposal %>
