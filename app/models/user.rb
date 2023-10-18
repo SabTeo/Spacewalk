@@ -47,7 +47,7 @@ class User < ApplicationRecord
   end
 
   def username_length
-    if username.length<4
+    if username.strip.length<4 or username.strip.length>10
       errors.add :username, "l'username deve contenere almeno 4 caratteri"
     end
   end

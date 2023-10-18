@@ -61,11 +61,13 @@ it:
       already_confirmed: "è stato già confermato, prova ad effettuare un nuovo accesso"
       confirmation_period_expired: "deve essere confermato entro %{period}, si prega di richiederne uno nuovo"
       expired: "è scaduto, si prega di richiederne uno nuovo"
+      takenUsername: "Già esistente"
       not_found: "non trovato"
       not_locked: "non era bloccato"
       not_saved:
         one: "Un errore ha impedito di salvare questo %{resource}:"
         other: "%{count} errori hanno impedito di salvare questo %{resource}:"
+      invalid: "Non valida"
   activerecord:
     errors:
       models:

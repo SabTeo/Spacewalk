@@ -58,7 +58,7 @@
 
 <%= javascript_tag '
   $("textarea").each(function () {
-    this.setAttribute("style", "resize: none; height:1.1rem;overflow-y:hidden;");
+    this.setAttribute("style", "resize: none; height: 1.1rem; removerflow-y:hidden;");
   }).on("input", function () {
     this.style.height = 0;
     this.style.height = (this.scrollHeight) + "px";
