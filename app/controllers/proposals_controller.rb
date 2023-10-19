@@ -3,13 +3,17 @@ class ProposalsController < ApplicationController
 
   # GET /proposals or /proposals.json
   def index
-    @proposals = Proposal.all
+    if !user_signed_in?
+      respond_to do |format|
+        format.html { redirect_to articles_url, status: 403 }
+      end
+      return
+    end
     if(current_user.has_role? :admin)
-      @proposals = @proposals.where(status: 0)
-    elsif (current_user.has_role? :user)
+      @proposals = Proposal.where(status: 0)
+    else #current_user.has_role? :user
       @rejected_proposals = @proposals.where(user: current_user, status: 1)
       @proposals = @proposals.where(user: current_user, status: 0)
-      
     end
   end
 

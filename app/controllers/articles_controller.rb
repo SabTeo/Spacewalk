@@ -39,13 +39,22 @@ class ArticlesController < ApplicationController
       @articles = @articles.where.not(ext_id: nil)
     end
 
-    @pagy, @articles = pagy(@articles)
+    begin
+      @pagy, @articles = pagy(@articles)
+    rescue
+      respond_to do |format|
+        format.html { render :template => '404', status: 404}
+      end
+    end
 
   end
 
   # GET /articles/1 or /articles/1.json
   def show
     @article = Article.find(params[:id])
+    if !@article.ext_id.nil?
+      redirect_to @article.url
+    end
   #  available_langs = config.host = DeepL.languages(type: :target)
   #  languages, @options = {}, []
   #  available_langs.each do |lang|
@@ -82,6 +91,11 @@ class ArticlesController < ApplicationController
   # GET /articles/new
   def new
     @article = Article.new
+    if !can?(:create, Article)
+      respond_to do |format|
+        format.html { redirect_to articles_url, status: 403 }
+      end
+    end
   end
 
   # GET /articles/1/edit
@@ -91,14 +105,15 @@ class ArticlesController < ApplicationController
   # POST /articles or /articles.json
   def create
     @article = Article.new(params.require(:article).permit(:title, :img_url, :body, :updated_at, :created_at, :published_at, :author_id))
-    if @article.save and can?(:create, Article)
-      format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
-      format.json { render :show, status: :created, location: articles_path}
-    else
-      flash.now[:error] = "Article creation failed"
-      redirect_to new_article_path
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @article.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if !can?(:create, Article)
+        format.html { redirect_to articles_url, status: 401 }
+      elsif @article.save
+        format.html { redirect_to article_url(@article), notice: "Articolo pubblicato con successo" }
+      else
+        flash[:notice]="Pubblicazione fallita, titolo o contenuto non validi"
+        format.html { render :new, status: 400 }
+      end
     end
   end
 
@@ -118,11 +133,12 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1 or /articles/1.json
   def destroy
     art = Article.find(params[:id])
-    if can? :delete, art
-      @article.destroy
-      respond_to do |format|
+    respond_to do |format|
+      if can? :delete, art
+        @article.destroy
         format.html { redirect_to articles_path, notice: "Articolo eliminato" }
-        format.json { head :no_content }
+      else
+        format.html { redirect_to articles_path, status: 401 }
       end
     end
   end
@@ -130,7 +146,13 @@ class ArticlesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
-      @article = Article.find(params[:id])
+      begin
+        @article = Article.find(params[:id])
+      rescue
+        respond_to do |format|
+          format.html { render :template => '404', status: 404}
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.

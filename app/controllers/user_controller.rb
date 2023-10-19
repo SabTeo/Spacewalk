@@ -2,31 +2,37 @@ class UserController < ApplicationController
 
     def edit_profile
         @user = User.find(current_user.id)
-        if !can? :edit, @user then redirect_to  edit_user_registration_path end
-        if !params[:image].nil?
+        modified = false
+        if !can? :edit, @user
+            respond_to do |format|
+                format.html { redirect_to articles_url, status: 403 }
+            end
+            return
+        end
+        if !params[:image].nil?  and params[:image]!=current_user.image
             @user.image = params[:image]
             @user.save
+            modified = true
         end
         if !params[:username].nil? and params[:username]!=current_user.username
             @user.username = params[:username].strip
             @user.save
+            modified = true
         end
         notice = ''
-        if @user.errors.any? 
+        if @user.errors.any?
             @user.errors.full_messages.each do |message|
                 notice += message
             end
             respond_to do |format|
-                format.html { redirect_to edit_user_registration_url, status: :unprocessable_entity, notice: notice }
-                format.json { render :template => 'users/registrations/edit', json: @user.errors, status: :unprocessable_entity }
+                format.html { redirect_to edit_user_registration_url, notice: notice }
             end
-            return
+        else
+            if modified then notice = 'modifica avvenuta con successo' end
+            respond_to do |format|
+                format.html { redirect_to edit_user_registration_url, notice: notice}
+            end
         end
-        respond_to do |format|
-            format.html { redirect_to edit_user_registration_url, notice: notice}
-            format.json { render :template => 'users/registrations/edit', status: :ok, location: edit_user_registration }
-        end
-
     end
 
 

@@ -2,6 +2,9 @@ class Article < ActiveRecord::Base
     has_many :comments
     belongs_to :user, optional: true
     validates :title, uniqueness: true
+    validates :title, presence: true
+    validates :body, presence: true
+    validate :params_valid
     
 
     def self.get_supported_languages()
@@ -54,5 +57,12 @@ class Article < ActiveRecord::Base
           #flash[:notice] = 'not updated'
         end
     end
+
+    private 
+     def params_valid
+        if title.strip == "" or body.strip == ""
+            errors.add :article, "invalid"
+        end
+     end
   
 end

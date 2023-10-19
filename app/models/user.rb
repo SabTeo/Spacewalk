@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :proposals
   validates :username, uniqueness: true
   validate :username_length
+  validate :profile_picture_valid
   validate :password_complexity
 
   # Include default devise modules. Others available are:
@@ -46,9 +47,19 @@ class User < ApplicationRecord
     end
   end
 
+  def profile_picture_valid
+      if image.blob.byte_size > 1000000 #3Mbyte
+        errors.add :image, "l'immagine supera la dimensione massima consentita"
+        image.delete
+      elsif !image.blob.image?
+        errors.add :image, "l'immagine è in un formato non supportato"
+        image.delete
+      end
+  end
+
   def username_length
-    if username.strip.length<4 or username.strip.length>10
-      errors.add :username, "l'username deve contenere almeno 4 caratteri"
+    if username.strip.length<4 or username.strip.length>15
+      errors.add :username, "l'username deve contenere tra 4 e 15 caratteri"
     end
   end
 

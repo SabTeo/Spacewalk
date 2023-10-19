@@ -3,9 +3,15 @@ class CommentsController < ApplicationController
 
   # GET /comments or /comments.json
   def index
-    @comments = Comment.where(article: params[:id])
-    @comments = @comments.order(published_at: :asc)
-    @art_id = params[:id]
+    if Article.exists?(id: params[:id])
+      @comments = Comment.where(article: params[:id])
+      @comments = @comments.order(published_at: :asc)
+      @art_id = params[:id]
+    else  
+      respond_to do |format|
+        format.html { render :template => '404', status: 404}
+      end
+    end
   end
 
   # GET /comments/1 or /comments/1.json
@@ -27,69 +33,71 @@ class CommentsController < ApplicationController
       redirect_to new_user_session_path, notice: 'devi essere loggato'
       return 
     end
-    if params[:text] == ''
-      redirect_to comments_path(params[:art_id])
+    if params[:text].strip == ''
+      respond_to do |format|
+        flash[:notice]="Non può essere vuoto"
+        format.html { redirect_to comments_path(params[:art_id]), status: 400 }
+      end
     else
       c = Comment.new({:user => @current_user, :text => params[:text].strip, :published_at => DateTime.now,
           :article => Article.find_by(id: params[:art_id])})
-      if c.save
-        respond_to do |format|
-          format.html { redirect_to comments_path(params[:art_id]), notice: "" }
-          format.json { redirect_to comments_path(params[:art_id]), status: :created, location: c }
-        end
-        return
-      else
-        #redirect_to comments_path(params[:art_id]), notice: ""
-        respond_to do |format|
-          format.html { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
-          format.json { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
+      respond_to do |format|
+        if c.save
+          format.html { redirect_to comments_path(params[:art_id]) }
+        else
+          format.html { redirect_to comments_path(params[:art_id]), status: 500, notice: "Errore durante la creazione" }
         end
       end
     end
+
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
     t = params[:newtext].strip
-    if t == ''
-      redirect_to comments_path(params[:art_id])
-      return
-    end
     c = Comment.find(params[:id])
-    if c!=nil and can?(:edit, c)==true
-      c.text = t
-      if c.save
-        respond_to do |format|
+    respond_to do |format|
+      if t == ''
+        flash[:notice]="Non può essere vuoto"
+        format.html { redirect_to comments_path(params[:art_id]), status: 400 }
+      elsif can? :edit, c
+        c.text = t
+        if c.save
           format.html { redirect_to comments_path(params[:art_id]), notice: "Commento modificato" }
-          format.json { redirect_to comments_path(params[:art_id]), status: :ok, location: comments_path(params[:art_id]) }
+        else
+          format.html { redirect_to comments_path(params[:art_id]), status: 500, notice: "Errore durante la modifica" }
         end
-        return
+      else
+        format.html { redirect_to comments_path(params[:art_id]), status: 401 }
       end
     end
-    #redirect_to comments_path(params[:art_id]), notice: "" 
-    respond_to do |format|
-      format.html { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
-      format.json { redirect_to comments_path(params[:art_id]), status: :unprocessable_entity }
-    end
+
   end
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
     comment = Comment.find(params[:id])
-    if can? :delete, comment
-      comment.destroy
-    #  redirect_to comments_path(params[:art_id]), notice: ""
-    end
     respond_to do |format|
-      format.html { redirect_to comments_url(params[:art_id]), notice: "" }
-      format.json { head :no_content }
+      if can? :delete, comment
+        comment.destroy
+        format.html { redirect_to comments_url(params[:art_id]), notice: "Commento eliminato" }
+      else
+        format.html { redirect_to comments_url(params[:art_id]), status: 401 }
+      end
     end
+
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
-      @comment = Comment.find(params[:id])
+      begin
+        @comment = Comment.find(params[:id])
+      rescue
+        respond_to do |format|
+          format.html { render :template => '404', status: 404}
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.

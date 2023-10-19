@@ -53,5 +53,9 @@
 
 <br>
 <div class="index">
-  <%== pagy_nav(@pagy) %>
+  <% if @articles.count == 0 %>
+    <%= 'Nessun articolo trovato' %> 
+  <% else %>
+    <%== pagy_nav(@pagy) %>
+  <%end%>
 </div>

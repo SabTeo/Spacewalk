@@ -1,8 +1,7 @@
 class PagesController < ApplicationController
-    #controller per pagina lanci, login, logout, signup
     def launches
         @display = []
-        #begin
+        begin
             uri = URI('https://fdo.rocketlaunch.live/json/launches/next/5')
             response_string = Net::HTTP.get(uri)
             response = JSON.parse(response_string)
@@ -15,9 +14,15 @@ class PagesController < ApplicationController
                                 date: Time.at(launch['sort_date'].to_i).to_datetime, 
                                 agency: launch.dig('provider', 'name') })
             end
-        #rescue
-        #    flash[:notice] = 'Servizio non disponibile'
-        #end
+        rescue
+            flash[:notice] = 'Servizio non disponibile'
+        end
+    end
+
+    def not_found
+        respond_to do |format|
+            format.html { render :template => '404', status: 404 }
+        end
     end
 
     

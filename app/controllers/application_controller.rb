@@ -1,12 +1,28 @@
 class ApplicationController < ActionController::Base
+    #rescue_from Exception, with: :display_500
+    rescue_from ::ActionController::InvalidAuthenticityToken, with: :redirect_home
     after_action :check_for_redirect
 
-    #before_action :set_locale
-
-    #def set_locale
-    #    I18n.locale = :it
-    #end
+    def not_found_method
+        respond_to do |format|
+            format.html { render :template => '404', status: 404 }
+        end
+    end
+    
     private
+    def redirect_home
+        respond_to do |format|
+            format.html { redirect_to articles_path, status: 401, notice: 'Qualcosa non ha funzionato' }
+        end
+        check_for_redirect
+    end
+
+    def display_500
+        respond_to do |format|
+            format.html { render :template => '500', status: 500 }
+        end
+    end
+
     #auto redirect per risposte diverse da 3xx
     def check_for_redirect
         if response.body.include? "You are being"
@@ -20,4 +36,5 @@ class ApplicationController < ActionController::Base
                         </noscript>"           
         end
     end
+
 end

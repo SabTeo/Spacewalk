@@ -31,5 +31,10 @@ Rails.application.routes.draw do
   post '/user/:id/edit', to: 'user#edit_profile', as: 'edit_profile'
 
 
+  #DECOMMENTARE PER VEDERE PAGINA 404 AL POSTO DI ROUTING ERROR 
+  #Rails.application.routes.draw do
+  #  match '*unmatched', to: 'pages#not_found', via: :all
+  #end
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
