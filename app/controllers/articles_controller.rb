@@ -91,14 +91,16 @@ class ArticlesController < ApplicationController
   # POST /articles or /articles.json
   def create
     @article = Article.new(params.require(:article).permit(:title, :img_url, :body, :updated_at, :created_at, :published_at, :author_id))
-    if @article.save and can?(:create, Article)
-      format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
-      format.json { render :show, status: :created, location: articles_path}
-    else
-      flash.now[:error] = "Article creation failed"
-      redirect_to new_article_path
-      format.html { render :new, status: :unprocessable_entity }
-      format.json { render json: @article.errors, status: :unprocessable_entity }
+
+    respond_to do |format|
+      if @article.save and can?(:create, Article)
+        format.html { redirect_to article_url(@article), notice: "Article was successfully created." }
+        format.json { render :show, status: :created, location: articles_path}
+      else
+        flash.now[:error] = "Article creation failed"
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @article.errors, status: :unprocessable_entity }
+      end
     end
   end
 

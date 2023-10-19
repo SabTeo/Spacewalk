@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_10_17_161351) do
+ActiveRecord::Schema.define(version: 2023_10_19_173900) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2023_10_17_161351) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
+    t.integer "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
@@ -67,10 +67,12 @@ ActiveRecord::Schema.define(version: 2023_10_17_161351) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "admin_id"
-    t.integer "proposal_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "admin_id"
+    t.integer "proposal_id"
+    t.index ["admin_id"], name: "index_notifications_on_admin_id"
+    t.index ["proposal_id"], name: "index_notifications_on_proposal_id"
   end
 
   create_table "proposals", force: :cascade do |t|
@@ -129,4 +131,6 @@ ActiveRecord::Schema.define(version: 2023_10_17_161351) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "articles", "users", column: "author_id"
+  add_foreign_key "notifications", "proposals"
+  add_foreign_key "notifications", "users", column: "admin_id"
 end

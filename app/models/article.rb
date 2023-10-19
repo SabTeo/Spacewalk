@@ -2,6 +2,14 @@ class Article < ActiveRecord::Base
     has_many :comments
     belongs_to :user, optional: true
     validates :title, uniqueness: true
+
+    validates_length_of :title, :maximum => 20, :message => "Massimo 20 caratteri per il titolo"
+    validates :body, presence: true
+    validates :img_url,
+            format: {
+              with: URI.regexp(%w[http https]),
+              message: "L'URL dell'immagine non è valido"
+            }
     
 
     def self.get_supported_languages()

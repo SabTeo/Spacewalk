@@ -15,11 +15,13 @@ class ProposalsController < ApplicationController
 
   # GET /proposals/1 or /proposals/1.json
   def show
-    notification = Notification.where(proposal_id: @proposal.id,admin_id: current_user.id).first
+    notification = Notification.where(proposal: @proposal, admin: current_user).first
     if !notification.nil? 
       notification.destroy 
     end
     @proposal = Proposal.find(params[:id])
+    
+
   end
 
   # GET /proposals/new
@@ -40,16 +42,18 @@ class ProposalsController < ApplicationController
     @proposal.submittes_at = DateTime.new
     @proposal.status = 0
     @proposal.user = current_user
-    if @proposal.save
-      admin_list = User.with_role :admin
-      admin_list.each do |admin|
-        note = Notification.new(admin_id: admin.id, proposal_id: @proposal.id)
-        note.save
+    respond_to do |format|
+      if @proposal.save
+        admin_list = User.with_role :admin
+        admin_list.each do |user|
+          note = Notification.new(proposal: @proposal, admin: user)
+          note.save
+        end
+        redirect_to proposals_path, notice: "La proposta è stata creata con successo"
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @proposal.errors, status: :unprocessable_entity }
       end
-      redirect_to proposals_path, notice: "La proposta è stata creata con successo"
-    else
-      flash.now[:error] = "La creazione della proposta è fallita."
-      redirect_to new_proposal_path
     end
 =begin
     respond_to do |format|
@@ -78,7 +82,6 @@ class ProposalsController < ApplicationController
               :updated_at =>@proposal.updated_at}]
 
       Article.create(article)
-      delete_notifications
       @proposal.destroy
       redirect_to proposals_path, notice: "L'articolo è stato pubblicato"
     else
@@ -98,7 +101,6 @@ class ProposalsController < ApplicationController
     @proposal = Proposal.find(params[:id])
     if can? :delete, @proposal
       
-      delete_notifications
 
       @proposal.destroy
       respond_to do |format|

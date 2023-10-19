@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :articles
   has_many :proposals
+  has_many :notifications
   validates :username, uniqueness: true
   validate :username_length
   validate :password_complexity
