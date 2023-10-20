@@ -36,8 +36,9 @@ class Ability
       can :update, Proposal                   #aggiornare le proposte
       can :delete, Comment                    #cancellare tutti i commenti
       can :delete, Article, ext_id: nil       #cancellare gli articoli interni
+      can :read, Proposal, status: 0           #visualizzare tutte le proposte in attesa
     elsif user.has_role? :user
-      can :create, Proposal                   #create proposte
+      can :create, Proposal                   #creare proposte
       can :read, Proposal, user_id: user.id   #leggere le modifiche alle proprie proposte
       can :delete, Proposal, user_id: user.id #eliminare le proprie proposte
           

@@ -1,8 +1,11 @@
+<head>
+  <%= javascript_pack_tag 'comments' %>
+</head>
 <%= form_with(model: article) do |form| %>
 
   <div>
     <%= form.label :Title %><br>
-    <%= form.text_field :title %>
+    <%= form.text_field :title , :size=>40 %>
   </div>
 
   <div>
@@ -26,3 +29,10 @@
     <%= form.submit %>
   </div>
 <% end %>
+<%= javascript_tag '
+  $("textarea").each(function () {
+    this.setAttribute("style", "resize: none; height: 1.1rem; removerflow-y:hidden;");
+  }).on("input", function () {
+    this.style.height = 0;
+    this.style.height = (this.scrollHeight) + "px";
+  });'%>

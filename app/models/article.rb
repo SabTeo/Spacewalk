@@ -3,8 +3,12 @@ class Article < ActiveRecord::Base
     belongs_to :user, optional: true
     validates :title, uniqueness: true
     validates :title, presence: true
-    validates :body, presence: true
     validate :params_valid
+    #validates :img_url,
+    #        format: {
+    #          with: URI.regexp(%w[http https]),
+    #          message: "L'URL dell'immagine non è valido"
+    #        }
     
 
     def self.get_supported_languages()
@@ -59,10 +63,12 @@ class Article < ActiveRecord::Base
     end
 
     private 
-     def params_valid
-        if title.strip == "" or body.strip == ""
-            errors.add :article, "invalid"
+    def params_valid
+        if !ext_id.present?        #gli articoli interni devono avere body
+            if body.strip == ""
+                errors.add :article, 'invalid'
+            end
         end
-     end
+    end
   
 end

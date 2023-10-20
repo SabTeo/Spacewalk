@@ -35,8 +35,7 @@ class CommentsController < ApplicationController
     end
     if params[:text].strip == ''
       respond_to do |format|
-        flash[:notice]="Non può essere vuoto"
-        format.html { redirect_to comments_path(params[:art_id]), status: 400 }
+        format.html { redirect_to comments_path(params[:art_id]), notice: "Non può essere vuoto"}
       end
     else
       c = Comment.new({:user => @current_user, :text => params[:text].strip, :published_at => DateTime.now,
@@ -58,8 +57,7 @@ class CommentsController < ApplicationController
     c = Comment.find(params[:id])
     respond_to do |format|
       if t == ''
-        flash[:notice]="Non può essere vuoto"
-        format.html { redirect_to comments_path(params[:art_id]), status: 400 }
+        format.html { redirect_to comments_path(params[:art_id]), notice: "Non può essere vuoto"}
       elsif can? :edit, c
         c.text = t
         if c.save

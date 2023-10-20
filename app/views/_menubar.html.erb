@@ -9,7 +9,7 @@
     
     <div class="top_item">
     <%= if can? :create, Article 
-        link_to Notification.where(admin_id: current_user.id).count, proposals_path
+        link_to Notification.where(admin: current_user).count, proposals_path
     end %>
     </div>
 </div>

@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :articles
   has_many :proposals
+  has_many :notifications
   validates :username, uniqueness: true
   validate :username_length
   validate :profile_picture_valid
@@ -48,6 +49,7 @@ class User < ApplicationRecord
   end
 
   def profile_picture_valid
+    if image.present?
       if image.blob.byte_size > 1000000 #3Mbyte
         errors.add :image, "l'immagine supera la dimensione massima consentita"
         image.delete
@@ -55,11 +57,14 @@ class User < ApplicationRecord
         errors.add :image, "l'immagine è in un formato non supportato"
         image.delete
       end
+    end
   end
 
   def username_length
-    if username.strip.length<4 or username.strip.length>15
-      errors.add :username, "l'username deve contenere tra 4 e 15 caratteri"
+    if !provider.present?
+      if username.strip.length<4 or username.strip.length>15
+        errors.add :username, "l'username deve contenere tra 4 e 15 caratteri"
+      end
     end
   end
 

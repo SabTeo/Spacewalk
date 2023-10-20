@@ -23,8 +23,13 @@ while !done
             if art.save
                 count += 1
             end
+            if art.errors.any?
+                art.errors.full_messages.each do |msg|
+                    puts(msg)
+                end
+            end
         end   
     end
     uri = URI(response['next'])
 end
-puts("inserted #{count} articles")
+puts("inserted #{count} articles at " + DateTime.now.to_s)

@@ -92,9 +92,7 @@ class ArticlesController < ApplicationController
   def new
     @article = Article.new
     if !can?(:create, Article)
-      respond_to do |format|
-        format.html { redirect_to articles_url, status: 403 }
-      end
+      redirect_to articles_path
     end
   end
 
@@ -112,7 +110,7 @@ class ArticlesController < ApplicationController
         format.html { redirect_to article_url(@article), notice: "Articolo pubblicato con successo" }
       else
         flash[:notice]="Pubblicazione fallita, titolo o contenuto non validi"
-        format.html { render :new, status: 400 }
+        format.html { render :new, status: 422 }
       end
     end
   end

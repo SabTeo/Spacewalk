@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
     #rescue_from Exception, with: :display_500
     rescue_from ::ActionController::InvalidAuthenticityToken, with: :redirect_home
-    after_action :check_for_redirect
+    #after_action :check_for_redirect
 
     def not_found_method
         respond_to do |format|
@@ -12,9 +12,8 @@ class ApplicationController < ActionController::Base
     private
     def redirect_home
         respond_to do |format|
-            format.html { redirect_to articles_path, status: 401, notice: 'Qualcosa non ha funzionato' }
+            format.html { redirect_to articles_path, notice: 'Qualcosa non ha funzionato' }
         end
-        check_for_redirect
     end
 
     def display_500
