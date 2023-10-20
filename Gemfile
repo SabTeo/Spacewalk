@@ -71,3 +71,10 @@ gem 'omniauth-rails_csrf_protection'
 gem 'certified'
 
 gem "letter_opener"
+
+group :test do
+  gem 'rspec-rails'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'launchy'
+end

@@ -2,10 +2,14 @@
     <%= javascript_pack_tag 'articles.js' %>
     <%= stylesheet_link_tag 'main.css'%>
 </head>
+<%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
 <h1>New Proposal</h1>
 
+<div class="notice">
+  <p id="notice"><%= notice %></p>
+</div>
 
 <%= render 'form', proposal: @proposal %>
 

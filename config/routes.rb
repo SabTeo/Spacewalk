@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 #     resources :comments
 #  end
 
-  root 'articles#index'
+  root to: 'articles#index'
   get '/launches', to: 'pages#launches', as: 'launches'
   get '/articles', to: 'articles#index'
   get 'articles/new', to: 'articles#new', as: "new_article"

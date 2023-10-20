@@ -2,7 +2,7 @@ class Proposal < ActiveRecord::Base
     belongs_to :user
     has_many :notifications, dependent: :destroy
 
-    validates_length_of :title, :maximum => 20, :message => "Massimo 20 caratteri per il titolo"
+    validates :title, presence: true
     validates :body, presence: true
     #validates :img_url,
     #        format: {

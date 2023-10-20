@@ -33,7 +33,7 @@
   <% @articles.each do |article| %>
     <div class="art_prev">
       <div class="art_content">
-        <% if article.ext_id ==nil %>
+        <% if article.ext_id.nil? %>
           <%=  link_to article.title, article, {class: 'link art_title'} %>
           <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
         <% end %>

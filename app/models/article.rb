@@ -23,8 +23,8 @@ class Article < ActiveRecord::Base
         }
     end
 
-
-    #inserisce TUTTI gli articoli piu recenti nel database, eseguita non piu di una volta ogni 3 ore 
+    #non utilizzata
+    #inserisce TUTTI gli articoli piu recenti nel database, eseguita non piu di una volta ogni 3 ore
     def self.update_articles 
         if Rails.cache.read('up_to_date').nil?
             done = false

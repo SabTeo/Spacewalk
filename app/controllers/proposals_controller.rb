@@ -70,6 +70,7 @@ class ProposalsController < ApplicationController
       end
     else
       respond_to do |format|
+        flash[:notice]="Impossibile procedere"
         format.html { render :new, status: :unprocessable_entity }
       end
     end

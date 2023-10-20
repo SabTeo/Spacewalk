@@ -8,16 +8,17 @@ class User < ApplicationRecord
   validate :username_length
   validate :profile_picture_valid
   validate :password_complexity
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable, :confirmable,
         :omniauthable, :omniauth_providers => [:google_oauth2]
-  after_create :add_default_role
-  after_create :add_default_image
+  after_create :add_default_role, unless: :test_user
+  after_create :add_default_image, unless: :test_user
 
   has_one_attached :image
+
+  attr_accessor :test_user
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

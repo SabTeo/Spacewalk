@@ -7,3 +7,5 @@ nel file application.js in app/javascript/packs
 Viene gestito da Devise, bisogna aggiornare il modello user come "confirmable" vedi doc.
 
 >Avvio funzioni schedulate: whenever --update-crontab
+
+Test: user story 15
