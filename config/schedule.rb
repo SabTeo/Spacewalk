@@ -19,7 +19,7 @@
 
 set :output, "/home/matteo/Lab/Spacewalk/log/cron.log"
 every 1.hours do
-    runner 'retrieve_new_articles.rb', environment: "development"
+    runner 'lib/retrieve_new_articles.rb', environment: "development"
 end
 
 # Learn more: http://github.com/javan/whenever

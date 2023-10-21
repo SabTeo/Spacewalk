@@ -1,0 +1,14 @@
+Articolo interno:
+  id: 1
+  title: Apertura Sito 
+  body: Benvenuti su Spacewalk
+  author_id: 1
+  published_at: 2023-10-21 16:37:20.900993107 +0200
+
+Articolo esterno:
+  id: 2
+  title: Yeet 
+  img_url: https://m.media-amazon.com/images/I/51WaOZKYbbL.__AC_SX300_SY300_QL70_FMwebp_.jpg
+  ext_id: 1
+  url: https://www.ansa.it/
+  published_at: 2023-10-21 16:37:20.900993107 +0200

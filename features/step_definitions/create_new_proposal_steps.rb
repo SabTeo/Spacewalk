@@ -1,9 +1,8 @@
 Given('I am logged in as a user') do
-    Article.delete_all
-    User.delete_all
+    #Article.delete_all
     user = User.new({email: 'user@mail.com',username: 'Utente', password: 'Passw0rd1!', password_confirmation: 'Passw0rd1!'})
     user.test_user = true
-    user.save(validate: false)
+    user.save
     user.add_role(:user)
     visit new_user_session_path
     fill_in "Email", with: "user@mail.com"
@@ -35,6 +34,6 @@ When('I fill in the fields for proposal with blank title') do
     fill_in "proposal_body", with: "..."
 end
 
-Then('the proposal is not created') do 
+Then('the proposal is not created and I see an error') do 
     expect(page).to have_text('Impossibile')
 end

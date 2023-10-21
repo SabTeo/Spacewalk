@@ -24,4 +24,4 @@ Feature: Create new proposal
         Then I am on the page to create proposals
         When I fill in the fields for proposal with blank title
         And I click on button "Create Proposal"     
-        Then the proposal is not created
+        Then the proposal is not created and I see an error

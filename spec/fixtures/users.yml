@@ -1,0 +1,9 @@
+Admin:
+  id: 1
+  username: admin
+  email: email1
+
+User:
+  id: 2
+  username: user
+  email: email2

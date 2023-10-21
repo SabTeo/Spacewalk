@@ -21,4 +21,4 @@ Feature: Create new article
         Then I am on the page to create a new article  
         When I fill in the fields for article with title "Titolo"
         And I click on button "Create Article"     
-        Then the article is not published
+        Then the article is not published and I see an error

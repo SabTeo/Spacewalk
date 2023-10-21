@@ -1,9 +1,8 @@
 Given('I am logged in as an admin') do
-  Article.delete_all
-  User.delete_all
+  #Article.delete_all
   user = User.new({email: 'admin@mail.com',username: 'Utente', password: 'Passw0rd1!', password_confirmation: 'Passw0rd1!'})
   user.test_user = true
-  user.save(validate: false)
+  user.save
   user.remove_role(:user)
   user.add_role(:admin)
   visit new_user_session_path
@@ -33,10 +32,8 @@ When('I fill in the fields for article') do
 end
 
 Then('the article is published') do
-  #visit articles_path
-  expect(page).to have_current_path('/articles/1')
-  #expect(page).to have_text('Titolo')
-  #expect(page).to have_text('Utente')
+  expect(page.current_path).to match(/\/articles\/\d/)
+  expect(page).to have_text('Titolo')
 end
 
 Given('an article with title {string} already exists') do |string|
@@ -49,7 +46,7 @@ When('I fill in the fields for article with title {string}') do |string|
   click_button "Create Article"
 end
 
-Then('the article is not published') do 
+Then('the article is not published and I see an error') do 
   expect(page).to have_text('fallita')
 end
   
