@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
+  fixtures :articles
 
   it 'has title' do
     art = Article.new(title: '', body: 'body')
@@ -18,9 +19,8 @@ RSpec.describe Article, type: :model do
   end
 
   it 'has a unique title' do
-    art =Article.create(title: 'Title',  body: 'body')
-    art2 = Article.new(title: 'Title', body: 'body2')
-    expect(art2).to_not be_valid
+    art = Article.new(title: 'Apertura Sito', body: 'Benvenuti su Spacewalk')
+    expect(art).to_not be_valid
   end
 
 end

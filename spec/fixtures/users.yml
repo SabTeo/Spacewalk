@@ -6,4 +6,9 @@ Admin:
 User:
   id: 2
   username: user
-  email: email2
+  email: email2@email.com
+
+Oauth_user:
+  id: 3
+  username: Matteo
+  email: matteo@prova.it

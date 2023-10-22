@@ -24,7 +24,12 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
-      user.username = auth.info.name
+      oauth_name =  auth.info.name
+      if  User.where(username: oauth_name).exists? 
+        user.username = oauth_name + Random.rand(1111...9999).to_s
+      else
+        user.username = oauth_name
+      end
     end
   end
 
@@ -51,7 +56,7 @@ class User < ApplicationRecord
 
   def profile_picture_valid
     if image.present?
-      if image.blob.byte_size > 1000000 #3Mbyte
+      if image.blob.byte_size > 2000000 #2Mbyte
         errors.add :image, "l'immagine supera la dimensione massima consentita"
         image.delete
       elsif !image.blob.image?

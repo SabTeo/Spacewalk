@@ -3,7 +3,6 @@ Given('I am logged in as an admin') do
   user = User.new({email: 'admin@mail.com',username: 'Utente', password: 'Passw0rd1!', password_confirmation: 'Passw0rd1!'})
   user.test_user = true
   user.save
-  user.remove_role(:user)
   user.add_role(:admin)
   visit new_user_session_path
   fill_in "Email", with: "admin@mail.com"
