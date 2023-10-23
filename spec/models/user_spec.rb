@@ -9,7 +9,6 @@ RSpec.describe User, type: :model do
                     password: 'Password1!',
                     password_confirmation: 'Password1!'})
     expect(user).to_not be_valid
-    #per utenti sso è garantito da Google
   end
 
   it "has an email address" do
@@ -18,7 +17,6 @@ RSpec.describe User, type: :model do
                     password: 'Password1!',
                     password_confirmation: 'Password1!'})
     expect(user).to_not be_valid
-    #per utenti sso è garantito da Google
   end
 
   it "has an email address that is valid" do 
@@ -37,7 +35,6 @@ RSpec.describe User, type: :model do
                     password: 'Password1!',
                     password_confirmation: 'Password1!'})
     expect(user).to be_valid
-    #per utenti sso è garantito da Google
   end
 
   it "can have a profile picture no larger than 2MB" do
@@ -45,7 +42,7 @@ RSpec.describe User, type: :model do
                     username: 'username',
                     password: 'Password1!',
                     password_confirmation: 'Password1!'})
-    user.image.attach(io:File.open(Rails.root.join('app','assets','images','astronave.jpeg')),
+    user.image.attach(io:File.open(Rails.root.join('spec','support','astronave.jpeg')),
                     filename:'astronave.jpeg',
                     content_type:'image/jpeg')
     expect(user).to be_valid
@@ -53,7 +50,7 @@ RSpec.describe User, type: :model do
                     username: 'username',
                     password: 'Password1!',
                     password_confirmation: 'Password1!'})
-    user.image.attach(io:File.open(Rails.root.join('app','assets','images','large_test_image.jpg')),
+    user.image.attach(io:File.open(Rails.root.join('spec','support','large_test_image.jpg')),
                     filename:'astronave.jpeg',
                     content_type:'image/jpeg')
     expect(user).to_not be_valid
@@ -64,7 +61,7 @@ RSpec.describe User, type: :model do
                     username: 'username',
                     password: 'Password1!',
                     password_confirmation: 'Password1!'})
-    user.image.attach(io:File.open(Rails.root.join('app','assets','images','not_an_image.c')),
+    user.image.attach(io:File.open(Rails.root.join('spec','support','not_an_image.c')),
                     filename:'astronave.jpeg',
                     content_type:'image/jpeg')
     expect(user).to be_valid
@@ -87,7 +84,7 @@ RSpec.describe User, type: :model do
                       password_confirmation: 'Password1!'})
       expect(user).to_not be_valid
       user = User.new({email: 'user@mail.com',
-                      username: 'user_name_estremamente_lungo',
+                      username: 'user_name_estremamente_lungoooooooooooo',
                       password: 'Password1!',
                       password_confirmation: 'Password1!'})
       expect(user).to_not be_valid
@@ -108,7 +105,7 @@ RSpec.describe User, type: :model do
 
   end
 
-  context "if signed in with an external provider" do
+  context "if using an external provider" do
 
     it "gets a unique username if signing up with an already existing username" do
       #stub
@@ -135,7 +132,6 @@ RSpec.describe User, type: :model do
       user = User.from_omniauth(auth)
       expect(user).to_not be_valid
     end
-  
 
   end
 

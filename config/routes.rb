@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-#  resources :articles
-#  resources :article do
-#     resources :comments
-#  end
 
   root to: 'articles#index'
   get '/launches', to: 'pages#launches', as: 'launches'
@@ -25,16 +21,12 @@ Rails.application.routes.draw do
   patch 'proposals/:id', to: 'proposals#update', as: 'update_proposal'
   delete '/proposals/:id', to: 'proposals#destroy', as: 'delete_proposal'
 
+  delete '/users', to: 'application#redirect_home' #override devise delete user
+
   devise_for :users, :controllers => { registrations: 'users/registrations', 
                                       omniauth_callbacks: "users/omniauth_callbacks"
                                      }
   post '/user/:id/edit', to: 'user#edit_profile', as: 'edit_profile'
-
-
-  #DECOMMENTARE PER VEDERE PAGINA 404 AL POSTO DI ROUTING ERROR 
-  #Rails.application.routes.draw do
-  #  match '*unmatched', to: 'pages#not_found', via: :all
-  #end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

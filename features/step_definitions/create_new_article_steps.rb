@@ -1,9 +1,7 @@
-Given('I am logged in as an admin') do
-  #Article.delete_all
+Given('I am logged in as {string}') do |role|
   user = User.new({email: 'admin@mail.com',username: 'Utente', password: 'Passw0rd1!', password_confirmation: 'Passw0rd1!'})
-  user.test_user = true
   user.save
-  user.add_role(:admin)
+  user.add_role(role)
   visit new_user_session_path
   fill_in "Email", with: "admin@mail.com"
   fill_in "Password", with: "Passw0rd1!"

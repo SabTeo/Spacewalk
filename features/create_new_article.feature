@@ -3,7 +3,7 @@ Feature: Create new article
 #Come utente adminCosì che io possa vedere un mio articolo pubblicato Io voglio scriverlo
 
     Background:
-        Given I am logged in as an admin
+        Given I am logged in as "admin"
         Given I am on the home page
 
     Scenario: Creazione e pubblicazione articolo (happy path)                      

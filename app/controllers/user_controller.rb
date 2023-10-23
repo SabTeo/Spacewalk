@@ -1,11 +1,23 @@
 class UserController < ApplicationController
 
     def edit_profile
-        @user = User.find(current_user.id)
+        if !signed_in?
+            respond_to do |format|
+                format.html { redirect_to articles_url, status: 401 }
+            end
+            return 
+        end
+        if !User.exists?(id: params[:id])
+            respond_to do |format|
+                format.html { redirect_to articles_url, status: 404 }
+            end
+            return
+        end
+        @user = User.find(params[:id])
         modified = false
         if !can? :edit, @user
             respond_to do |format|
-                format.html { redirect_to articles_url, status: 403 }
+                format.html { redirect_to articles_url, status: 401 }
             end
             return
         end
