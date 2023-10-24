@@ -96,7 +96,7 @@ RSpec.describe "Users", type: :request do
       post '/user/1/edit', :params => {"username"=>"user", "commit"=>"salva"}
       expect(response).to have_http_status(302)
       follow_redirect!
-      expect(response.body).to include('error')
+      expect(response.body).to include('present')
     end
 
     it "modifies profile pic if the attached picture is valid" do
@@ -115,7 +115,7 @@ RSpec.describe "Users", type: :request do
       post '/user/1/edit', :params => {"username"=>"admin2", "commit"=>"salva", "image"=>img}
       expect(response).to have_http_status(302)
       follow_redirect!
-      expect(response.body).to include('dimensione')
+      expect(response.body).to include('grande')
       expect(User.find(1).image.filename).not_to eq('large_test_image.jpg')
     end
 

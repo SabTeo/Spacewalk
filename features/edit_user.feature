@@ -24,7 +24,7 @@ Feature: Choose profile picture
         When I select an image to attach to the form that is larger than allowed
         And I click on button "salva"
         Then I am on the profile page
-        And I see "l'immagine supera la dimensione massima"
+        And I see "Immagine troppo grande"
         And I Should see my default profile picture
 
     Scenario: Viene selezionato un file non immagine (sad path)

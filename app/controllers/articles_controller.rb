@@ -65,6 +65,10 @@ class ArticlesController < ApplicationController
     @notice = "avvertenza: gli articoli sono tradotti automaticamente dall'italiano, potrebbero esserci errori"
 
     if params.key?(:lang)
+      if !@options.include?params[:lang]
+        redirect_to articles_path
+        return
+      end
       session[:lang] = params[:lang]
       @lang = params[:lang]
     else
@@ -81,8 +85,8 @@ class ArticlesController < ApplicationController
       I18n.locale = :en
       begin
         @notice, @title, @body = translate [@notice, @article.title, @article.body], languages[@lang]
-      rescue
-        @notice = 'We are sorry, the translation service is not available right now'
+      #rescue
+      #  @notice = 'We are sorry, the translation service for this language is not available right now'
       end
     end
     

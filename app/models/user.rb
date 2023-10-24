@@ -50,17 +50,17 @@ class User < ApplicationRecord
     if provider.present? then return end
     
     if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)./)
-      errors.add :password, "la password deve contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale."
+      errors.add :password, "deve contenere almeno una lettera maiuscola, una minuscola, un numero e un carattere speciale."
     end
   end
 
   def profile_picture_valid
     if image.present?
       if image.blob.byte_size > 2000000 #2Mbyte
-        errors.add :image, "l'immagine supera la dimensione massima consentita"
+        errors.add :Immagine, "troppo grande"
         image.delete
       elsif !image.blob.image?
-        errors.add :image, "l'immagine è in un formato non supportato"
+        errors.add :Immagine, "in un formato non supportato"
         image.delete
       end
     end
@@ -69,7 +69,7 @@ class User < ApplicationRecord
   def username_length
     if !provider.present?
       if username.strip.length<4 or username.strip.length>30
-        errors.add :username, "l'username deve contenere tra 4 e 30 caratteri"
+        errors.add :username, "deve contenere tra 4 e 30 caratteri"
       end
     end
   end
