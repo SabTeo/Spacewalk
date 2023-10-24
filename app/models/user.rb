@@ -82,4 +82,12 @@ class User < ApplicationRecord
     recoverable
   end
 
+  def send_reset_password_instructions
+    if provider.present? 
+      errors.add :password, "non è consentito cambiare la password per gli account autenticati con google"
+      return false 
+    end
+    super
+  end
+
 end
