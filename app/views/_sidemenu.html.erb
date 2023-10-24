@@ -1,30 +1,46 @@
-<div class="sidemenu">
-    <div class="menu-content">
-        <% if user_signed_in? %>
-            <%= link_to 'Edit Profile',edit_user_registration_path, method: :get%>
-            <%= button_to 'Logout',destroy_user_session_path, :method => :delete%>
-        <% end %>
-        <% if !(user_signed_in?) %>
-            <%= link_to 'Log in', new_user_session_path, method: :get%>
-            <%= link_to 'Sign up',new_user_registration_path, method: :get%>
-        <% end %>
-        <br><br>
-        <% if user_signed_in? %>
-        <%= if current_user.has_role? :admin 
-            link_to 'Pubblica un articolo', new_article_path 
-        end %>
-        <%= if current_user.has_role? :admin 
-            link_to 'Proposte da utenti', proposals_path
-        end %>
-        <%= if current_user.has_role? :admin 
-            Proposal.where.not(status:1).count
-        end %>
-        <%= if current_user.has_role? :user
-            link_to 'Proponi', proposals_path
-        end %>
-        <% end %>
-        
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+    <div class="offcanvas-header">
+        <h6 class="offcanvas-title d-none d-sm-block" id="offcanvas">Menu</h6>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body px-0">
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
+            
+            <% if user_signed_in? %>
+            <li class="nav-item">
+                <%= link_to 'Edit Profile',edit_user_registration_path, method: :get, class: "nav-link text-truncate"%>
+            </li>
+            <li class="nav-item">
+                <%= link_to 'Logout',destroy_user_session_path, :method => :delete, class: "nav-link text-truncate"%>
+            </li>
+
+            <hr class="row">
+
+                <% if current_user.has_role? :admin %>
+                <li class="nav-item">
+                    <%= link_to 'Pubblica un articolo', new_article_path, class: "nav-link text-truncate" %>
+                </li>
+                <li class="nav-item">
+                    <%= link_to 'Proposte da utenti', proposals_path, class: "nav-link text-truncate"%>
+                </li>
+                <% end %>
+
+                <% if current_user.has_role? :user %>
+                <li class="nav-item">
+                    <%= link_to 'Proponi', proposals_path, class: "nav-link text-truncate" %>
+                </li>
+                <% end %>
+
+            <% end %>
+
+            <% if !(user_signed_in?) %>
+            <li class="nav-item">
+                <%= link_to 'Log in', new_user_session_path, method: :get, class: "nav-link text-truncate"%>
+            </li>  
+            <li class="nav-item">
+                <%= link_to 'Sign up',new_user_registration_path, method: :get, class: "nav-link text-truncate"%>
+            </li>
+            <% end %>
+        </ul>
     </div>
 </div>
-
-<%= javascript_tag "$(window).on('scroll', ()=>{$('.sidemenu').removeClass('visible')})" %>

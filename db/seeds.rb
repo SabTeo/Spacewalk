@@ -6,21 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Role.create(name: 'user')
-Role.create(name: 'admin')
-
 #mock user
-=begin
-user_example = [
-    {:username => 'Utente normale', :email => 'user@mail.com',  :password => 'validpass',
-        :password_confirmation => 'validpass'},
-    {:username => 'utente Admin', :email => 'admin@mail.com',  :password => 'password',
-        :password_confirmation => 'password'}
-    ]
 
-user_example.each do |user|
-    User.create(user)
-end
 
 User.new({email: 'user@mail.com',username: 'Utente 1', password: 'password', password_confirmation: 'password'}).save(validate:false)
 User.new({email: 'admin1@mail.com',username: 'Admin 1' , password: 'password', password_confirmation: 'password'}).save(validate:false)
@@ -63,5 +50,4 @@ local_articles = [{:title => "Apertura Sito",
 local_articles.each do |art|
     Article.create(art)
 end
-=end
 

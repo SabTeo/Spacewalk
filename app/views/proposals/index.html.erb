@@ -4,51 +4,71 @@
 </head>
 <%= render '/sidemenu' %>
 <%= render '/menubar' %>
-<p id="notice"><%= notice %></p>
+<div class="container">
 <h1>Proposte</h1>
 
 <p> <%= if (@proposals.empty?)==true then 'Non ci sono proposte' end %> </p>
 
-<div class="artcontainer">
-  <% @proposals.each do |proposal| %>
-    <div class="art_prev">
-      <div class="art_content">
-        <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
-        <% if can? :update, Proposal %>
-          <p class="art_src"> Article by: <%= proposal.user.username %></p> 
-        <%end %>
-        <% if can? :delete, proposal %>
-          <p class="art_src"> Status: <%= proposal.status %></p> 
-          <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments %>
-        <%end %>
 
+  <div class="artcontainer">
+  <% @proposals.each do |proposal| %>
+
+    <div class="container">
+    <div class="art_preview d-md-flex align-items-center justify-content-between">
+      <div class=" box-a d-flex flex-column h-100">
+        <div class="mt-4 mx-3">
+          <%= link_to proposal.title, proposal, {class: 'mb-1 h-1 link'}%>
+          <% if can? :update, Proposal %>
+            <p > Article by: <%= proposal.user.username %></p> 
+          <%end %>
+          <% if can? :delete, proposal %>
+            <p > Status: <%= proposal.status %></p> 
+            <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: "btn btn-primary" %>
+          <%end %>
+        </div>
       </div>
-      <img src=<%= proposal.img_url%>>
+      <div class="box-i mt-md-0 mt-5">
+
+      <img src=<%= proposal.img_url=='' ? '/assets/images/def1.jpg':proposal.img_url %>>
+      </div>
+
+    </div>
     </div>
   <% end %>
 </div>
 
 <% if can? :create, Proposal %>
-  <%= link_to "Nuovo articolo", new_proposal_path %>
+  <%= link_to "Nuovo articolo", new_proposal_path, {class: 'link'} %>
   <hr class="row">
   <h2>Le proposte rifiutate</h2>
 
   <p> <%= if (@rejected_proposals.empty?)==true then 'Non hai articoli pubblicati' end %> </p>
 
-  <div class="artcontainer">
-  <% @rejected_proposals.each do |proposal| %>
-  <div class="art_prev">
-      <div class="art_content">
-        
-        <%= link_to proposal.title, proposal, {class: 'link art_title'}%>
-        <%= if can? :delete, proposal
-          link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: :linkto_comments
-        end %>
+
+    <div class="artcontainer">
+    <% @rejected_proposals.each do |proposal| %>
+  
+      <div class="container">
+      <div class="art_preview d-md-flex align-items-center justify-content-between">
+        <div class=" box-a d-flex flex-column h-100">
+          <div class="mt-4 mx-3">
+            <%= link_to proposal.title, proposal, {class: 'mb-1 h-1 link'}%>
+            <% if can? :delete, proposal %>
+              <p > Status: <%= proposal.status %></p> 
+              <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: "btn btn-primary" %>
+            <%end %>
+          </div>
         </div>
-        <img src=<%= proposal.img_url%>>
+        <div class="box-i mt-md-0 mt-5">
+  
+        <img src=<%= proposal.img_url=='' ? '/assets/images/def1.jpg':proposal.img_url %>>
+        </div>
+  
+      </div>
       </div>
     <% end %>
   </div>
-<% end %>
+  <% end %>
+<%= link_to "Indietro", articles_path, {class: 'link'}%>
 
-<%= link_to "Indietro", articles_path%>
+</div>

@@ -6,55 +6,86 @@
 <%= render '/menubar' %>
 
 <p id="notice"><%= notice %></p>
+<div class="container">
 
-<h1>Comments</h1>
+<h1>Commenti</h1>
 
-<div class="input_bar">
-  <%= form_with url: new_comment_path(@art_id), method: :post, :id => 'input_form' do |form| %>
-    <%= form.hidden_field :art_id, :value => @art_id  %>
-    <%= form.label :text, 'Aggiungi un commento' %>
-    <%= form.text_area :text %>
-    <%= form.submit "pubblica", id: "submit_btn" %>
-  <% end %>
+<div class="card p-3 mb-5">
+<%= form_with url: new_comment_path(@art_id), method: :post, :id => 'input_form' do |form| %>
+<div class="mt-1 d-flex flex-row">
+    
+      <%= form.hidden_field :art_id, :value => @art_id  %>
+      <%= form.text_area :text, class: "form-control", placeholder: 'Scrivi qui un commento...'%>
+      <%= form.submit "pubblica", id: "submit_btn",class: "btn btn-primary my-auto"%>
+    
 </div>
-<hr class="row">
-<% @comments.each do |comment| %>
-  <div class="comment">
-    <div class="comment_top">
-      <% u = User.find(comment.user.id) %>
-        <% if u.image.attached? %>
-        <%=  image_tag(u.image, style:" display:inline-block;
-                                        height:50px;
-                                        width:50px;
-                                        object-fit:cover;
-                                        border-radius:50%;
-                                        ") %>
-      <% end %>
-      <p class=<%= u==current_user ? "own":"" %>><b><%= u.username %></b></p>
-      <% if can? :edit, comment %>
-        <button class="button_t" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</button>
-        <button id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</button>
-      <% end %>
-      <% if can? :delete, comment %>
-        <%= button_to 'elimina', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)' } %>
-      <% end %>
-    </div>
-    <br>
-    <p id=<%= "p"+comment.id.to_s %> class="comment_body"><%==h(comment.text).gsub(/\n/, '<br/>')%></p>
-    <!-- Embedded form for 'modifica' -->
-    <% if can? :edit, comment %>
-      <%= form_with url: edit_comment_path(art_id: @art_id, id: comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden edit_box' do |form| %>
-        <%= form.hidden_field :art_id, :value => @art_id  %>
-        <%= form.text_area :newtext, {id: 'text'+comment.id.to_s, class: ''} %>
-        <%= form.submit "salva", {id: "save_btn"} %>
-      <% end %>
-    <% end %>
-  </div>
 <% end %>
+</div>
+
+
 <p> <%= if (@comments.empty?)==true then 'Ancora nessun commento' end %> </p>
 
 <br>
+
+
+<% @comments.each do |comment| %>
+  <% u = User.find(comment.user.id) %>
+  
+<div class="container mt-2">
+    <div class=" d-flex justify-content-center">
+        <div class="col-md-12">
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+              <div class="user d-flex flex-row align-items-center">
+              <% if u.image.attached? %>
+              <%=  image_tag(u.image, width:"30", class:"user-img rounded-circle mr-2") %>
+                <% end %>
+              
+                <span><small class=<%= u==current_user ? "own":"" %>><b><%= u.username %></b></small> 
+               
+                <small class="font-weight-bold" id=<%= "p"+comment.id.to_s %> class=""><%==h(comment.text).gsub(/\n/, '<br/>')%></small></span>
+                <!-- Embedded form for 'modifica' -->
+                <% if can? :edit, comment %>
+                  <%= form_with url: edit_comment_path(art_id: @art_id, id: comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden' do |form| %>
+                    <%= form.hidden_field :art_id, :value => @art_id  %>
+                    <%= form.text_area :newtext, {id: 'text'+comment.id.to_s, class: 'form-control'} %>
+                    <%= form.submit "salva", {id: "save_btn", class: "btn btn-primary"} %>
+                  <% end %>
+                <% end %>
+              </div>
+              </div>
+              <div class="action d-flex justify-content-between mt-2 align-items-center">
+                <div class="reply px-4">
+                  <% if can? :edit, comment %>
+                    <small class="" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</small>
+                    <small id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</small>
+                  <% end %>
+                  <span class="dots"></span>
+                  <% if can? :delete, comment %>
+                    <small>
+                    <%= link_to 'elimina', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)', class: :link} %>
+                    </small>
+                  <% end %>
+                  
+                    
+                   
+                </div>
+                <div class="icons align-items-center">
+                  <small><%=comment.published_at%></small>
+                </div>
+                  
+              </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<% end %>
+
 <%= link_to 'Indietro', articles_path(), class: :link %>
+</div >
 
 <%= javascript_tag '
   $("textarea").each(function () {

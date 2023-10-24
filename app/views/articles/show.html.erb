@@ -5,9 +5,8 @@
 <%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
-<p id="notice"><%= notice %></p>
-
-<div class="art_body">
+<div class="container">
+<div class="art_body mx-auto">
 
   <%= form_with url: @article, method: :get, id: 'filters' do |form| %>
     <%= form.label :lang, 'Seleziona lingua di lettura: '%>      
@@ -26,4 +25,5 @@
   <%= link_to 'Indietro', articles_path(), class: :link %>
   <%= link_to 'Commenti', comments_url(@article), class: :link %>
 
+</div>
 </div>

@@ -5,6 +5,8 @@
 
 <%= render '/sidemenu' %>
 <%= render '/menubar' %>
+
+<div class="container">
 <h1>Prossimi lanci</h1>
 <p id="notice"><%= notice %></p>
 <div class="launches_list">
@@ -21,6 +23,7 @@
         <% id+=1 %>
     <% end %>
 </div>
-<%= link_to 'Indietro', articles_path %>
+<%= link_to 'Indietro', articles_path, class: :link%>
+</div>
     
 <%= javascript_tag '$( document ).ready(timer())' %>

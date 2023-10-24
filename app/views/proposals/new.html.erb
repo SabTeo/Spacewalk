@@ -5,12 +5,10 @@
 <%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
+<div class="container card">
 <h1>New Proposal</h1>
 
-<div class="notice">
-  <p id="notice"><%= notice %></p>
+<%= render 'form', proposal: @proposal %>
+<%= link_to 'Back', proposals_path, class: :link%>
 </div>
 
-<%= render 'form', proposal: @proposal %>
-
-<%= link_to 'Back', proposals_path %>
