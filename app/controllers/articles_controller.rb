@@ -84,7 +84,7 @@ class ArticlesController < ApplicationController
     if @lang!='Italiano'
       I18n.locale = :en
       begin
-        @notice, @title, @body = translate [@notice, @article.title, @article.body], languages[@lang]
+        @notice, @title, @body = translate_alt [@notice, @article.title, @article.body], languages[@lang].downcase
       #rescue
       #  @notice = 'We are sorry, the translation service for this language is not available right now'
       end
@@ -179,6 +179,40 @@ class ArticlesController < ApplicationController
         res[1], res[2] = JSON.load(t_art)
       end
       return res
+    end
+
+    def translate_alt(array, lang)
+      url = URI("https://nlp-translation.p.rapidapi.com/v1/translate")
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      res = []
+      t_notice = Rails.cache.read('notice_'+lang)
+      if t_notice.nil?
+        res[0] = send_request http, url, array[0], lang
+        Rails.cache.write('notice_'+lang, res[0], expires_in: 1.day)
+      else
+        res[0] = t_notice
+      end
+      t_art = Rails.cache.read(array[1]+'_'+lang)
+      if t_art.nil?
+        res[1] = send_request http, url, array[1], lang
+        res[2] = send_request http, url, array[2], lang
+        Rails.cache.write(array[1]+'_'+lang, JSON.dump(res[1,2]), expires_in: 1.day)
+      else
+        res[1], res[2] = JSON.load(t_art)
+      end
+      return res
+
+    end
+
+    def send_request(http, url, text, lang)
+      request = Net::HTTP::Post.new(url)
+      request["content-type"] = 'application/x-www-form-urlencoded'
+      request["X-RapidAPI-Key"] = 'c1577ddec7mshce99693e3a421f4p1ec607jsnada0eead59e3'
+      request["X-RapidAPI-Host"] = 'nlp-translation.p.rapidapi.com'
+      request.body = {text: text, to: lang, from: 'it'}.to_query   #"text=Hello%20World&to=es&from=EN"
+      response = http.request(request)
+      return JSON.parse(response.read_body)["translated_text"][lang]
     end
 
 end
