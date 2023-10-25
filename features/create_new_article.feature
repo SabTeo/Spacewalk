@@ -11,7 +11,7 @@ Feature: Create new article
         And I click on link "Pubblica un articolo"                     
         Then I am on the page to create a new article  
         When I fill in the fields for article
-        And I click on button "Create Article"     
+        And I click on button "Pubblica"     
         Then the article is published
 
     Scenario: Creazione e pubblicazione articolo (sad path)         
@@ -20,5 +20,5 @@ Feature: Create new article
         And I click on link "Pubblica un articolo"                     
         Then I am on the page to create a new article  
         When I fill in the fields for article with title "Titolo"
-        And I click on button "Create Article"     
+        And I click on button "Pubblica"     
         Then the article is not published and I see an error

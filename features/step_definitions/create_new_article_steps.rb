@@ -3,8 +3,8 @@ Given('I am logged in as {string}') do |role|
   user.save
   user.add_role(role)
   visit new_user_session_path
-  fill_in "Email", with: "admin@mail.com"
-  fill_in "Password", with: "Passw0rd1!"
+  fill_in "EMAIL", with: "admin@mail.com"
+  fill_in "PASSWORD", with: "Passw0rd1!"
   click_button "Log in"  
 end
   
@@ -40,7 +40,6 @@ end
 When('I fill in the fields for article with title {string}') do |string|
   fill_in "article_title" , with: string
   fill_in "article_body", with: "..."
-  click_button "Create Article"
 end
 
 Then('the article is not published and I see an error') do 
