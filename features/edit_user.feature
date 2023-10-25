@@ -12,7 +12,7 @@ Feature: Choose profile picture
         And I click on link "Impostazioni profilo"
         Then I am on the profile page
         When I select a valid image to attach to the form
-        And I click on button "salva"
+        And I click on button "Salva"
         Then I am on the profile page
         And I see "modifica avvenuta con successo"
         And I Should see my new profile picture that I uploaded
@@ -22,7 +22,7 @@ Feature: Choose profile picture
         And I click on link "Impostazioni profilo"
         Then I am on the profile page
         When I select an image to attach to the form that is larger than allowed
-        And I click on button "salva"
+        And I click on button "Salva"
         Then I am on the profile page
         And I see "Immagine troppo grande"
         And I Should see my default profile picture
@@ -32,7 +32,7 @@ Feature: Choose profile picture
         And I click on link "Impostazioni profilo"
         Then I am on the profile page
         When I select an image to attach to the form that is in the wrong format
-        And I click on button "salva"
+        And I click on button "Salva"
         Then I am on the profile page
         And I see "non supportato"
         And I Should see my default profile picture
