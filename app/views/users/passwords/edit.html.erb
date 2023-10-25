@@ -1,25 +1,42 @@
-<h2>Change your password</h2>
+<div class="user_background">
+<div class="container">
+    <div class="user_body d-md-flex align-items-center justify-content-between">
+        <div class="box-1 mt-md-0 mt-5">
+            
+            <img src="/assets/ship_vertical.png"
+                class="" alt="">
+        </div>
+        <div class=" box-2 d-flex flex-column h-100">
+            <div class="mt-5">
+                <p class="mb-3 h-1">Cambia la tua password.</p>
+                <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+                <%= render "users/shared/error_messages", resource: resource %>
+                
+                <div class="field">
+                  <%= f.label :password, "NUOVA PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%><br />
+                  <% if @minimum_password_length %>
+                    <em class="footer text-muted mb-0 mt-md-0 mt-2">(<%= @minimum_password_length %> characters minimum)</em><br />
+                  <% end %>
+                  <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class:"form-control"%>
+                </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+                <div class="field">
+                  <%= f.label :password_confirmation, "CONFERMA LA NUOVA PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%><br />
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password" , class:"form-control"%>
+                </div>
+                
+                
+                  <div class="actions">
+                    <%= f.submit "Cambia la password", class:"btn btn-primary btn-block mb-4" %>
+                  </div>
+                <% end %>
 
-  <div class="field">
-    <%= f.label :password, "NUOVA PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%><br />
-    <% if @minimum_password_length %>
-      <em class:"footer text-muted mb-0 mt-md-0 mt-2">(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class:"form-control"%>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "CONFERMA LA NUOVA PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" , class:"form-control"%>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Cambia la password" ,class: "btn btn-primary"%>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+                <%= render "users/shared/links" %>
+                
+            </div>
+            
+        </div>
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+</div>

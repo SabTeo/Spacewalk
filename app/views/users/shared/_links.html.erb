@@ -19,7 +19,7 @@
     <p class="text-muted mb-2">Oppure accedi con...</p>
     <div class="d-flex align-items-center">
       <%- resource_class.omniauth_providers.each do |provider| %>
-        <%= button_to "#{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false },class:"box me-2" %><br />
+        <%= button_to "Google", omniauth_authorize_path(resource_name, provider), data: { turbo: false },class:"box me-2" %><br />
       <% end %>
     </div>
 

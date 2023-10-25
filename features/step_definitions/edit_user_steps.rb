@@ -3,7 +3,7 @@ Then('I am on the profile page') do
 end
   
 When('I select a valid image to attach to the form') do
-    page.attach_file "image", '/home/matteo/Lab/Spacewalk/spec/support/test_image.jpg'
+    page.attach_file "image", Rails.root.join('spec','support','test_image.jpg')
 end
   
 Then('I see {string}') do |string|
@@ -15,7 +15,7 @@ Then('I Should see my new profile picture that I uploaded') do
 end
 
 When('I select an image to attach to the form that is larger than allowed') do 
-    page.attach_file "image", '/home/matteo/Lab/Spacewalk/spec/support/large_test_image.jpg'
+    page.attach_file "image", Rails.root.join('spec','support','large_test_image.jpg')
 end
 
 Then('I Should see my default profile picture') do 
@@ -24,5 +24,5 @@ Then('I Should see my default profile picture') do
 end
 
 When('I select an image to attach to the form that is in the wrong format') do 
-    page.attach_file "image", '/home/matteo/Lab/Spacewalk/spec/support/not_an_image.c'
+    page.attach_file "image", Rails.root.join('spec','support','not_an_image.c')
 end

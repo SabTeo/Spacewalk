@@ -8,7 +8,7 @@
 
 Role.create(name: 'user')
 Role.create(name: 'admin')
-
+=begin
 user_example = [
     {:username => 'utente normale', :email => 'user@mail.com',  :password => 'validpass',
         :password_confirmation => 'validpass'},
@@ -44,3 +44,4 @@ local_articles = [{:title => "Apertura Sito",
 local_articles.each do |art|
     Article.create(art)
 end
+=end
