@@ -1,32 +1,40 @@
-<p id="notice"><%= notice %></p>
+<div class="user_background">
+<div class="container">
+    <div class="user_body d-md-flex align-items-center justify-content-between">
+        <div class="box-1 mt-md-0 mt-5">
+            
+            <img src="/assets/ship_vertical.png"
+                class="" alt="">
+        </div>
+        <div class=" box-2 d-flex flex-column h-100">
+            <div class="mt-5">
+                <p class="mb-1 h-1">Accedi.</p>
+                <%= render "users/shared/error_messages", resource: resource %>
+                <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                  <div class="form-outline mb-2">
+                    <%= f.label :email, "EMAIL", class:"footer text-muted mb-0 mt-md-0 mt-2"%>
+                    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control"%>
+                  </div>
+                
+                  <div class="form-outline mb-2">
+                    <%= f.label :password,"PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%>
+                    <% if @minimum_password_length %>
+                    <em class="footer text-muted mb-0 mt-md-0 mt-2">(<%= @minimum_password_length %> characters minimum)</em>
+                    <% end %>
+                    <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+                  </div>
+                
+                  <div class="actions">
+                    <%= f.submit "Log in", class:"btn btn-primary btn-block mb-4" %>
+                  </div>
+                <% end %>
 
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-
-  <%= render "users/shared/error_messages", resource: resource %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+                <%= render "users/shared/links" %>
+                
+            </div>
+            
+        </div>
+        <span class="fas fa-times"></span>
     </div>
-  <% end %>
-
-  <%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
-
-  <div class="actions">
-    <%= f.submit "Log in", class:%>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
+</div>

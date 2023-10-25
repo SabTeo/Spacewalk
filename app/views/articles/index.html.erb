@@ -7,13 +7,13 @@
 
 
 
-<div class="search_container">
+<div class="">
 
-    <div class="row d-flex justify-content-center mt-2 ">
+    <div class="row d-flex justify-content-center search_container mb-3">
     <div class="col-md-8">
     <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
-        <div class="card">
-          <div class="d-flex justify-content-between align-items-center">
+        <div class="">
+          <div class="d-flex justify-content-between align-items-center mt-3">
               <span class="font-weight-bold">Mostra articoli</span>
               <div class="d-flex flex-row">
               <label class="btn btn-primary mx-2 my-auto">
@@ -34,7 +34,7 @@
               </div>
           
           </div>
-          <div class="mt-1 d-flex flex-row">
+          <div class="my-3 d-flex flex-row">
               <i class="fa fa-search"></i>
               <%= form.text_field :find,{value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()', class: "form-control", placeholder:"Cerca..."} %>
               <%= form.submit "cerca", name:nil, class: "btn btn-primary"%>
@@ -44,7 +44,6 @@
     </div>
   </div>
 </div>
-
 
 <%#= image_tag @apod_url %>
 
@@ -73,7 +72,7 @@
         </div>
       </div>
       <div class="box-i mt-md-0 mt-5">
-
+      
       <img src=<%= article.img_url=='' ? '/assets/def1.jpeg':article.img_url %>>
       </div>
 

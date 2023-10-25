@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   patch 'proposals/:id', to: 'proposals#update', as: 'update_proposal'
   delete '/proposals/:id', to: 'proposals#destroy', as: 'delete_proposal'
 
-  devise_for :users, :controllers => { registrations: 'users/registrations', 
+  devise_for :users, :controllers => { registrations: 'users/registrations',
                                       omniauth_callbacks: "users/omniauth_callbacks"
                                      }
   post '/user/:id/edit', to: 'user#edit_profile', as: 'edit_profile'
