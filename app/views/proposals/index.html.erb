@@ -29,7 +29,7 @@
       </div>
       <div class="box-i mt-md-0 mt-5">
 
-      <img src=<%= proposal.img_url=='' ? '/assets/images/def1.jpg':proposal.img_url %>>
+      <img src=<%= proposal.img_url=='' ? '/assets/def1.jpeg':proposal.img_url %>>
       </div>
 
     </div>
@@ -54,7 +54,6 @@
           <div class="mt-4 mx-3">
             <%= link_to proposal.title, proposal, {class: 'mb-1 h-1 link'}%>
             <% if can? :delete, proposal %>
-              <p > Status: <%= proposal.status %></p> 
               <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: "btn btn-primary" %>
             <%end %>
           </div>

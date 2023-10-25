@@ -92,6 +92,10 @@ class User < ApplicationRecord
       errors.add :password, "non è consentito cambiare la password per gli account autenticati con google"
       return false 
     end
+    if !User.exists?(email: email)
+      errors.add :email, "non presente nel sistema"
+      return false
+    end
     super
   end
 

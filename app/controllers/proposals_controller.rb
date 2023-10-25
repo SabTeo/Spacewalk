@@ -48,7 +48,7 @@ class ProposalsController < ApplicationController
       end
       return
     end
-    @proposal = Proposal.new(params.require(:proposal).permit(:title, :img_url, :body))
+    @proposal = Proposal.new(params.require(:proposal).permit(:title, :body, :img_url))
     @proposal.updated_at = DateTime.new
     @proposal.created_at = DateTime.new
     @proposal.submittes_at = DateTime.new

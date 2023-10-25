@@ -14,8 +14,8 @@
   <p  style="font-size:0.8rem">
     Articolo non ancora pubblicato
   </p>
-  <img src=<%= @proposal.img_url %> height="220" width="340">
-  <p><%= @proposal.body %></p>
+  <img src=<%= @proposal.img_url=='' ? '/assets/def1.jpeg':proposal.img_url %> height="220" width="340">
+  <p class="mt-4"><%= @proposal.body %></p>
 
   <% if can? :update, Proposal %>
     <div class="input_bar">

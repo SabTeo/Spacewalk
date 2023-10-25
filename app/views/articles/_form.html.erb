@@ -4,17 +4,17 @@
 <%= form_with(model: article) do |form| %>
   <div class="card-body">
   <div class="mb-3">
-    <%= form.label :Titolo, {class:"text-muted mb-0 mt-md-0 mt-2"}%>
+    <%= form.label :Titolo,"TITOLO", {class:"footer text-muted mb-0 mt-md-0 mt-2"}%>
     <%= form.text_field :title ,{ class: "form-control"}%>
   </div>
 
   <div class="mb-3">
-    <%= form.label :Body, {class:"text-muted mb-0 mt-md-0 mt-2"} %>
+    <%= form.label :Body,"TESTO",{class:"footer text-muted mb-0 mt-md-0 mt-2"} %>
     <%= form.text_area:body , class: "form-control"%>
   </div>
   
   <div class="mb-3">
-    <%= form.label :Image, {class:"text-muted mb-0 mt-md-0 mt-2"}%>
+    <%= form.label :Image,"IMMAGINE(URL)", {class:"footer text-muted mb-0 mt-md-0 mt-2"}%>
     <%= form.text_field :img_url, class: "form-control"%>
   </div>
 
@@ -26,7 +26,7 @@
 
 
   <div class="actions">
-    <%= form.submit class: "btn btn-primary"%>
+    <%= form.submit "Pubblica",class: "btn btn-primary"%>
   </div>
   </div>
 <% end %>

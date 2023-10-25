@@ -9,18 +9,18 @@
 <div class="art_body mx-auto">
 
   <%= form_with url: @article, method: :get, id: 'filters' do |form| %>
-    <%= form.label :lang, 'Seleziona lingua di lettura: '%>      
-    <%= form.select :lang, @options, {selected: (@lang)}, {onchange: 'this.form.submit()'} %>
+    <%= form.label :lang, 'Seleziona lingua di lettura: ',class: "text-muted mb-0 mt-md-0 mt-2"%>      
+    <%= form.select :lang, @options, {selected: (@lang)}, {onchange: 'this.form.submit()', class: "btn btn-primary dropdown-toggle"} %>
   <% end %>
 
-  <p id="trans_notice" style="font-size: 0.9rem; color: green; opacity: 75%"><%= @lang!='Italiano' ? @notice:''  %></p>
+  <small id="trans_notice" style="font-size: 0.9rem; color: green; opacity: 75%"><%= @lang!='Italiano' ? @notice:''  %></small>
   
-  <H1><%= @title %></H1>
+  <H1 class="mt-3"><%= @title %></H1>
   <p  style="font-size:0.8rem">
   <%= @article.published_at.strftime("%d ") + t(@article.published_at.strftime("%B")) + @article.published_at.strftime(" %Y")%>
   </p>
-  <img src=<%= @article.img_url=='' ? '/assets/images/def.jpg':@article.img_url %> height="220" width="340">
-  <p><%= @body %></p>
+  <img src=<%= @article.img_url=='' ? '/assets/def1.jpeg':@article.img_url %> height="220" width="340">
+  <p class="mt-3"><%= @body %></p>
 
   <%= link_to 'Indietro', articles_path(), class: :link %>
   <%= link_to 'Commenti', comments_url(@article), class: :link %>
