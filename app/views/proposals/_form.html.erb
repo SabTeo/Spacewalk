@@ -3,20 +3,20 @@
 </head>
 
 <%= form_with(model: proposal) do |form| %>
-
-  <div>
-    <%= form.label :Title %><br>
-    <%= form.text_field :title ,:size=>40  %>
+  <div class="card-body">
+  <div class="mb-3">
+    <%= form.label :Titolo, {class:"text-muted mb-0 mt-md-0 mt-2"}%>
+    <%= form.text_field :title ,{ class: "form-control"}%>
   </div>
 
-  <div>
-    <%= form.label :Body %><br>
-    <%= form.text_area:body %>
+  <div class="mb-3">
+    <%= form.label :Body, {class:"text-muted mb-0 mt-md-0 mt-2"} %>
+    <%= form.text_area:body , class: "form-control"%>
   </div>
   
-  <div>
-    <%= form.label :Image %><br>
-    <%= form.text_field :img_url %>
+  <div class="mb-3">
+    <%= form.label :Image, {class:"text-muted mb-0 mt-md-0 mt-2"}%>
+    <%= form.text_field :img_url, class: "form-control"%>
   </div>
 
 
@@ -34,7 +34,8 @@
   <% end %>
 -->
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary"%>
+  </div>
   </div>
 <% end %>
 

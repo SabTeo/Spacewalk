@@ -7,6 +7,7 @@
 
 <p id="notice"><%= notice %></p>
 
+<div class="container">
 <div class="art_body">
 
   <H1><%= @proposal.title %></H1>
@@ -19,20 +20,20 @@
   <% if can? :update, Proposal %>
     <div class="input_bar">
       <%= form_with model: @proposal, url: proposal_path(@proposal), method: :patch, local: true do |form| %>
-        <%= form.label :message, 'Messaggio' %>
-        <%= form.text_area :message%>
+        <%= form.label :message, 'Messaggio di rifiuto', {class:"text-muted mb-0 mt-md-0 mt-2"} %>
+        <%= form.text_area :message, class: "form-control"%>
         <%= form.hidden_field :publish, :value => false  %>
-        <%= form.submit "Rifiuta", id: "submit_btn" %>
+        <%= form.submit "Rifiuta", id: "submit_btn", class:"btn btn-primary my-auto" %>
       <% end %>
     </div>
     <%= form_with model: @proposal, url: proposal_path(@proposal), method: :patch, local: true do |form| %>
       <%= form.hidden_field :publish, :value => true %>
-      <%= form.submit "Pubblica", id: "submit_btn" %>
+      <%= form.submit "Pubblica articolo", id: "submit_btn", class:"btn btn-primary my-auto"%>
     <% end %>
   <%end%>
 
   <% if (can? :read, @proposal) && (@proposal.status == 1)%>
-    <p>
+    <p class="text-muted mb-0 mt-md-0 mt-2">
     Mi spice, la sua proposta è stata rifiutata.
     L'admin che se ne è occupato ha lasciato un commento a riguardo.
     </p>
@@ -41,5 +42,5 @@
     </p>
   <%end%>
 
-<%= link_to 'Back', proposals_path %>
-
+<%= link_to 'Back', proposals_path, class: "link"%>
+</div >

@@ -160,7 +160,7 @@ it:
     select:
       prompt: Seleziona...
     submit:
-      create: Crea %{model}
+      create: Create %{model}
       submit: Invia %{model}
       update: Aggiorna %{model}
   number:

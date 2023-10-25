@@ -5,47 +5,24 @@
         url('/assets/Starjedi.ttf') format('truetype');
 }
 
+
+
+
 body{
 	margin: 0px;
 	margin-bottom: 3rem;
 	padding: 0px;
+	  
 }
 
 div.notice{
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	color:white;
 }
 
 /* Barra superiore */
-.top_bar{
-	position: relative;
-	top: 0%;
-	width: 100%;
-	z-index: 3;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	background-color: rgb(11, 127, 190);
-}
-
-.top_bar > * {
-	flex:1;
-	text-align: center;
-}
-
-.top_item {
-	position: relative;
-	padding-left: 1rem;
-	height: 100%;
-	display: flex;
-	justify-content: left;
-}
-
-.top_item > *{
-	margin-left: 2rem;
-}
 
 .logo > h1{
 	font-family: 'Title';
@@ -61,6 +38,7 @@ div.notice{
 
 .link{
 	text-decoration: none; 
+	color:#4669f3f3;
 }
 
 .link:hover{
@@ -69,22 +47,6 @@ div.notice{
 
 /* Menu laterale */
 
-.sidemenu{
-	position: fixed;
-	z-index: 2;
-	left: -20%;
-	height: 100%;
-	width: 15%;
-	background-color: rgb(11, 127, 190);
-	-webkit-transition: all 0.4s ease;
-    -moz-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-}
-
-.sidemenu.visible{
-	left: 0%;
-}
 
 .menu-content{
 	margin: 45% 2rem 2rem;
@@ -95,87 +57,79 @@ div.notice{
 
 /* Articoli */
 
-.filters_container{
-	margin-top: 1rem;
-	margin-bottom: 1.5rem;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-}
 
-.filters_container > * {
-	margin-left: 0.2rem;
-	margin-right: 0.2rem;
-}
-
-.art_container{
-	margin-top: 1.5rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
+/*
 .row{
 	text-align: center;
 	margin: 1rem 20% 1.5rem 20%;
 	opacity: 20%;
 }
+*/
 
-.art_prev{
-	margin: 1rem;
-	padding: 0rem;
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-	justify-content: center;
-}
 
-.art_prev img{
-	width: 250px;
-	height: 180px;
-	object-fit: cover;
-}
 
-.art_content{
-	position: relative;
-	margin-top: 0%;
-	padding: 0.2rem;
-	width: 40%;
-	background-color: rgba(148, 126, 126, 0.285);
-}
-
-.comments_btn{
-	position: absolute;
-	bottom: 0.6rem;
-	left: 0.8rem;
-}
-
-.delete_art_btn{
-	position: absolute;
-	top: 0.6rem;
-	right: 0.8rem;
-}
-
-.art_title{
-	position: absolute;
-	margin: 1.2rem;
-	margin-top: 1rem;
-	font-size: 1.2rem;
-}
-
-.art_src{
-	margin: 1.2rem;
-	margin-top: 5rem;
-	font-size: 0.9rem;
-}
-
-.art_body{
-	margin-left: 8rem;
-	margin-right: 8rem;
-}
 
 .index{
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+}
+
+/*Testy*/
+.home-5-bg {
+    background: #1E90FF;
+    position: relative;
+    background-size: cover;
+    
+    background-position: center center;
+}
+
+.section {
+    position: relative;
+}
+
+.home-5-content {
+  z-index: 1;
+  position: relative;
+}
+
+.bg-overlay {
+    background-color: #000;
+    opacity: 0.7;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.home-center {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.home-desc-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.home-5-content {
+    z-index: 1;
+    position: relative;
+}
+
+.text-white-70 {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.f-15 {
+    font-size: 15px;
+}
+
+.home-5-bg #particles-js {
+    z-index: 1!important;
+position: absolute;
+    width: 100%;
+    height: 100%;
 }

@@ -5,48 +5,79 @@
 <%= render '/sidemenu' %>
 <%= render '/menubar' %>
 
-<div class="notice">
-  <p id="notice"><%= notice %></p>
+
+
+<div class="search_container">
+
+    <div class="row d-flex justify-content-center mt-2 ">
+    <div class="col-md-8">
+    <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
+        <div class="card">
+          <div class="d-flex justify-content-between align-items-center">
+              <span class="font-weight-bold">Mostra articoli</span>
+              <div class="d-flex flex-row">
+              <label class="btn btn-primary mx-2 my-auto">
+              <%= form.check_box :local, {checked: (session[:local]=='1' ? true:false), onchange: 'this.form.submit()'},1 ,nil %>
+                <%= form.label :local, 'interni' %>
+                <span class="fa fa-check"></span>
+		          </label>
+              <label class="btn btn-primary mx-2 my-auto">
+              <%= form.check_box :ext, {checked: (session[:ext]=='1' ? true:false), onchange: 'this.form.submit()'}, 1, nil %>
+              <%= form.label :ext, 'esterni' %>
+                <span class="fa fa-check"></span>
+		          </label>
+              <button type="button" class="btn btn-close mx-2" aria-label="Close" onclick="clear_form();"> </button>
+                
+                
+                <%= form.hidden_field :commit, :value => 'update' %>
+
+              </div>
+          
+          </div>
+          <div class="mt-1 d-flex flex-row">
+              <i class="fa fa-search"></i>
+              <%= form.text_field :find,{value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()', class: "form-control", placeholder:"Cerca..."} %>
+              <%= form.submit "cerca", name:nil, class: "btn btn-primary"%>
+          </div>
+          <% end %>
+          
+    </div>
+  </div>
 </div>
 
-<div class="filters_container">
-
-  <%= form_with url: articles_path, method: :get, id: 'filters' do |form| %>
-    <%= form.label :find, "Cerca:" %>
-    <%= form.text_field :find, {value: (session[:find].nil? ? '':session[:find]) , onchange: 'this.form.submit()'} %>
-    <%= form.submit "cerca", name:nil %>
-    Mostra:
-    <%= form.check_box :local, {checked: (session[:local]=='1' ? true:false), onchange: 'this.form.submit()'},1 ,nil %>
-    <%= form.label :local, 'interni' %>
-    <%= form.check_box :ext, {checked: (session[:ext]=='1' ? true:false), onchange: 'this.form.submit()'}, 1, nil %>
-    <%= form.label :ext, 'esterni' %>
-    <%= form.hidden_field :commit, :value => 'update' %>
-  <% end %>
-  <button type="button" onclick="clear_form();"> &nbsp X &nbsp </button>
-</div>
 
 <%#= image_tag @apod_url %>
 
-<hr class="row">
 
 <div class="artcontainer">
   <% @articles.each do |article| %>
-    <div class="art_prev">
-      <div class="art_content">
-        <% if article.ext_id.nil? %>
-          <%=  link_to article.title, article, {class: 'link art_title'} %>
-          <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: 'art_src'} %>
-        <% end %>
-        <% if article.ext_id !=nil %>
-          <%= link_to article.title, article.url, {class: 'link art_title'} %>
-          <%= content_tag :p, article.news_site, {class: 'art_src'} %>
-        <% end %>
-        <% if can? :delete, article %>
-          <%= button_to 'elimina', delete_article_path(article), {method: :delete, class: 'delete_art_btn', onclick: 'delete_action(event)' } %>
-        <% end %> 
-        <%= link_to "commenti", comments_url(article), {class: 'comments_btn'} %>
+
+    <div class="container">
+    <div class="art_preview d-md-flex align-items-center justify-content-between">
+      <div class=" box-a d-flex flex-column h-100">
+        <div class="mt-4 mx-3">
+          <% if article.ext_id.nil? %>
+            <%=  link_to article.title, article, {class: 'mb-1 h-1 link'} %>
+            <%=  content_tag :p, 'Autore: ' + User.find(article.author_id).username, {class: ''} %>
+          <% end %>
+          <% if article.ext_id !=nil %>
+            <%= link_to article.title, article.url, {class: 'link art_title'} %>
+            <%= content_tag :p, article.news_site, {class: 'art_src'} %>
+          <% end %>
+          <% if can? :delete, article %>
+            <%= button_to 'elimina', delete_article_path(article), {method: :delete, class: 'btn btn-primary', onclick: 'delete_action(event)' } %>
+          <% end %> 
+          <%= link_to "commenti", comments_url(article), {class: 'btn btn-primary'} %>
+
+
+        </div>
       </div>
-      <img src=<%= article.img_url=='' ? '/assets/images/def1.jpg':article.img_url %>>
+      <div class="box-i mt-md-0 mt-5">
+
+      <img src=<%= article.img_url=='' ? '/assets/def1.jpeg':article.img_url %>>
+      </div>
+
+    </div>
     </div>
   <% end %>
 </div>
@@ -59,3 +90,11 @@
     <%== pagy_nav(@pagy) %>
   <%end%>
 </div>
+
+
+
+
+
+
+
+

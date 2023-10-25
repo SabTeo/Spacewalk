@@ -1,17 +1,167 @@
-<div class="top_bar">
-    <div class="top_item">
-        <button onclick="showMenu()"> Menu </button>
-        <%= link_to "Lanci", launches_path, action: :get, class: :link %>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+<section class="section home-5-bg" id="home">
+    <div id="particles-js"></div>
+    <div class="bg-overlay"></div>
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="justify-content-center row">
+                    <div class="col-lg-7">
+                        <div class="mt-40 text-center home-5-content">
+                            <div class="home-icon mb-4"><i class="mdi mdi-pinwheel mdi-spin text-white h1"></i></div>
+                            <div class="logo" onclick="window.location.href = '/articles' ">
+                                <h1>Spacewalk</h1>
+                              </div>
+                            <div class="d-flex justify-content-between">
+                              <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas">
+                                Menu
+                              </button>
+                              <div class="notice">
+                              <p id="notice" class="text-white-70 mt-4 f-15 mb-0">
+                                <%= notice %>
+                              </p>
+                            </div>
+                              
+                              <%= link_to(launches_path, class: "btn btn-light") do %>
+                                Lanci
+                                <img src="/assets/launches.png" width="25" height="25">
+                              <% end %>
+                            </div>
+                            
+                            <%if can? :create, Article %>
+                              <%= if Notification.where(admin: current_user).count != 0
+                                  link_to Notification.where(admin: current_user).count, proposals_path
+                              end %>
+                            <%end %>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="logo" onclick="window.location.href = '/articles' ">
-        <h1>Spacewalk</h1>
-    </div>
-    
-    <div class="top_item">
-    <%= if can? :create, Article 
-        link_to Notification.where(admin: current_user).count, proposals_path
-    end %>
-    </div>
-</div>
+</section>
 
-<%= javascript_tag "function showMenu(){ $('.sidemenu').toggleClass('visible') }"%>
+
+
+
+
+
+<script>
+particlesJS("particles-js", {
+    "particles": {
+      "number": {
+        "value": 80,
+        "density": {
+          "enable": true,
+          "value_area": 800
+        }
+      },
+      "color": {
+        "value": "#ffffff"
+      },
+      "shape": {
+        "type": "circle",
+        "stroke": {
+          "width": 0,
+          "color": "#000000"
+        },
+        "polygon": {
+          "nb_sides": 5
+        },
+        "image": {
+          "src": "/asset/launches.png",
+          "width": 100,
+          "height": 100
+        }
+      },
+      "opacity": {
+        "value": 0.5,
+        "random": false,
+        "anim": {
+          "enable": false,
+          "speed": 1,
+          "opacity_min": 0.1,
+          "sync": false
+        }
+      },
+      "size": {
+        "value": 20,
+        "random": true,
+        "anim": {
+          "enable": false,
+          "speed": 40,
+          "size_min": 0.1,
+          "sync": false
+        }
+      },
+      "line_linked": {
+        "enable": true,
+        "distance": 150,
+        "color": "#ffffff",
+        "opacity": 0.22,
+        "width": 1
+      },
+      "move": {
+        "enable": true,
+        "speed": 6,
+        "direction": "none",
+        "random": false,
+        "straight": false,
+        "out_mode": "out",
+        "attract": {
+          "enable": false,
+          "rotateX": 600,
+          "rotateY": 1200
+        }
+      }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "repulse"
+        },
+        "onclick": {
+          "enable": true,
+          "mode": "push"
+        },
+        "resize": true
+      },
+      "modes": {
+        "grab": {
+          "distance": 400,
+          "line_linked": {
+            "opacity": 1
+          }
+        },
+        "bubble": {
+          "distance": 400,
+          "size": 40,
+          "duration": 2,
+          "opacity": 8,
+          "speed": 3
+        },
+        "repulse": {
+          "distance": 200
+        },
+        "push": {
+          "particles_nb": 4
+        },
+        "remove": {
+          "particles_nb": 2
+        }
+      }
+    },
+    "retina_detect": true,
+    "config_demo": {
+      "hide_card": false,
+      "background_color": "#b61924",
+      "background_image": "",
+      "background_position": "50% 50%",
+      "background_repeat": "no-repeat",
+      "background_size": "cover"
+    }
+  });  
+</script>
