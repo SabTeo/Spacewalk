@@ -20,6 +20,10 @@ div.notice{
 	color:white;
 }
 
+#pagy-nav > *{
+  margin-left: 5px;
+}
+
 /* Barra superiore */
 .search_container{
   border: 1px solid #dddd;

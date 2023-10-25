@@ -1,8 +1,12 @@
 
 .hidden{
 	display: none;
-}
 
+}
+.bottom{
+    position:sticky;
+    top: 90%;
+}
 .own{
 	color: rgb(25, 146, 25);
 }

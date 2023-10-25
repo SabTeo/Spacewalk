@@ -15,7 +15,9 @@
     
       <%= form.hidden_field :art_id, :value => @art_id  %>
       <%= form.text_area :text, class: "form-control", placeholder: 'Scrivi qui un commento...'%>
-      <%= form.submit "pubblica", id: "submit_btn",class: "btn btn-primary my-auto"%>
+      <div class="py-1">
+        <%= form.submit "pubblica", id: "submit_btn",class: " btn btn-primary bottom "%>
+      </div>
     
 </div>
 <% end %>
@@ -34,45 +36,52 @@
     <div class=" d-flex justify-content-center">
         <div class="col-md-12">
             <div class="card p-3">
-                <div class="d-flex justify-content-between align-items-center">
-              <div class="user d-flex flex-row align-items-center">
-              <% if u.image.attached? %>
-              <%=  image_tag(u.image, width:"30", class:"user-img rounded-circle mr-2") %>
-                <% end %>
-              
-                <span><small class=<%= u==current_user ? "own":"" %>><b><%= u.username %></b></small> 
-               
-                <small class="font-weight-bold" id=<%= "p"+comment.id.to_s %> class=""><%==h(comment.text).gsub(/\n/, '<br/>')%></small></span>
-                <!-- Embedded form for 'modifica' -->
-                <% if can? :edit, comment %>
-                  <%= form_with url: edit_comment_path(art_id: @art_id, id: comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden' do |form| %>
-                    <%= form.hidden_field :art_id, :value => @art_id  %>
-                    <%= form.text_area :newtext, {id: 'text'+comment.id.to_s, class: 'form-control'} %>
-                    <%= form.submit "salva", {id: "save_btn", class: "btn btn-primary"} %>
-                  <% end %>
-                <% end %>
-              </div>
-              </div>
-              <div class="action d-flex justify-content-between mt-2 align-items-center">
-                <div class="reply px-4">
-                  <% if can? :edit, comment %>
-                    <small class="" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</small>
-                    <small id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</small>
-                  <% end %>
-                  <span class="dots"></span>
-                  <% if can? :delete, comment %>
-                    <small>
-                    <%= link_to 'elimina', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)', class: :link} %>
-                    </small>
-                  <% end %>
-                  
+
+                <div class="d-flex flex-column">
+                  <div class="user d-flex flex-row align-items-center">
+                    <% if u.image.attached? %>
+                      <%=  image_tag(u.image, width:"30px",height:"30px", class:"user-img rounded-circle mr-2") %>
+                    <% end %>
+                    <span class="mx-2"><small class=<%= u==current_user ? "own":"" %>><b><%= u.username %></b></small> 
+                  </div>
+
+                  <div class="d-flex flex-column  mt-2">
+                    <p class="font-weight-bold mx-2" id=<%= "p"+comment.id.to_s %> class=""><%==h(comment.text).gsub(/\n/, '<br/>')%></p>
                     
-                   
+                    <!-- Embedded form for 'modifica' -->
+                    <% if can? :edit, comment %>
+                    
+                      <%= form_with url: edit_comment_path(art_id: @art_id, id: comment.id), method: :patch, id: 'form'+comment.id.to_s, class: 'hidden' do |form| %>
+                        <div class="mt-1 d-flex flex-row">
+                        <%= form.hidden_field :art_id, :value => @art_id  %>
+                        <%= form.text_area :newtext, {id: 'text'+comment.id.to_s, class: 'form-control'} %>
+                        <div class="py-1">
+                          <%= form.submit "salva", {id: "save_btn", class: "btn btn-primary bottom"} %>
+                        </div>
+                        </div>
+                      <% end %>
+                      
+                    <% end %>
+                  </div>
+
+                  <div class="action d-flex justify-content-between mt-2 align-items-center">
+                    <div class="reply px-4">
+                      <% if can? :edit, comment %>
+                        <small class="" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</small>
+                        <small id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</small>
+                      <% end %>
+                      <span class="dots"></span>
+                      <% if can? :delete, comment %>
+                        <small>
+                        <%= link_to 'elimina', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)', class: :link} %>
+                        </small>
+                      <% end %>
+                        
+                    </div>
+                    <div class="icons align-items-center">
+                      <small><%=comment.published_at%></small>
+                    </div>
                 </div>
-                <div class="icons align-items-center">
-                  <small><%=comment.published_at%></small>
-                </div>
-                  
               </div>
                 
             </div>
