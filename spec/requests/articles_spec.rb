@@ -99,6 +99,12 @@ RSpec.describe "Articles", type: :request do
       expect(response.body).to include("You are being")
     end
 
+    it "returns error and redirects if article is not local" do
+      delete '/articles/2'
+      expect(response).to have_http_status(401)
+      expect(response.body).to include("You are being")
+    end
+
   end
 
 

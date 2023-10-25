@@ -9,7 +9,6 @@ class ArticlesController < ApplicationController
       #Article.update_articles()
     rescue
     end
-
     @articles = Article.all.order(published_at: :desc)
 
     #update session if submitting form

@@ -24,7 +24,7 @@
                   <div class="form-outline mb-2">
                     <%= f.label :password,"PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%>
                     <% if @minimum_password_length %>
-                    <em class="footer text-muted mb-0 mt-md-0 mt-2">(<%= @minimum_password_length %> characters minimum)</em>
+                    <em class="footer text-muted mb-0 mt-md-0 mt-2">(minimo <%= @minimum_password_length %> caratteri)</em>
                     <% end %>
                     <%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
                   </div>

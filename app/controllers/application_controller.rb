@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
     def display_500
         respond_to do |format|
-            format.html { render :template => '500', status: 500 }
+            format.html { render :template => '/public/500', status: 500 }
         end
     end
 

@@ -29,8 +29,10 @@
   <%= form.text_field :username, value: current_user.username ,class: "form-control"%>
   </div>
 
-  <%= form.submit "salva", id: "submit_btn",class: "btn btn-primary" %>
+  <%= form.submit "Salva", id: "submit_btn",class: "btn btn-primary" %>
 <% end %>
+
+<hr class="row my-2">
 
 <% if current_user.provider.nil? %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
@@ -67,7 +69,7 @@
     </div>
 
     <div class="actions">
-      <%= f.submit "Update" , class: "btn btn-primary"%>
+      <%= f.submit "Aggiorna" , class: "btn btn-primary"%>
     </div>
   <% end %>
   

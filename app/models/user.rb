@@ -68,10 +68,8 @@ class User < ApplicationRecord
   end
 
   def username_length
-    if !provider.present?
-      if username.strip.length<4 or username.strip.length>30
-        errors.add :username, "deve contenere tra 4 e 30 caratteri"
-      end
+    if username.strip.length<4 or username.strip.length>30
+      errors.add :username, "deve contenere tra 4 e 30 caratteri"
     end
   end
 
@@ -89,7 +87,7 @@ class User < ApplicationRecord
 
   def send_reset_password_instructions
     if provider.present? 
-      errors.add :password, "non è consentito cambiare la password per gli account autenticati con google"
+      errors.add :password, "non modificabile per gli account autenticati con google"
       return false 
     end
     if !User.exists?(email: email)

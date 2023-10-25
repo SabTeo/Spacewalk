@@ -15,7 +15,7 @@
                 <div class="field">
                   <%= f.label :password, "NUOVA PASSWORD", class:"footer text-muted mb-0 mt-md-0 mt-2"%><br />
                   <% if @minimum_password_length %>
-                    <em class="footer text-muted mb-0 mt-md-0 mt-2">(<%= @minimum_password_length %> characters minimum)</em><br />
+                    <em class="footer text-muted mb-0 mt-md-0 mt-2">(minimo <%= @minimum_password_length %> caratteri)</em><br />
                   <% end %>
                   <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class:"form-control"%>
                 </div>
@@ -31,7 +31,7 @@
                   </div>
                 <% end %>
 
-                <%= render "users/shared/links" %>
+                <%= link_to "Indietro", "/users/sign_in", class: :link%> 
                 
             </div>
             
