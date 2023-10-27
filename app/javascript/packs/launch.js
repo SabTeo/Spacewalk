@@ -7,7 +7,7 @@ function timer_update(){
 		var h= Math.floor((tleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 		var m = Math.floor((tleft % (1000 * 60 * 60)) / (1000 * 60));
 		var s = Math.floor((tleft % (1000 * 60)) / 1000);
-		$('#t'+i).text(d+':'+h+':'+m+':'+s);
+		$('#t'+i).text(d+'d : '+h+'h : '+m+'m : '+s+'s');
 	}
 }
 

@@ -73,7 +73,7 @@
       </div>
       <div class="box-i mt-md-0 mt-5">
       
-      <img src=<%= article.img_url=='' ? '/assets/def1.jpeg':article.img_url %>>
+      <img src=<%= article.img_url=='' ? "/assets/images/def#{article.title.sum%3}.jpg":article.img_url %>>
       </div>
 
     </div>

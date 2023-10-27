@@ -6,24 +6,46 @@
 <%= render '/sidemenu' %>
 <%= render '/menubar_alt' %>
 
-<div class="container">
+<div class="cont">
 <h1>Prossimi lanci</h1>
 <p id="notice"><%= notice %></p>
 <div class="launches_list">
     <% id = 0 %>
         <% @display.each do |item| %>
             <div class="launch_item">
-                <p><%= item[:name] %></p>
-                <div id= <%= 't'+id.to_s %>></div>
-                <div id= <%= id.to_s %> hidden> <%= item[:t0].to_i.to_s%> </div>
-                <p><%= link_to('Da: ' + item[:location], 'https://www.google.com/maps/search/?api=1&query=' +CGI.escape(item[:location]), target: :_blank) %></p>  
-                <p><%= item[:date].strftime("%d ") + t(item[:date].strftime("%B")) + item[:date].strftime(" %Y %H:%M UTC+2") %></p>
-                <p><%= item[:agency] %></p>
+                <div class="launch_data">
+                    <p><%= item[:name] %></p>
+                    <div id= <%= 't'+id.to_s %>></div>
+                    <div id= <%= id.to_s %> hidden> <%= item[:t0].to_i.to_s%> </div>
+                    <p>Da: 
+                        <%= link_to(item[:location], 'https://www.google.com/maps/search/?api=1&query=' +CGI.escape(item[:location]), target: :_blank) %>
+                        <%= item[:country] %>
+                    </p>  
+                    <p><%= item[:date].strftime("%d ") + t(item[:date].strftime("%B")) + item[:date].strftime(" %Y %H:%M UTC+2") %></p>
+                    <p><%= item[:agency] %></p>
+                </div>
+                <img src="/assets/images/<%= 
+                    case item[:agency]
+                    when 'SpaceX'
+                        'spx'
+                    when 'China'
+                        'china'
+                    when 'CAS Space'
+                        'china'
+                    when 'ISRO'
+                        'isro'
+                    when 'Blue Origin'
+                        'bo'
+                    when 'Virgin Galactic'
+                        'vg'
+                    else
+                        'default'
+                    end
+                %>.jpg" class="launch_img">
             </div>
         <% id+=1 %>
     <% end %>
 </div>
 <%= link_to 'Indietro', articles_path, class: :link%>
 </div>
-    
 <%= javascript_tag '$( document ).ready(timer())' %>
