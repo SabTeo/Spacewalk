@@ -154,6 +154,10 @@ div.notice{
 	justify-content: center;
 }
 
+.pagy-nav.pagination > * {
+margin: 0rem 0.2rem;
+}
+
 /*Testy*/
 .home-5-bg {
     background: #1E90FF;

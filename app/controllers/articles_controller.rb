@@ -83,9 +83,9 @@ class ArticlesController < ApplicationController
     if @lang!='Italiano'
       I18n.locale = :en
       begin
-        @notice, @title, @body = translate_alt [@notice, @article.title, @article.body], languages[@lang].downcase
-      #rescue
-      #  @notice = 'We are sorry, the translation service for this language is not available right now'
+        @notice, @title, @body = translate_alt [@notice, @article.title, @article.body], languages[@lang]
+      rescue
+        @notice = 'We are sorry, the translation service for this language is not available right now'
       end
     end
     

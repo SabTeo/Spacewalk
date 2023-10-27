@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
     #rescue_from Exception, with: :display_500
     rescue_from ActionController::RoutingError, with: :not_found
     rescue_from ::ActionController::InvalidAuthenticityToken, with: :redirect_home
-    #after_action :check_for_redirect
+    after_action :check_for_redirect
 
     def not_found
         respond_to do |format|

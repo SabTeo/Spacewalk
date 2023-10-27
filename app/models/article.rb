@@ -12,14 +12,14 @@ class Article < ActiveRecord::Base
     
 
     def self.get_supported_languages()
-        {   'Italiano' => 'IT',
-            'English' => 'EN',
-            'Deutsch' => 'DE',
-            'Español' => 'ES',
-            'Français' => 'FR',
-            '日本語' => 'JA',
-            'Русский язык' => 'RU',
-            '简体字' => 'ZH'
+        {   'Italiano' => 'it',
+            'English' => 'en',
+            'Deutsch' => 'de',
+            'Español' => 'es',
+            'Français' => 'fr',
+            '日本語' => 'ja',
+            'Русский язык' => 'ru',
+            '简体字' => 'zh-CN'
         }
     end
 

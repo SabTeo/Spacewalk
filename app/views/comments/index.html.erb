@@ -69,8 +69,8 @@
                       <% if can? :edit, comment %>
                         <small class="" id=<%="edit#{comment.id}"%> onclick=<%="edit(#{comment.id})"%>>modifica</small>
                         <small id=<%="cancel#{comment.id}"%> onclick=<%="cancel(#{comment.id})"%> class="hidden">annulla</small>
+                        <span class="dots"></span>
                       <% end %>
-                      <span class="dots"></span>
                       <% if can? :delete, comment %>
                         <small>
                         <%= link_to 'elimina', delete_comment_path(art_id: @art_id, id: comment.id), {method: :delete, onclick: 'delete_action(event)', class: :link} %>

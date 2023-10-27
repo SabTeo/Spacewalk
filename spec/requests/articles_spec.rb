@@ -100,6 +100,8 @@ RSpec.describe "Articles", type: :request do
     end
 
     it "returns error and redirects if article is not local" do
+      User.find(1).add_role(:admin)
+      sign_in User.find(1)
       delete '/articles/2'
       expect(response).to have_http_status(401)
       expect(response.body).to include("You are being")
