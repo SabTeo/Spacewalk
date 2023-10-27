@@ -91,7 +91,7 @@ class User < ApplicationRecord
       return false 
     end
     if !User.exists?(email: email)
-      errors.add :email, "non presente nel sistema"
+      #errors.add :email, "non presente nel sistema"
       return false
     end
     super

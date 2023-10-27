@@ -20,6 +20,7 @@ it:
       timeout: "La tua sessione è scaduta, accedi nuovamente per continuare."
       unauthenticated: "Devi accedere o registrarti per continuare."
       unconfirmed: "Devi confermare il tuo indirizzo email per continuare."
+      not_verified: "non ancora confermata, non puoi cambiare la password"
     mailer:
       confirmation_instructions:
         subject: "Istruzioni per la conferma"
