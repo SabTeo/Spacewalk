@@ -14,7 +14,7 @@
   <p  style="font-size:0.8rem">
     Articolo non ancora pubblicato
   </p>
-  <img src=<%= @proposal.img_url=='' ? '/assets/def1.jpeg':proposal.img_url %> height="220" width="340">
+  <img src=<%= @proposal.img_url=='' ? '/assets/def1.jpeg':@proposal.img_url %> height="220" width="340">
   <p class="mt-4"><%= @proposal.body %></p>
 
   <% if can? :update, Proposal %>
@@ -37,7 +37,7 @@
     Mi spice, la sua proposta è stata rifiutata.
     L'admin che se ne è occupato ha lasciato un commento a riguardo.
     </p>
-    <p>
+    <p style="color: red">
     <%= @proposal.message%>
     </p>
   <%end%>

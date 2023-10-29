@@ -5,7 +5,7 @@
 <%= form_with(model: proposal) do |form| %>
   <div class="card-body">
   <div class="mb-3">
-    <%= form.label :title, "TITOLO", {class:"footer text-muted mb-0 mt-md-0 mt-2"}%>
+    <%= form.label :title, "TITOLO (max. 100 caratteri)", {class:"footer text-muted mb-0 mt-md-0 mt-2"}%>
     <%= form.text_field :title ,{ class: "form-control"}%>
   </div>
 

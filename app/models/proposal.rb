@@ -2,7 +2,7 @@ class Proposal < ActiveRecord::Base
     belongs_to :user
     has_many :notifications, dependent: :destroy
 
-    validates :title, presence: true
+    validates :title, presence: true, length: { maximum: 100 }
     validates :body, presence: true
     #validates :img_url,
     #        format: {

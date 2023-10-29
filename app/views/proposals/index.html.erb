@@ -42,7 +42,7 @@
   <hr class="row">
   <h2>Le proposte rifiutate</h2>
 
-  <p> <%= if (@rejected_proposals.empty?)==true then 'Non hai articoli pubblicati' end %> </p>
+  <p> <%= if (@rejected_proposals.empty?)==true then 'Non ci sono proposte rifiutate' end %> </p>
 
 
     <div class="artcontainer">
@@ -53,6 +53,7 @@
         <div class=" box-a d-flex flex-column h-100">
           <div class="mt-4 mx-3">
             <%= link_to proposal.title, proposal, {class: 'mb-1 h-1 link'}%>
+            <p > </p> 
             <% if can? :delete, proposal %>
               <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: "btn btn-primary" %>
             <%end %>

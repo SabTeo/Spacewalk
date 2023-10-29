@@ -8,10 +8,10 @@ class ProposalsController < ApplicationController
       return
     end
     if(current_user.has_role? :admin)
-      @proposals = Proposal.where(status: 0)
+      @proposals = Proposal.where(status: 0).order(submittes_at: :desc)
     else #current_user.has_role? :user
       @rejected_proposals = Proposal.where(user: current_user, status: 1)
-      @proposals = Proposal.where(user: current_user, status: 0)
+      @proposals = Proposal.where(user: current_user, status: 0).order(submittes_at: :desc)
     end
   end
 
@@ -49,9 +49,9 @@ class ProposalsController < ApplicationController
       return
     end
     @proposal = Proposal.new(params.require(:proposal).permit(:title, :body, :img_url))
-    @proposal.updated_at = DateTime.new
-    @proposal.created_at = DateTime.new
-    @proposal.submittes_at = DateTime.new
+    @proposal.updated_at = DateTime.now
+    @proposal.created_at = DateTime.now
+    @proposal.submittes_at = DateTime.now
     @proposal.status = 0
     @proposal.user = current_user
     if @proposal.save
