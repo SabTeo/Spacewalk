@@ -22,7 +22,7 @@
             <p > Article by: <%= proposal.user.username %></p> 
           <%end %>
           <% if can? :delete, proposal %>
-            <p > Status: <%= proposal.status %></p> 
+            <p ></p> 
             <%=link_to 'Elimina', proposal, method: :delete, data: {confirm: "Are you sure?"},class: "btn btn-primary" %>
           <%end %>
         </div>
